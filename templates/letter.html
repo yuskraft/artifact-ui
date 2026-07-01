@@ -1,0 +1,78 @@
+<!-- Language-neutral formal letter. For an Azerbaijani ərizə use erize.html instead. -->
+<!doctype html>
+<html lang="{{LANG}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{SUBJECT}} — {{NAME}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================================
+   PASTE dist/artifact.css HERE (the generated tokens+base bundle).
+   Do not copy token values inline — dist/artifact.css is built from the sources.
+   ============================================================================ */
+
+/* ── letter: a language-neutral formal/business letter. Restrained, print-first. ── */
+.letter { max-width: 44rem; margin-inline: auto; padding: var(--space-9) var(--space-6); }
+
+.letter__sender { color: var(--text-muted); font-size: var(--text-sm); }
+.letter__sender .name { color: var(--text-2); font-size: var(--text-base); }
+
+.letter__date {
+  color: var(--text-2); font-variant-numeric: tabular-nums;
+  margin-block-start: var(--space-6);
+}
+
+.letter__recipient { margin-block-start: var(--space-6); }
+.letter__recipient p { color: var(--text-2); }
+
+.letter__subject { margin-block-start: var(--space-6); }
+
+.letter__salutation { margin-block-start: var(--space-6); }
+
+.letter__body { font-size: var(--text-base); margin-block-start: var(--space-4); }
+.letter__body > p + p { margin-block-start: var(--space-3); }
+
+.letter__sign { display: flex; justify-content: space-between; align-items: flex-end; margin-block-start: var(--space-8); }
+.letter__signline {
+  min-width: 14rem; text-align: start;
+  border-block-start: 1px solid var(--border-strong); padding-block-start: var(--space-1);
+  margin-block-start: var(--space-6);
+}
+@media print { .letter { padding: 0; } }
+</style>
+</head>
+<body>
+  <main class="letter">
+    <div class="letter__sender stack" style="gap: var(--space-1)">
+      <span class="name">{{NAME}}</span>
+      <span>{{ROLE — omit line if none}}</span>
+      <span>{{EMAIL}} · {{PHONE}}</span>
+    </div>
+
+    <p class="letter__date">{{DATE}}</p>
+
+    <div class="letter__recipient stack" style="gap: var(--space-1)">
+      <p>{{RECIPIENT_NAME}}</p>
+      <p>{{RECIPIENT_TITLE_OR_ORG}}</p>
+    </div>
+
+    <p class="letter__subject"><strong>{{SUBJECT — omit for a plain letter}}</strong></p>
+
+    <p class="letter__salutation">{{SALUTATION — matches the letter's language, e.g. "Dear Ms. …,"}}</p>
+
+    <div class="letter__body">
+      <p>{{BODY — first sentence states the request plainly, then supporting detail. Formal, concise. Mark any missing fact as [DATA NEEDED].}}</p>
+      <p>{{Optional second paragraph — additional context or grounds.}}</p>
+      <p>{{Optional third paragraph — closing ask or next steps.}}</p>
+    </div>
+
+    <div class="letter__sign avoid-break">
+      <span>{{CLOSING — e.g. "Sincerely,"}}</span>
+      <span class="letter__signline">{{NAME}}</span>
+    </div>
+  </main>
+</body>
+</html>

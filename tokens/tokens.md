@@ -12,7 +12,7 @@ A default-styled font is the loudest tell. Load a real typeface — by default a
 - **Web font by default.** Headings/UI use `--font-display` (a soft rounded sans), body uses `--font-sans` (a humanist workhorse). Load them with a `<link>` (see [`../styles/base.css`](../styles/base.css) and the shell in any template). Each token keeps a system fallback, so the artifact still reads cleanly offline. To go fully self-contained, swap both tokens to their system fallbacks or inline the font as base64.
 - **Sans everywhere.** Both default fonts are sans; the warm-pastel references are all sans. A serif is a rare, deliberate opt-in for a long-form essay or a traditional formal document — not the default.
 - **Three sizes per artifact, not seven.** Pick a heading size, a body size, and a small/meta size from the scale. Reach for more only when the content genuinely has more levels. Hierarchy comes from **weight and color**, not from inventing new sizes.
-- **Weight does the work.** Body `400`; emphasis and UI labels `500`; headings `600`–`700`. Two weights present at once is usually enough.
+- **Weight does the work.** Body `400`; emphasis and UI labels `500`–`550`; headings `600`–`700` (the base styles use `650`). The templates load the fonts as variable ranges so intermediate weights render truly. Two weights present at once is usually enough.
 - **Line-height is inverse to size.** Body gets `--leading-body`; headings get `--leading-tight`; large headings also get `--tracking-tight` (large type looks loose until you pull it in).
 - **Cap the measure.** Running prose lives in a `max-width: var(--measure)` column. Full-width paragraphs are a default tell.
 - **Numbers in tables and stats:** `font-variant-numeric: tabular-nums` so figures align.

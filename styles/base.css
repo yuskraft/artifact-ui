@@ -113,7 +113,7 @@ a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset:
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none !important; }
 
   /* Don't split a coherent unit across pages. */
-  .card, .list__row, .block, figure, tr, .avoid-break { break-inside: avoid; }
+  .card, .list__row, figure, tr, .avoid-break { break-inside: avoid; }
   h1, h2, h3 { break-after: avoid; }
 
   /* Screen-only chrome disappears on paper. */

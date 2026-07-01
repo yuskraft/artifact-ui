@@ -27,7 +27,8 @@ This is reference, not a workflow — one system to apply in full. Before return
 |---|---|
 | any styled artifact (always) | read `tokens/tokens.md` (rules) + inline `dist/artifact.css` |
 | resume / CV | [`templates/resume.html`](templates/resume.html) |
-| ərizə / formal letter / application / petition | [`templates/erize.html`](templates/erize.html) |
+| ərizə (Azerbaijani petition/application) | [`templates/erize.html`](templates/erize.html) |
+| formal letter / application / petition (other languages) | [`templates/letter.html`](templates/letter.html) |
 | one-pager / report / exec summary / brief | [`templates/one-pager.md`](templates/one-pager.md) |
 | long article / essay / docs page | [`examples/article.md`](examples/article.md) |
 | dashboard / app UI | [`examples/dashboard.md`](examples/dashboard.md) |

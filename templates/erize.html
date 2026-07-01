@@ -6,7 +6,7 @@
 <title>Ərizə — {{NAME}}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
 <style>
 /* ============================================================================
    PASTE dist/artifact.css HERE (the generated tokens+base bundle).
@@ -24,7 +24,7 @@
 
 .erize__title {
   text-align: center; font-family: var(--font-display); font-weight: 700;
-  letter-spacing: 0.12em; font-size: var(--text-xl);
+  letter-spacing: var(--tracking-caps); font-size: var(--text-xl);
   margin-block: var(--space-8) var(--space-6);
 }
 
@@ -46,7 +46,7 @@
     <div class="erize__meta stack">
       <div class="stack" style="gap: var(--space-1)">
         <span class="label">Kimə:</span>
-        <p>{{RECIPIENT — e.g. “Filankəs” MMC-nin direktoru\n{{RECIPIENT_NAME}} cənablarına}}</p>
+        <p>{{RECIPIENT_TITLE — e.g. “Filankəs” MMC-nin direktoru}}<br>{{RECIPIENT_NAME}} cənablarına</p>
       </div>
       <div class="stack" style="gap: var(--space-1)">
         <span class="label">Kimdən:</span>

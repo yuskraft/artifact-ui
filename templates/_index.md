@@ -8,6 +8,7 @@ it, fill the slots, don't author layout); semi-structured docs ship a recipe you
 |---|---|---|---|
 | Resume / CV | [`resume.html`](resume.html) | copyable HTML | header/contact → summary → experience → skills → education |
 | ərizə / formal letter | [`erize.html`](erize.html) | copyable HTML | recipient → applicant → **ƏRİZƏ** → body → sign-off + signature + date |
+| Formal letter (any language) | [`letter.html`](letter.html) | copyable HTML | sender → date → recipient → subject → salutation → body → sign-off + signature |
 | One-pager / report | [`one-pager.md`](one-pager.md) | blocks recipe | header → sections → a metrics list → optional figure |
 
 **To add a type:** drop a file here and add one row above. Ship a full HTML template only when the
@@ -15,7 +16,8 @@ format is near-fixed; otherwise a blocks recipe.
 
 ## Decision tree (route before asking)
 
-- Formal request/petition to an authority, ≤1 page → **ərizə** (`erize.html`)
+- Formal request/petition to an authority, **in Azerbaijani**, ≤1 page → **ərizə** (`erize.html`)
+- Formal letter / application / petition in any other language → **letter** (`letter.html`)
 - Career document, 1–2 pages → **resume** (`resume.html`)
 - Exec summary / short report / brief, ~1 page → **one-pager** (`one-pager.md`)
 - Long reading-first text → not a document type; use [examples/article](../examples/article.md)
