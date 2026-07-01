@@ -14,5 +14,5 @@ A raised surface — **only for grouped or media-rich content, never for plain m
 ```
 
 - A card earns its border when it holds an image, a mixed cluster, or a distinct object. For simple label→value data use [list](list.md) instead.
-- **Nest corners concentrically:** an inner element inside the card's `--space-6` padding needs `border-radius: calc(var(--radius-lg) - var(--space-6))` (or a smaller token) so curves stay parallel.
+- **Nest corners concentrically:** inner radius = outer − padding, but only while the padding is *smaller* than the outer radius (e.g. inside `--space-3` padding, `calc(var(--radius-lg) - var(--space-3))` ≈ 4px). The card's own `--space-6` padding (32px) exceeds `--radius-lg` (16px), so a concentric inner corner is ≤ 0 — give nested elements a small fixed radius (`--radius-sm`) or none; never a negative `calc()`, which is invalid CSS.
 - Elevation has meaning — a card sits above the page. Don't shadow flat content.
