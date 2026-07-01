@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NAME}} — Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================================
+   PASTE ../tokens/tokens.css THEN ../styles/base.css HERE (in that order).
+   Do not copy token values inline — tokens.css is the single source of truth.
+   ============================================================================ */
+
+/* ── resume-specific layout ── */
+.resume { max-width: 46rem; margin-inline: auto; padding: var(--space-8) var(--space-6); }
+.resume header h1 { font-size: var(--text-2xl); }
+.resume__role { font-size: var(--text-lg); color: var(--text-2); }
+.resume__contact { color: var(--text-2); font-size: var(--text-sm); }
+.resume section { margin-block-start: var(--space-6); }
+.resume h2 {
+  font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-muted); font-weight: 600;
+  padding-block-end: var(--space-2); margin-block-end: var(--space-4);
+  border-block-end: 1px solid var(--border);
+}
+.entry { margin-block-start: var(--space-4); }
+.entry:first-of-type { margin-block-start: 0; }
+.entry__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-4); }
+.entry__dates { color: var(--text-muted); font-size: var(--text-sm); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.entry ul { margin: var(--space-2) 0 0; padding-inline-start: var(--space-4); }
+.entry li { margin-block-start: var(--space-1); }
+.skills { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+@media print { .resume { padding: 0; } }
+</style>
+</head>
+<body>
+  <main class="resume">
+    <header class="stack" style="gap: var(--space-1)">
+      <h1>{{NAME}}</h1>
+      <span class="resume__role">{{ROLE}}</span>
+      <div class="resume__contact cluster" style="gap: var(--space-4)">
+        <span>{{EMAIL}}</span>
+        <span>{{PHONE}}</span>
+        <span>{{LOCATION}}</span>
+      </div>
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      <p>{{ONE_OR_TWO_SENTENCE_SUMMARY — what you do and the value you bring. No filler.}}</p>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+
+      <div class="entry avoid-break stack" style="gap: var(--space-1)">
+        <div class="entry__head">
+          <div>
+            <strong style="font-family: var(--font-display)">{{TITLE}}</strong>
+            <span class="muted"> · {{ORGANISATION}}</span>
+          </div>
+          <span class="entry__dates">{{START}} — {{END}}</span>
+        </div>
+        <ul>
+          <li>{{OUTCOME bullet — verb first, quantified where honest. Mark gaps [DATA NEEDED].}}</li>
+          <li>{{OUTCOME bullet}}</li>
+        </ul>
+      </div>
+
+      <!-- repeat .entry per role, most recent first -->
+    </section>
+
+    <section>
+      <h2>Skills</h2>
+      <div class="skills">
+        <span class="chip">{{SKILL}}</span>
+        <span class="chip">{{SKILL}}</span>
+        <span class="chip">{{SKILL}}</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="entry__head">
+        <div><strong style="font-family: var(--font-display)">{{DEGREE}}</strong><span class="muted"> · {{SCHOOL}}</span></div>
+        <span class="entry__dates">{{YEAR}}</span>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

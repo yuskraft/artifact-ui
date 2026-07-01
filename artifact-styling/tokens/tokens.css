@@ -1,0 +1,116 @@
+/*
+ * artifact-styling — design tokens (SINGLE SOURCE OF TRUTH)
+ *
+ * Every value the artifact uses lives here. Paste this block into the artifact's
+ * <style> first; everything downstream references it with var(). Nothing else
+ * redefines a value. See tokens.md for what each group means and how to use it.
+ *
+ * Modern choices, on purpose: OKLCH color (derive light/dark + tints by moving one
+ * number), fluid type via clamp() (no breakpoints), logical properties downstream,
+ * color-scheme for native form/scrollbar theming.
+ *
+ * To re-theme: change --hue-accent. That is the knob. Don't hand-pick a second
+ * accent — derive shades from the one hue by moving lightness/chroma.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* ── Color ── warm pastel: one accent hue, one warm neutral, derived by moving L ── */
+  --hue-accent: 35;         /* the ONE knob: swap this to re-theme everything (35 = soft coral) */
+  --hue-neutral: 70;        /* warm cream tint; reads inviting, never clinical gray */
+  --chroma-neutral: 0.012;  /* enough warmth to feel intentional; still nearly-neutral */
+
+  /* Light theme (the default). Dark theme overrides these below. */
+  --bg:           oklch(0.972 0.016 var(--hue-neutral));  /* warm cream, not white */
+  --surface:      oklch(0.99  0.008 var(--hue-neutral));  /* soft off-white, sits above bg */
+  --surface-sunk: oklch(0.95  0.014 var(--hue-neutral));  /* wells, code, inputs */
+  --border:       oklch(0.90  0.012 var(--hue-neutral));
+  --border-strong:oklch(0.84  0.014 var(--hue-neutral));
+
+  --text:         oklch(0.28 0.014 var(--hue-neutral));  /* warm near-black, never #000 */
+  --text-2:       oklch(0.48 0.013 var(--hue-neutral));  /* secondary / labels */
+  --text-muted:   oklch(0.63 0.012 var(--hue-neutral));  /* captions, meta, placeholder */
+
+  --accent:       oklch(0.64 0.15 var(--hue-accent));    /* soft coral, still carries white text */
+  --accent-hover: oklch(0.58 0.16 var(--hue-accent));
+  --accent-quiet: oklch(0.93 0.05 var(--hue-accent));    /* peachy tint behind accent text */
+  --on-accent:    oklch(0.99 0.015 var(--hue-accent));   /* near-white on a solid accent */
+
+  /* Optional pastel tints — high-L, low-chroma washes for tags, soft section
+     backgrounds, gentle category coding. Decorative only; the accent owns actions. */
+  --tint-peach:    oklch(0.93 0.05 40);
+  --tint-rose:     oklch(0.92 0.05 0);
+  --tint-sage:     oklch(0.93 0.045 145);
+  --tint-lavender: oklch(0.93 0.05 295);
+  --tint-sky:      oklch(0.93 0.05 235);
+
+  /* ── Type ── web fonts by default (see tokens.md → Type). Each token keeps a
+       system fallback, so the artifact degrades cleanly offline. ── */
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+
+  /* Fluid scale, ~1.2 ratio. min @360px → max @1240px. */
+  --text-xs:  clamp(0.75rem,  0.72rem + 0.15vw, 0.8125rem);
+  --text-sm:  clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);
+  --text-base:clamp(1rem,     0.96rem + 0.2vw,  1.0625rem);
+  --text-lg:  clamp(1.125rem, 1.06rem + 0.3vw,  1.25rem);
+  --text-xl:  clamp(1.375rem, 1.25rem + 0.6vw,  1.625rem);
+  --text-2xl: clamp(1.75rem,  1.5rem + 1.2vw,   2.25rem);
+  --text-3xl: clamp(2.25rem,  1.8rem + 2.2vw,   3.25rem);
+  --text-4xl: clamp(2.75rem,  2rem + 3.6vw,     4.5rem);
+
+  --leading-tight: 1.15;   /* headings */
+  --leading-snug:  1.35;   /* short blocks, UI */
+  --leading-body:  1.65;   /* running prose */
+  --tracking-tight: -0.02em; /* large headings only */
+  --measure: 68ch;         /* max line length for readable prose */
+
+  /* ── Space ── 4px base; the only spacing values allowed downstream ── */
+  --space-1: 0.25rem;  --space-2: 0.5rem;   --space-3: 0.75rem;
+  --space-4: 1rem;     --space-5: 1.5rem;   --space-6: 2rem;
+  --space-7: 3rem;     --space-8: 4rem;     --space-9: 6rem;  --space-10: 8rem;
+
+  /* ── Radius ── corners are relative; nest by subtracting the gap (see tokens.md) ── */
+  --radius-sm: 6px;    --radius-md: 10px;   --radius-lg: 16px;
+  --radius-xl: 24px;   --radius-full: 999px;
+
+  /* ── Elevation ── soft, layered, low-contrast. Never a single hard shadow ── */
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.04), 0 1px 1px oklch(0 0 0 / 0.03);
+  --shadow-md: 0 2px 4px oklch(0 0 0 / 0.04), 0 4px 12px oklch(0 0 0 / 0.06);
+  --shadow-lg: 0 4px 8px oklch(0 0 0 / 0.04), 0 16px 32px oklch(0 0 0 / 0.10);
+
+  /* ── Motion ── short, eased, honor reduced-motion ── */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 180ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:            oklch(0.17  0.012 var(--hue-neutral));  /* never #000 */
+    --surface:       oklch(0.205 0.014 var(--hue-neutral));  /* lighter than bg = raised */
+    --surface-sunk:  oklch(0.15  0.012 var(--hue-neutral));
+    --border:        oklch(0.27  0.014 var(--hue-neutral));
+    --border-strong: oklch(0.34  0.016 var(--hue-neutral));
+
+    --text:        oklch(0.93 0.008 var(--hue-neutral));     /* never #fff */
+    --text-2:      oklch(0.73 0.01  var(--hue-neutral));
+    --text-muted:  oklch(0.58 0.01  var(--hue-neutral));
+
+    --accent:       oklch(0.7  0.16 var(--hue-accent));      /* lift L in dark so it glows */
+    --accent-hover: oklch(0.76 0.16 var(--hue-accent));
+    --accent-quiet: oklch(0.28 0.06 var(--hue-accent));
+    --on-accent:    oklch(0.16 0.02 var(--hue-accent));
+
+    /* In dark, shadows barely read — elevate with surface lightness + border instead. */
+    --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
+    --shadow-md: 0 2px 8px oklch(0 0 0 / 0.35);
+    --shadow-lg: 0 8px 30px oklch(0 0 0 / 0.45);
+  }
+}
+
+* { box-sizing: border-box; }
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
