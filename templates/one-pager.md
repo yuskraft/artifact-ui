@@ -2,7 +2,7 @@
 
 Semi-structured, so it's a **blocks recipe**, not a copyable template — compose it from
 [blocks](../blocks/_index.md). An exec summary or short report: one page, scannable, one figure at
-most. Paste `../tokens/tokens.css` + `../styles/base.css` first.
+most. Paste `dist/artifact.css` first.
 
 ## Structure (contract)
 1. **[Doc header](../blocks/doc-header.md)** — title + one-line meta (date, author, or purpose).

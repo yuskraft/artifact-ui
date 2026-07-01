@@ -2,7 +2,7 @@
 
 The one place restraint loosens slightly: a centered hero is allowed (a single focal moment). One
 headline, one sub, one accent CTA. A quiet two-hue wash behind the hero is the only sanctioned
-gradient — low chroma, near-neighbor hues. Assumes `tokens.css` + `base.css` are in the document.
+gradient — low chroma, near-neighbor hues. Assumes `dist/artifact.css` is in the document.
 
 ```html
 <style>

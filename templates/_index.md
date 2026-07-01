@@ -21,7 +21,7 @@ format is near-fixed; otherwise a blocks recipe.
 - Long reading-first text → not a document type; use [examples/article](../examples/article.md)
 - Screen-first app/marketing → [examples/dashboard](../examples/dashboard.md) or [landing](../examples/landing.md)
 
-Every template: paste `../tokens/tokens.css` + `../styles/base.css` into the `<style>`, then fill.
+Every template: paste `dist/artifact.css` into the `<style>`, then fill.
 Print-ready docs pick up A4 + white-paper output from `base.css`'s `@media print` automatically —
 the user exports with the browser's "Save as PDF".
 

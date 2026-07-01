@@ -2,7 +2,7 @@
 
 Information-dense, tighter than prose. Sidebar nav + a contained content column. Metrics go in a
 **list column**, not a grid of boxes. Density means smaller `--space-*`, not zero space. Accent marks
-the active nav item only. Assumes `tokens.css` + `base.css` are in the document.
+the active nav item only. Assumes `dist/artifact.css` is in the document.
 
 ```html
 <style>

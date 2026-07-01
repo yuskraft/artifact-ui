@@ -1,7 +1,7 @@
 # Examples (worked artifacts)
 
 Full compositions for common artifact types — read the one that matches what you're building. Each
-assumes `tokens/tokens.css` + `styles/base.css` are already in the document's `<style>` and adds only
+assumes `dist/artifact.css` is already in the document's `<style>` and adds only
 layout-specific CSS. The design rules apply to all of them.
 
 | Example | For |

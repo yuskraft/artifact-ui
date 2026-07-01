@@ -2,7 +2,7 @@
 
 Reading-first. Clean sans body, display headings, capped measure, airy. Optionally a sticky
 table-of-contents rail (the editorial reference). Highest-density-of-text artifact — should breathe
-the most. Assumes `tokens.css` + `base.css` are in the document.
+the most. Assumes `dist/artifact.css` is in the document.
 
 ```html
 <style>

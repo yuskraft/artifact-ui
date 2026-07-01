@@ -17,7 +17,7 @@ This is reference, not a workflow — one system to apply in full. Before return
 
 ## How to build (every artifact)
 
-1. **Lay the foundation.** Read [`tokens/tokens.md`](tokens/tokens.md) for the rules, then paste [`tokens/tokens.css`](tokens/tokens.css) followed by [`styles/base.css`](styles/base.css) into the artifact's `<style>` — in that order. These carry the palette, type, spacing, primitives, and print output.
+1. **Lay the foundation.** Read [`tokens/tokens.md`](tokens/tokens.md) for the rules, then inline [`dist/artifact.css`](dist/artifact.css) into the artifact's `<style>` — one paste that carries the palette, type, spacing, primitives, and print output. (`dist/artifact.css` is generated from [`tokens/tokens.css`](tokens/tokens.css) + [`styles/base.css`](styles/base.css); read those human-readable sources to understand or change a value, but paste the compact `dist` build — it's smaller and copies cleanly.)
 2. **Compose up the ladder.** Build from [components](components/_index.md) → [blocks](blocks/_index.md). For a document type (resume, ərizə, one-pager) start from [templates](templates/_index.md). For a general artifact kind (article, dashboard, landing, answer) crib from [examples](examples/_index.md).
 3. **Ship one file.** The folder structure is _source_; the output is always ONE self-contained HTML file — inline the CSS you used, no build step, no JS libs (the font `<link>` is the only external asset).
 
@@ -25,7 +25,7 @@ This is reference, not a workflow — one system to apply in full. Before return
 
 | The request… | Read |
 |---|---|
-| any styled artifact (always) | `tokens/tokens.md` + paste `tokens/tokens.css` + `styles/base.css` |
+| any styled artifact (always) | read `tokens/tokens.md` (rules) + inline `dist/artifact.css` |
 | resume / CV | [`templates/resume.html`](templates/resume.html) |
 | ərizə / formal letter / application / petition | [`templates/erize.html`](templates/erize.html) |
 | one-pager / report / exec summary / brief | [`templates/one-pager.md`](templates/one-pager.md) |
@@ -82,7 +82,7 @@ The library is meant to grow. Keep growth clean:
 
 The artifact is done only when every line holds:
 
-- [ ] `tokens/tokens.css` + `styles/base.css` are inlined, and **no value downstream is hardcoded** — all type/space/color/radius/shadow come from `var()`.
+- [ ] `dist/artifact.css` is inlined, and **no value downstream is hardcoded** — all type/space/color/radius/shadow come from `var()`.
 - [ ] The web font is loaded (`<link>`) and applied via `--font-display`/`--font-sans`, with a working system fallback.
 - [ ] At most three type sizes; hierarchy carried by weight + color, not size sprawl.
 - [ ] All content sits in a centered container (prose in a `--measure` column); **nothing runs full-width**; left-aligned.

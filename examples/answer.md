@@ -2,7 +2,7 @@
 
 The assistant-answer pattern (the Donna/Sense references): a reasoning trace, a clean answer body, an
 action row, and source chips. Calm, left-aligned, accent reserved for the brand mark and the one
-primary affordance. Assumes `tokens.css` + `base.css` are in the document.
+primary affordance. Assumes `dist/artifact.css` is in the document.
 
 ```html
 <style>
