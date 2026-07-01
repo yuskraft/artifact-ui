@@ -10,7 +10,7 @@ gradient — low chroma, near-neighbor hues. Assumes `dist/artifact.css` is in t
   .hero::before {
     content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0.5;
     background: radial-gradient(60% 60% at 50% 0%,
-      oklch(0.9 0.05 var(--hue-accent)), transparent 70%);
+      var(--accent-quiet), transparent 70%);
   }
   .hero h1 { font-size: var(--text-4xl); max-width: 18ch; margin-inline: auto; }
   .hero p { font-size: var(--text-lg); color: var(--text-2); max-width: 46ch; margin: var(--space-5) auto 0; }
