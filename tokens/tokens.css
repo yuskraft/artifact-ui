@@ -30,10 +30,10 @@
 
   --text:         oklch(0.28 0.014 var(--hue-neutral));  /* warm near-black, never #000 */
   --text-2:       oklch(0.48 0.013 var(--hue-neutral));  /* secondary / labels */
-  --text-muted:   oklch(0.63 0.012 var(--hue-neutral));  /* captions, meta, placeholder */
+  --text-muted:   oklch(0.54 0.012 var(--hue-neutral));  /* captions, meta, placeholder — AA on --bg */
 
-  --accent:       oklch(0.64 0.15 var(--hue-accent));    /* soft coral, still carries white text */
-  --accent-hover: oklch(0.58 0.16 var(--hue-accent));
+  --accent:       oklch(0.55 0.14 var(--hue-accent));    /* soft coral, AA for white text and links */
+  --accent-hover: oklch(0.50 0.15 var(--hue-accent));
   --accent-quiet: oklch(0.93 0.05 var(--hue-accent));    /* peachy tint behind accent text */
   --on-accent:    oklch(0.99 0.015 var(--hue-accent));   /* near-white on a solid accent */
 
@@ -96,7 +96,7 @@
 
     --text:        oklch(0.93 0.008 var(--hue-neutral));     /* never #fff */
     --text-2:      oklch(0.73 0.01  var(--hue-neutral));
-    --text-muted:  oklch(0.58 0.01  var(--hue-neutral));
+    --text-muted:  oklch(0.60 0.01  var(--hue-neutral));
 
     --accent:       oklch(0.7  0.16 var(--hue-accent));      /* lift L in dark so it glows */
     --accent-hover: oklch(0.76 0.16 var(--hue-accent));
