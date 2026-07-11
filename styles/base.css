@@ -74,6 +74,19 @@ a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset:
 
 .muted { color: var(--text-muted); font-size: var(--text-sm); }
 
+/* ── table ── minimal data table: hairline rules, quiet caps header, no boxes ── */
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: start; padding: var(--space-2) var(--space-3); }
+th {
+  font-size: var(--text-xs); font-weight: 600; color: var(--text-2);
+  text-transform: uppercase; letter-spacing: var(--tracking-caps);
+  border-block-end: 1px solid var(--border-strong);
+}
+td { border-block-end: 1px solid var(--border); }
+tbody tr:last-child td { border-block-end: none; }
+.table--striped tbody tr:nth-child(even) { background: var(--surface-sunk); }
+.num { text-align: end; font-variant-numeric: tabular-nums; }
+
 /* ── field ── form inputs ── */
 :where(input, textarea, select) {
   font: inherit; color: var(--text);
@@ -85,6 +98,16 @@ a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset:
 :where(input, textarea, select):focus-visible {
   outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent;
 }
+
+/* ── form patterns ── label + input + message; rows that reflow without breakpoints ── */
+.field { display: flex; flex-direction: column; gap: var(--space-1); }
+.field__label { color: var(--text-2); font-size: var(--text-sm); font-weight: 500; }
+.field__msg { color: var(--text-muted); font-size: var(--text-sm); }
+.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--space-4); }
+.field--error :where(input, textarea, select) { border-color: var(--danger); }
+.field--error .field__msg { color: var(--danger); }
+.field--ok :where(input, textarea, select) { border-color: var(--ok); }
+.field--ok .field__msg { color: var(--ok); }
 
 /*
  * ── Print / PDF ──────────────────────────────────────────────────────────────

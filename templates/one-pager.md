@@ -9,7 +9,7 @@ most. Paste `dist/artifact.css` first.
 2. **Lead** — 1–2 sentences stating the takeaway up front. No throat-clearing.
 3. **Sections** ([section block](../blocks/section.md)) — 2–4 short titled sections carrying the
    argument. Each is a tight paragraph or a short list, not a wall of text.
-4. **Metrics** — as a [list column](../components/list.md), never boxed stat-cards.
+4. **Metrics** — as a [list column](../components/_index.md#list), never boxed stat-cards.
 5. **Optional figure** — one table or one simple chart if it earns its place.
 
 ## Tone & rules

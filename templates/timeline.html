@@ -1,0 +1,88 @@
+<!-- Timeline / status: incident report, status page, changelog, project log. -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<!-- Type is system-first (self-contained; Claude's sandbox blocks font CDNs).
+     OPT-IN for a standalone page only, add:
+     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet"> -->
+<style>
+/* ============================================================================
+   PASTE dist/artifact.css HERE (the generated tokens+base bundle).
+   Do not copy token values inline — dist/artifact.css is built from the sources.
+   ============================================================================ */
+
+/* ── timeline: dated entries on a quiet rail, newest first. ── */
+.tlpage { max-width: 44rem; margin-inline: auto; padding: var(--space-8) var(--space-6); }
+.tlpage__meta { color: var(--text-2); font-size: var(--text-sm); }
+
+.tl { list-style: none; margin: var(--space-6) 0 0; padding: 0; }
+.tl__entry {
+  position: relative;
+  margin-inline-start: var(--space-2);
+  border-inline-start: 2px solid var(--border);
+  padding-inline-start: var(--space-5);
+  padding-block-end: var(--space-6);
+}
+.tl__entry:last-child { border-inline-start-color: transparent; padding-block-end: 0; }
+.tl__entry::before {
+  content: ""; position: absolute;
+  inset-inline-start: calc(-1 * var(--space-1) - 1px);
+  top: calc(var(--space-1) + 2px);
+  width: var(--space-2); height: var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--border-strong);
+}
+.tl__entry--now::before { background: var(--accent); }
+.tl__time { color: var(--text-muted); font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
+.tl__title { font-family: var(--font-display); font-weight: 650; }
+.tl__body { color: var(--text-2); max-width: var(--measure); margin-block-start: var(--space-1); }
+@media print { .tlpage { padding: 0; } }
+</style>
+</head>
+<body>
+  <main class="tlpage">
+    <header class="stack" style="gap: var(--space-2)">
+      <div class="cluster" style="justify-content: space-between">
+        <h1 style="font-size: var(--text-2xl)">{{TITLE — e.g. "API outage — 2026-07-08" or "Release log"}}</h1>
+        <span class="chip" style="background: var(--tint-sage); border-color: transparent">{{CURRENT_STATUS — e.g. "resolved", "monitoring", "v2.4 shipped"}}</span>
+      </div>
+      <p class="tlpage__meta">{{DATE_RANGE_OR_SCOPE}} · {{OWNER_OR_TEAM}}</p>
+    </header>
+
+    <p style="margin-block-start: var(--space-5); max-width: var(--measure)">{{ONE-PARAGRAPH SUMMARY — what happened / what this log tracks, and where things stand now.}}</p>
+
+    <ol class="tl">
+      <li class="tl__entry tl__entry--now avoid-break">
+        <div class="cluster" style="gap: var(--space-3)">
+          <span class="tl__time">{{2026-07-08 14:32}}</span>
+          <span class="chip" style="background: var(--tint-sage); border-color: transparent">{{resolved}}</span>
+        </div>
+        <p class="tl__title">{{ENTRY TITLE — what changed at this moment}}</p>
+        <p class="tl__body">{{1–3 sentences: what was observed or done, and its effect. Mark unknowns [DATA NEEDED].}}</p>
+      </li>
+
+      <li class="tl__entry avoid-break">
+        <div class="cluster" style="gap: var(--space-3)">
+          <span class="tl__time">{{2026-07-08 13:05}}</span>
+          <span class="chip" style="background: var(--tint-peach); border-color: transparent">{{mitigating}}</span>
+        </div>
+        <p class="tl__title">{{ENTRY TITLE}}</p>
+        <p class="tl__body">{{detail}}</p>
+      </li>
+
+      <li class="tl__entry avoid-break">
+        <div class="cluster" style="gap: var(--space-3)">
+          <span class="tl__time">{{2026-07-08 12:47}}</span>
+          <span class="chip" style="background: var(--tint-rose); border-color: transparent">{{detected}}</span>
+        </div>
+        <p class="tl__title">{{ENTRY TITLE}}</p>
+        <p class="tl__body">{{detail}}</p>
+      </li>
+      <!-- repeat one .tl__entry per event, newest first; --now marks the latest -->
+    </ol>
+  </main>
+</body>
+</html>

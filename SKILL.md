@@ -17,27 +17,29 @@ This is reference, not a workflow — one system to apply in full. Before return
 
 ## How to build (every artifact)
 
-1. **Lay the foundation.** Read [`tokens/tokens.md`](tokens/tokens.md) for the rules, then inline [`dist/artifact.css`](dist/artifact.css) into the artifact's `<style>` — one paste that carries the palette, type, spacing, primitives, and print output. (`dist/artifact.css` is generated from [`tokens/tokens.css`](tokens/tokens.css) + [`styles/base.css`](styles/base.css); read those human-readable sources to understand or change a value, but paste the compact `dist` build — it's smaller and copies cleanly.)
-2. **Compose up the ladder.** Build from [components](components/_index.md) → [blocks](blocks/_index.md). For a document type (resume, ərizə, one-pager) start from [templates](templates/_index.md). For a general artifact kind (article, dashboard, landing, answer) crib from [examples](examples/_index.md).
-3. **Ship one file.** The folder structure is _source_; the output is always ONE self-contained HTML file — inline the CSS you used, no build step, no JS libs (the font `<link>` is the only external asset).
+1. **Lay the foundation.** Read [`tokens/tokens.css`](tokens/tokens.css) — the values *and* the usage rules (each group's rules live in the comments beside it) — then inline [`dist/artifact.css`](dist/artifact.css) into the artifact's `<style>` — one paste that carries the palette, type, spacing, primitives, and print output. (`dist` is generated from `tokens/tokens.css` + [`styles/base.css`](styles/base.css); paste the compact `dist` build — it's smaller and copies cleanly.)
+2. **Compose up the ladder.** Build from [components](components/_index.md) → [blocks](blocks/_index.md). For a document type (resume, ərizə, one-pager, report, timeline) start from [templates](templates/_index.md). For a general artifact kind (article, dashboard, landing, answer) crib from [examples](examples/_index.md).
+3. **Ship one file, zero external requests.** The folder structure is _source_; the output is always ONE self-contained HTML file that renders with the network unplugged — Claude's artifact hosting enforces a strict CSP, so anything external silently breaks. No font/CSS/JS CDNs, no remote images (use inline SVG or data URIs), no fetch calls, no build step. Type comes from the system-first font tokens; a web-font `<link>` is an opt-in *only* for a page that will live outside the sandbox. Stay far under the 16 MiB artifact cap — a text-and-SVG artifact always is.
 
 ## Router — what to read for the request
 
 | The request… | Read |
 |---|---|
-| any styled artifact (always) | read `tokens/tokens.md` (rules) + inline `dist/artifact.css` |
+| any styled artifact (always) | read `tokens/tokens.css` (values + rules in its comments) + inline `dist/artifact.css` |
 | resume / CV | [`templates/resume.html`](templates/resume.html) |
 | ərizə (Azerbaijani petition/application) | [`templates/erize.html`](templates/erize.html) |
 | formal letter / application / petition (other languages) | [`templates/letter.html`](templates/letter.html) |
-| one-pager / report / exec summary / brief | [`templates/one-pager.md`](templates/one-pager.md) |
+| one-pager / exec summary / brief | [`templates/one-pager.md`](templates/one-pager.md) |
+| PR walkthrough / code review / audit / findings report | [`templates/report.html`](templates/report.html) |
+| incident timeline / status page / changelog | [`templates/timeline.html`](templates/timeline.html) |
 | long article / essay / docs page | [`examples/article.md`](examples/article.md) |
 | dashboard / app UI | [`examples/dashboard.md`](examples/dashboard.md) |
 | landing / marketing page | [`examples/landing.md`](examples/landing.md) |
 | chat / answer UI | [`examples/answer.md`](examples/answer.md) |
 | "what components/blocks exist?" | [`components/_index.md`](components/_index.md), [`blocks/_index.md`](blocks/_index.md) |
-| a personal/formal document's identity | check the [brand profile](templates/_index.md#brand-profile) first |
+| a personal/formal document's identity | check the [brand profile](templates/brand.md) first |
 
-The full per-dimension rules (type, spacing, color, corners, elevation, motion) live in `tokens/tokens.md`. The cross-cutting laws below apply to _every_ artifact.
+The full per-dimension rules (type, spacing, color, corners, elevation, motion) live in `tokens/tokens.css` beside the values they govern. The cross-cutting laws below apply to _every_ artifact.
 
 ## Layout & density
 
@@ -59,8 +61,9 @@ The full per-dimension rules (type, spacing, color, corners, elevation, motion) 
 Hunt these before returning:
 
 - **Cramped spacing** — content packed edge to edge with no breathing room.
-- **Default / unloaded font** — raw system text, no measure cap, full-width paragraphs. (A serif where sans was wanted is the same tell.)
-- **Boxy stat-card grids for simple metrics** — bordered boxes around plain label→value data. Use a [list](components/list.md) instead.
+- **Untreated type** — browser-default sizing, no measure cap, full-width paragraphs, no weight hierarchy. (A serif where sans was wanted is the same tell.) The system stack is fine; leaving it *unset* is the tell.
+- **A dead external request** — a font/CSS/JS CDN link or remote image that the sandbox CSP silently blocks. Everything inlines.
+- **Boxy stat-card grids for simple metrics** — bordered boxes around plain label→value data. Use a [list](components/_index.md#list) instead.
 - **Full-width content** — layout spanning the whole viewport instead of a centered container.
 - **Garish gradients** — rainbow or high-chroma multi-stop fills. (Soft warm low-chroma washes are fine.)
 - **Inconsistent radii** — a sharp card next to a round button; nested corners that aren't concentric.
@@ -74,17 +77,17 @@ Hunt these before returning:
 
 The library is meant to grow. Keep growth clean:
 
-- **One-line to extend.** To add a component/block/template/example, drop one file in the right folder and add one row to that folder's `_index.md`. The core (this file, `tokens/`, `styles/`) stays untouched.
+- **One-line to extend.** To add a block/template/example, drop one file in the right folder and add one row to that folder's `_index.md`; a new component is CSS in `base.css` + a section in `components/_index.md`. The core (this file, `tokens/`, `styles/`) stays untouched.
 - **Two-level disclosure.** This router points to a folder's `_index.md`; the index points to the specific file. That keeps context load flat as the library grows — never inline a whole library here.
-- **Don't over-fragment.** One file per component/block is the default, but group a trivially small piece into a related file rather than making dozens of near-empty ones. Each file must earn its own pointer; split when a file gets big, not preemptively.
-- **Single source of truth.** Values live only in `tokens/tokens.css`; each rule lives in exactly one `.md`. Templates and examples paste `tokens.css` + `base.css` — they never copy values.
+- **Don't over-fragment.** Small pieces live grouped in one file (all components share `components/_index.md`); a piece earns its own file only when its docs outgrow a screenful. Each file must earn its own pointer.
+- **Single source of truth.** Values live only in `tokens/tokens.css`, with each group's usage rules in the comments beside it; every other rule lives in exactly one `.md`. Templates and examples paste `dist/artifact.css` — they never copy values.
 
 ## Before you return
 
 The artifact is done only when every line holds:
 
 - [ ] `dist/artifact.css` is inlined, and **no value downstream is hardcoded** — all type/space/color/radius/shadow come from `var()`.
-- [ ] The web font is loaded (`<link>`) and applied via `--font-display`/`--font-sans`, with a working system fallback.
+- [ ] **Zero external requests** — no CDN links, no remote images (inline SVG / data URIs only), no fetch. Type is applied via `--font-display`/`--font-sans`; the optional web-font `<link>` appears only when the page is explicitly for use outside Claude's sandbox.
 - [ ] At most three type sizes; hierarchy carried by weight + color, not size sprawl.
 - [ ] All content sits in a centered container (prose in a `--measure` column); **nothing runs full-width**; left-aligned.
 - [ ] Simple data uses a **list column**, not boxed stat-cards; cards are reserved for grouped/media-rich content.

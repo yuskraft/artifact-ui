@@ -1,7 +1,7 @@
 # Contact row
 
 The name/role/contact identity line for personal documents (resume, ərizə). Fills from the
-[brand profile](../templates/_index.md#brand-profile) when present.
+[brand profile](../templates/brand.md) when present.
 
 ```html
 <header class="stack" style="gap: var(--space-1)">

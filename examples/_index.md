@@ -11,5 +11,9 @@ layout-specific CSS. The design rules apply to all of them.
 | [Landing / hero](landing.md) | Screen-first showcase, one focal hero + CTA |
 | [Chat / answer UI](answer.md) | Assistant answer: trace, body, actions, sources |
 
-For structured **documents** (resume, ərizə, one-pager) use [templates](../templates/_index.md)
-instead — those are copyable and print-ready.
+For structured **documents** (resume, ərizə, one-pager, report, timeline) use
+[templates](../templates/_index.md) instead — those are copyable and print-ready.
+
+Every example must look intentional in **both modes** — the tokens flip automatically with
+`prefers-color-scheme`, but check the dark rendering deliberately (surfaces lighter than bg,
+accent glowing, no shadow soup), don't assume the inversion worked.

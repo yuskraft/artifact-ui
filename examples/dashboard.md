@@ -38,5 +38,6 @@ the active nav item only. Assumes `dist/artifact.css` is in the document.
 </div>
 ```
 
-Metrics use the [list](../components/list.md) component — not boxed stat-cards. Reserve
-[cards](../components/card.md) for media-rich items.
+Metrics use the [list](../components/_index.md#list) component — not boxed stat-cards. Reserve
+[cards](../components/_index.md#card) for media-rich items; multi-column data takes the
+[table](../components/_index.md#table) styles.

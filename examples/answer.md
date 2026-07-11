@@ -33,4 +33,4 @@ primary affordance. Assumes `dist/artifact.css` is in the document.
 </div>
 ```
 
-Sources use the [chip](../components/chip.md) component; actions use neutral [buttons](../components/button.md).
+Sources use the [chip](../components/_index.md#chip) component; actions use neutral [buttons](../components/_index.md#button).

@@ -1,9 +1,11 @@
 /*
  * artifact-styling — design tokens (SINGLE SOURCE OF TRUTH)
  *
- * Every value the artifact uses lives here. Paste this block into the artifact's
- * <style> first; everything downstream references it with var(). Nothing else
- * redefines a value. See tokens.md for what each group means and how to use it.
+ * Every value the artifact uses lives here, and every usage rule lives in the
+ * comments beside its group — one file carries both. Paste the generated
+ * dist/artifact.css into the artifact's <style>; everything downstream
+ * references it with var(). Never hardcode a px, a hex, or a one-off radius —
+ * coherence is a side effect of everyone drinking from the same well.
  *
  * Modern choices, on purpose: OKLCH color (derive light/dark + tints by moving one
  * number), fluid type via clamp() (no breakpoints), logical properties downstream,
@@ -16,7 +18,20 @@
 :root {
   color-scheme: light dark;
 
-  /* ── Color ── warm pastel: one accent hue, one warm neutral, derived by moving L ── */
+  /* ── Color ── warm pastel: one accent hue, one warm neutral, derived by moving L.
+   *
+   * Rules:
+   * - One accent, used sparingly — it marks the single most important action or
+   *   the one thing to notice per view. If everything is accented, nothing is.
+   * - Backgrounds are layered, not flat: --bg (page) → --surface (raised) →
+   *   --surface-sunk (wells/code/inputs). Depth comes from this ladder plus
+   *   --border, before any shadow.
+   * - Text hierarchy is three steps: --text / --text-2 / --text-muted. Demote
+   *   meta to muted instead of shrinking it to nothing.
+   * - Never pure black or white; the tokens already avoid #000/#fff.
+   * - Gradients: soft warm low-chroma washes only (a faint radial behind a hero).
+   *   A garish multi-stop gradient is a tell. Never a rainbow.
+   */
   --hue-accent: 35;         /* the ONE knob: swap this to re-theme everything (35 = soft coral) */
   --hue-neutral: 70;        /* warm cream tint; reads inviting, never clinical gray */
 
@@ -36,17 +51,40 @@
   --accent-quiet: oklch(0.93 0.05 var(--hue-accent));    /* peachy tint behind accent text */
   --on-accent:    oklch(0.99 0.015 var(--hue-accent));   /* near-white on a solid accent */
 
-  /* Optional pastel tints — high-L, low-chroma washes for tags, soft section
-     backgrounds, gentle category coding. Decorative only; the accent owns actions. */
+  /* State colors — form validation, alerts. AA on --bg like the accent.
+     Use sparingly; the accent still owns the primary action. */
+  --danger:       oklch(0.53 0.17 25);
+  --ok:           oklch(0.52 0.12 150);
+
+  /* Optional pastel tints — low-chroma washes for tags, soft section
+     backgrounds, gentle category coding. Seasoning, not the meal: behind muted
+     text, reached for rarely; never competing with the one action accent.
+     Like --accent-quiet they flip with the mode (light washes in light mode,
+     deep washes in dark), so tinted chips keep readable text in both. */
   --tint-peach:    oklch(0.93 0.05 40);
   --tint-rose:     oklch(0.92 0.05 0);
   --tint-sage:     oklch(0.93 0.045 145);
   --tint-lavender: oklch(0.93 0.05 295);
   --tint-sky:      oklch(0.93 0.05 235);
 
-  /* ── Type ── web fonts by default (see tokens.md → Type). Each token keeps a
-       system fallback, so the artifact degrades cleanly offline. ── */
-  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* ── Type ── system-first stacks: self-contained by default, so artifacts render
+   *   identically inside Claude's sandbox (its CSP blocks font CDNs). The named web
+   *   fonts lead each stack as an OPT-IN upgrade — add the Google-Fonts <link> only
+   *   for a standalone page that will live outside the sandbox.
+   *
+   * Rules:
+   * - Sans everywhere; a serif is a rare, deliberate opt-in for long-form or
+   *   traditional formal documents.
+   * - Three sizes per artifact, not seven: heading, body, small/meta. Hierarchy
+   *   comes from WEIGHT and COLOR, not from inventing sizes. Body 400; labels
+   *   500–550; headings 600–700 (base styles use 650).
+   * - Line-height is inverse to size: body --leading-body, headings
+   *   --leading-tight; large headings also take --tracking-tight.
+   * - Cap the measure: running prose lives in max-width: var(--measure).
+   *   Full-width paragraphs are a default tell.
+   * - Numbers in tables and stats: font-variant-numeric: tabular-nums.
+   */
+  --font-display: "Plus Jakarta Sans", ui-rounded, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
 
@@ -67,21 +105,54 @@
   --tracking-caps: 0.08em;   /* uppercase labels & spaced-out titles */
   --measure: 68ch;         /* max line length for readable prose */
 
-  /* ── Space ── 4px base; the only spacing values allowed downstream ── */
+  /* ── Space ── 4px base; the only spacing values allowed downstream.
+   *
+   * Rules:
+   * - Every gap is a token; no arbitrary 13px. Prefer flex/grid `gap` over
+   *   margins; reserve margins for prose flow.
+   * - Space scales with the container: page sections --space-8/9, card interiors
+   *   --space-5/6, chips --space-2. Big things get big space.
+   * - Group with proximity: the size of a gap IS the relationship — make
+   *   within-group vs between-group gaps obviously different (--space-2 vs
+   *   --space-6). Cramped is the loudest default tell; breathe.
+   */
   --space-1: 0.25rem;  --space-2: 0.5rem;   --space-3: 0.75rem;
   --space-4: 1rem;     --space-5: 1.5rem;   --space-6: 2rem;
   --space-7: 3rem;     --space-8: 4rem;     --space-9: 6rem;  --space-10: 8rem;
 
-  /* ── Radius ── corners are relative; nest by subtracting the gap (see tokens.md) ── */
+  /* ── Radius ── corners are relative, and nested corners stay CONCENTRIC.
+   *
+   * Rules:
+   * - Match radius to element size: chips/inputs --radius-sm; buttons
+   *   --radius-sm/md; cards --radius-lg; modals/large panels --radius-xl;
+   *   pills/avatars --radius-full.
+   * - Nest by subtracting the gap: inner radius = outer − padding (e.g.
+   *   calc(var(--radius-lg) - var(--space-3))) — valid only while padding <
+   *   outer radius; otherwise use a small fixed radius, never a negative calc().
+   * - Pick one family and hold it; a sharp card next to a round button is the
+   *   inconsistent-radius tell.
+   */
   --radius-sm: 6px;    --radius-md: 10px;   --radius-lg: 16px;
   --radius-xl: 24px;   --radius-full: 999px;
 
-  /* ── Elevation ── soft, layered, low-contrast. Never a single hard shadow ── */
+  /* ── Elevation ── soft, layered, low-contrast. Never a single hard shadow.
+   *
+   * Rules:
+   * - Elevation has meaning: lift only what is actually above the page (cards,
+   *   popovers, sticky bars). A flat thing with a drop shadow is noise.
+   * - Cards are for grouped/media-rich content; simple label→value data takes a
+   *   minimal list column, not a grid of boxes.
+   * - Borders are quiet: --border separates; --border-strong only when a divider
+   *   must assert itself.
+   * - In dark mode, light the surface instead of shadowing it (see the dark block).
+   */
   --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.04), 0 1px 1px oklch(0 0 0 / 0.03);
   --shadow-md: 0 2px 4px oklch(0 0 0 / 0.04), 0 4px 12px oklch(0 0 0 / 0.06);
   --shadow-lg: 0 4px 8px oklch(0 0 0 / 0.04), 0 16px 32px oklch(0 0 0 / 0.10);
 
-  /* ── Motion ── short, eased, honor reduced-motion ── */
+  /* ── Motion ── short, eased, limited to hover/focus/enter states on interactive
+     elements. No autoplaying, attention-grabbing animation. Reduced motion is
+     honored globally below. */
   --ease: cubic-bezier(0.2, 0, 0, 1);
   --dur: 180ms;
 }
@@ -102,6 +173,15 @@
     --accent-hover: oklch(0.76 0.16 var(--hue-accent));
     --accent-quiet: oklch(0.28 0.06 var(--hue-accent));
     --on-accent:    oklch(0.16 0.02 var(--hue-accent));
+
+    --danger:       oklch(0.72 0.15 25);
+    --ok:           oklch(0.74 0.12 150);
+
+    --tint-peach:    oklch(0.30 0.05 40);
+    --tint-rose:     oklch(0.30 0.05 0);
+    --tint-sage:     oklch(0.30 0.045 145);
+    --tint-lavender: oklch(0.30 0.05 295);
+    --tint-sky:      oklch(0.30 0.05 235);
 
     /* In dark, shadows barely read — elevate with surface lightness + border instead. */
     --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);

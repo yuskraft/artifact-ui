@@ -46,6 +46,12 @@ const T = {
   dmuted:    [0.60, 0.01, HUE_N],    // ← target value set by this plan
   daccent:   [0.7, 0.16, HUE_A],
   donAccent: [0.16, 0.02, HUE_A],
+  danger:    [0.53, 0.17, 25],
+  ok:        [0.52, 0.12, 150],
+  ddanger:   [0.72, 0.15, 25],
+  dok:       [0.74, 0.12, 150],
+  tint:      [0.93, 0.045, 145],  // representative --tint-* (sage)
+  dtint:     [0.30, 0.045, 145],
 };
 // [label, fg, bg, minimum]. 4.5 = AA normal text.
 const PAIRS = [
@@ -60,6 +66,12 @@ const PAIRS = [
   ["text-muted on bg (dark)", "dmuted", "dbg", 4.5],
   ["on-accent on accent (dark)", "donAccent", "daccent", 4.5],
   ["accent on bg (dark) — links", "daccent", "dbg", 4.5],
+  ["danger on bg (light) — error text", "danger", "bg", 4.5],
+  ["ok on bg (light) — success text", "ok", "bg", 4.5],
+  ["danger on bg (dark)", "ddanger", "dbg", 4.5],
+  ["ok on bg (dark)", "dok", "dbg", 4.5],
+  ["text-2 on tint (light) — tinted chips", "text2", "tint", 4.5],
+  ["text-2 on tint (dark) — tinted chips", "dtext2", "dtint", 4.5],
 ];
 let failed = 0;
 for (const [label, f, b, min] of PAIRS) {
