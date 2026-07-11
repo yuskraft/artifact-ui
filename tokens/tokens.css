@@ -111,7 +111,7 @@
   --leading-snug:  1.35;   /* short blocks, UI */
   --leading-body:  1.65;   /* running prose */
   --tracking-tight: -0.02em; /* large headings only */
-  --tracking-caps: 0.08em;   /* uppercase labels & spaced-out titles */
+  --tracking-caps: 0.08em;   /* spaced-out display titles ONLY (e.g. the ərizə document title) — never force headings to uppercase; hierarchy comes from weight */
   --measure: 68ch;         /* max line length for readable prose */
 
   /* ── Space ── 4px base; the only spacing values allowed downstream.

@@ -10,7 +10,8 @@ lives in [`../styles/base.css`](../styles/base.css). Compose them into
 | [Chip](#chip) | `.chip` | Tags, filters, small metadata pills. |
 | [List](#list) | `.list`, `.list__row` | Simple label→value data. The default over boxed cards. |
 | [Card](#card) | `.card` | Grouped or media-rich content only — never plain metrics. |
-| [Table](#table) | `table`, `.num`, `.table--striped` | Multi-column data. Hairline rules, no boxes. |
+| [Record list](#record-list) | `.records`, `.record`, `.records--grid` | A collection of records/entities — the default over a table. |
+| [Table](#table) | `table`, `.num`, `.table--striped` | Dense many-column comparison. Traditional hairline rules. |
 | [Field](#field) | `.field`, `input`/`textarea`/`select` | Form inputs with label + message. |
 | [Form patterns](#form-patterns) | `.form-row`, `.field--error`, `.field--ok` | Multi-field layout and validation states. |
 | [Callout](#callout) | `.callout`, `.callout--warn`, `.callout--ok` | A note, warning, or success aside inside a document. |
@@ -65,7 +66,7 @@ A minimal list column — **the default for simple label→value data.** No boxe
 
 - **Prefer this over a grid of stat-cards.** A handful of metrics belongs in a list column, not a row of bordered boxes — boxing every datum is a tell.
 - Label demoted to `--text-2`; value emphasized (`600`, tabular-nums so figures align).
-- Rows separated by a hairline `--border`; the last row drops its rule automatically.
+- Rows separate by **spacing alone** (their `padding-block`) — no rules between rows.
 - For a plain list without the label/value split, use `.stack` with `gap: var(--space-2)`.
 
 ## Card
@@ -87,11 +88,55 @@ A raised surface — **only for grouped or media-rich content, never for plain m
 - **Nest corners concentrically:** inner radius = outer − padding, but only while the padding is *smaller* than the outer radius (e.g. inside `--space-3` padding, `calc(var(--radius-lg) - var(--space-3))` ≈ 4px). The card's own `--space-6` padding (32px) exceeds `--radius-lg` (16px), so a concentric inner corner is ≤ 0 — give nested elements a small fixed radius (`--radius-sm`) or none; never a negative `calc()`, which is invalid CSS.
 - Elevation has meaning — a card sits above the page. Don't shadow flat content.
 
+## Record list
+
+**The default for a collection of records** — users, issues, deployments, invoices, projects.
+Each record is a visually distinct item (a quiet horizontal card) in the clean admin aesthetic of
+Linear / GitHub / Vercel / Stripe. CSS: `.records` (stack), `.records--grid` (tile/bento variant),
+`.record`, `.record__main`, `.record__title`, `.record__meta`, `.record__actions`.
+
+```html
+<ul class="records">
+  <li class="record">
+    <div class="record__main">
+      <span class="record__title"><a href="#">api-gateway</a></span>
+      <div class="record__meta">
+        <span>deployed 2h ago</span>
+        <span>eu-west-1</span>
+        <span>v2.14.0</span>
+      </div>
+    </div>
+    <span class="chip" style="background: var(--tint-sage); border-color: transparent">Healthy</span>
+    <div class="record__actions">
+      <button class="btn">View</button>
+      <button class="btn">Edit</button>
+    </div>
+  </li>
+</ul>
+```
+
+- **Primary vs secondary is structural:** the title carries weight (600); everything else demotes
+  into `.record__meta` (muted, small). If a reader can't find a record by title alone while
+  scrolling fast, the hierarchy failed.
+- **Status is a [chip](#chip)**, tinted only when the status genuinely differs per record.
+- **Responsive without breakpoints:** records flex-wrap — meta and actions fall to their own line
+  on narrow screens; `.records--grid` tiles reflow via `auto-fill`. Nothing horizontal-scrolls.
+- **Semantics carry the a11y:** `.records` is a `<ul>`, each record an `<li>`; the title is a real
+  `<a>` when the record opens something; actions are real `<button>`/`<a>` (keyboard-reachable,
+  visible focus for free). Icon-only actions need `aria-label`.
+- **Pick the shape by the data:** stack (default) for scannable admin lists; `--grid` for
+  media-rich or peer tiles; a [list](#list) *inside* `.record__main` for property/definition
+  pairs; native `<details>` as the record element for accordion disclosure.
+- **Many items:** keep each record one line tall if possible; beyond ~20–30, paginate ("Load
+  more" button) rather than rendering hundreds of nodes.
+
 ## Table
 
-Multi-column data. Bare `table`/`th`/`td` are styled by `base.css` — hairline row rules, a quiet
-uppercase header, no vertical rules, no boxes. Use a [list](#list) instead when the data is just
-label→value pairs.
+**Reach for a table only when the reader compares many records across many columns at once** —
+dense, grid-shaped data where row/column scanning is the point. For anything record-shaped, use
+the [record list](#record-list) instead. Bare `table`/`th`/`td` are styled by `base.css` —
+traditional hairline row rules, a bold sentence-case header (never uppercase), no vertical rules,
+no boxes. Use a [list](#list) when the data is just label→value pairs.
 
 ```html
 <table>

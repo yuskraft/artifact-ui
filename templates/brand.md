@@ -11,7 +11,7 @@ it doesn't re-ask every time; if absent, it fills from the prompt or asks once.
 ---
 name: Nurlan Yusifli
 role: Product Designer
-email: you@example.com
+email: nurlanyusifli10@gmail.com
 phone: "+994 ..."
 location: Baku, Azerbaijan
 accent_hue: 32      # maps to --hue-accent

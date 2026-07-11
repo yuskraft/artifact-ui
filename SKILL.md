@@ -67,6 +67,9 @@ Hunt these before returning:
 - **Full-width content** — layout spanning the whole viewport instead of a centered container.
 - **Garish gradients** — rainbow or high-chroma multi-stop fills. (Soft warm low-chroma washes are fine.)
 - **Inconsistent radii** — a sharp card next to a round button; nested corners that aren't concentric.
+- **All-caps headings** — uppercase section labels/kickers. Headings are sentence-case; hierarchy comes from weight (650–700) and size, never capitalization.
+- **Rule-drawn separation** — hairline borders between rows, sections, or headings. Separate with spacing (padding/margins/gaps); borders belong only to true containers (cards, inputs, chips, records), functional lines (a signature line), and a [traditional table](components/_index.md#table) where dense comparison earns its rules.
+- **A table for record-shaped data** — rows of users/issues/deployments crammed into `<table>`. Collections of records default to the [record list](components/_index.md#record-list) (distinct items, chips for status, visible actions); a table is only for dense many-column comparison.
 - **Everything centered** — center-aligned body text and forms.
 - **Pure `#000` / `#fff`** and harsh single-layer shadows. (Exception: paper documents — resume, ərizə, letter — sit on a white sheet via `data-paper` on the root.)
 - **Edge-border callouts** — a thick colored left/edge border on a note or warning box. Use the [callout component](components/_index.md#callout) (`.callout`, `.callout--warn`, `.callout--ok`): a translucent tinted wash, no border.
