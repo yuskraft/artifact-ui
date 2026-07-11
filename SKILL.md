@@ -69,7 +69,7 @@ Hunt these before returning:
 - **Inconsistent radii** — a sharp card next to a round button; nested corners that aren't concentric.
 - **Everything centered** — center-aligned body text and forms.
 - **Pure `#000` / `#fff`** and harsh single-layer shadows. (Exception: paper documents — resume, ərizə, letter — sit on a white sheet via `data-paper` on the root.)
-- **Edge-border callouts** — a thick colored left/edge border on a note or warning box. Carry the meaning with a translucent tinted wash (e.g. `color-mix(in srgb, var(--danger) 9%, transparent)`) instead; no border.
+- **Edge-border callouts** — a thick colored left/edge border on a note or warning box. Use the [callout component](components/_index.md#callout) (`.callout`, `.callout--warn`, `.callout--ok`): a translucent tinted wash, no border.
 - **Accent overuse** — color on every element, so nothing stands out.
 - **Hardcoded values** — any px/hex/radius not from a token, which guarantees drift.
 - **One flat slab** — no surface ladder, no depth, no grouping.

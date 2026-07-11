@@ -173,6 +173,14 @@ tbody tr:last-child td { border-block-end: none; }
 .field--error .field__msg { color: var(--danger); }
 .field--ok :where(input, textarea, select) { border-color: var(--ok); }
 .field--ok .field__msg { color: var(--ok); }
+.callout {
+  background: color-mix(in srgb, var(--text) 5%, transparent);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+}
+.callout > * + * { margin-block-start: var(--space-2); }
+.callout--warn { background: color-mix(in srgb, var(--danger) 9%, transparent); }
+.callout--ok   { background: color-mix(in srgb, var(--ok) 9%, transparent); }
 :root[data-paper] {
   --bg: #fff;
   --surface: #fff;
@@ -213,16 +221,7 @@ tbody tr:last-child td { border-block-end: none; }
 .report__meta { color: var(--text-2); font-size: var(--text-sm); }
 .report__lead { font-size: var(--text-lg); max-width: var(--measure); }
 
-/* Callouts — NO border (edge-border callouts are a tell); a translucent wash
-   alone carries the meaning, and layers safely on any surface. */
-.callout {
-  background: color-mix(in srgb, var(--text) 5%, transparent);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-}
-.callout--warn { background: color-mix(in srgb, var(--danger) 9%, transparent); }
-.callout--ok   { background: color-mix(in srgb, var(--ok) 9%, transparent); }
-.callout > * + * { margin-block-start: var(--space-2); }
+/* Callouts come from base.css (.callout / --warn / --ok) — no local styles. */
 
 code { font-family: var(--font-mono); font-size: var(--text-sm); background: var(--surface-sunk); border-radius: var(--radius-sm); padding: 0 var(--space-1); }
 @media print { .report { padding: 0; } }

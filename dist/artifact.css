@@ -166,6 +166,14 @@ tbody tr:last-child td { border-block-end: none; }
 .field--error .field__msg { color: var(--danger); }
 .field--ok :where(input, textarea, select) { border-color: var(--ok); }
 .field--ok .field__msg { color: var(--ok); }
+.callout {
+  background: color-mix(in srgb, var(--text) 5%, transparent);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+}
+.callout > * + * { margin-block-start: var(--space-2); }
+.callout--warn { background: color-mix(in srgb, var(--danger) 9%, transparent); }
+.callout--ok   { background: color-mix(in srgb, var(--ok) 9%, transparent); }
 :root[data-paper] {
   --bg: #fff;
   --surface: #fff;

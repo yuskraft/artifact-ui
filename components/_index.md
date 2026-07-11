@@ -13,6 +13,7 @@ lives in [`../styles/base.css`](../styles/base.css). Compose them into
 | [Table](#table) | `table`, `.num`, `.table--striped` | Multi-column data. Hairline rules, no boxes. |
 | [Field](#field) | `.field`, `input`/`textarea`/`select` | Form inputs with label + message. |
 | [Form patterns](#form-patterns) | `.form-row`, `.field--error`, `.field--ok` | Multi-field layout and validation states. |
+| [Callout](#callout) | `.callout`, `.callout--warn`, `.callout--ok` | A note, warning, or success aside inside a document. |
 
 **To add a component:** add its CSS to `base.css`, rebuild `dist`, and add a section + one table row
 here. Split a component into its own file only when its docs outgrow a screenful.
@@ -153,3 +154,25 @@ Multi-field layout and validation states. CSS: `.form-row`, `.field--error`, `.f
 - **Validation is a state, not a decoration:** `.field--error` / `.field--ok` recolor the border and message with `--danger` / `--ok` (both AA-checked). Always pair the color with a `.field__msg` that says what to fix — color alone isn't accessible.
 - Add `aria-invalid="true"` on an errored input.
 - One `.btn--accent` submits; secondary actions are neutral buttons or links.
+
+## Callout
+
+A note, warning, or success aside inside a document — a risk in a report, a caveat under a section,
+a "what to do next". CSS: `.callout` (neutral), `.callout--warn`, `.callout--ok`.
+
+```html
+<div class="callout avoid-break">
+  <p><strong>Note:</strong> exports include archived members by default.</p>
+</div>
+
+<div class="callout callout--warn avoid-break">
+  <p><strong>Risk:</strong> concurrent check-ins double-spend a streak freeze.</p>
+  <p><strong>Fix:</strong> make the decrement conditional and branch on the affected-row count.</p>
+</div>
+```
+
+- **No edge border — ever.** A thick colored left border is a [tell](../SKILL.md#avoid--the-default-artifact-tells). The translucent wash alone carries the meaning and layers safely on any surface (cream, paper white, opt-in dark).
+- **Color is not the message.** Lead with a bolded word ("Risk:", "Fix:", "Note:") so the meaning survives grayscale print and screen readers.
+- Body text stays `--text` — the wash is background seasoning, never a text color.
+- Sparingly: a callout interrupts reading. More than one or two per section means the prose needs restructuring, not more boxes.
+- Add `.avoid-break` so a callout never splits across printed pages.
