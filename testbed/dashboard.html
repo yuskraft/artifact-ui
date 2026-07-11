@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulse — Admin</title>
+<style>
+/* artifact.css — AUTO-GENERATED from tokens/tokens.css + styles/base.css.
+   Do not edit by hand. Run: node scripts/build.mjs */
+:root {
+  color-scheme: light dark;
+  --hue-accent: 35;
+  --hue-neutral: 70;
+  --bg:           oklch(0.972 0.016 var(--hue-neutral));
+  --surface:      oklch(0.99  0.008 var(--hue-neutral));
+  --surface-sunk: oklch(0.95  0.014 var(--hue-neutral));
+  --border:       oklch(0.90  0.012 var(--hue-neutral));
+  --border-strong:oklch(0.84  0.014 var(--hue-neutral));
+  --text:         oklch(0.28 0.014 var(--hue-neutral));
+  --text-2:       oklch(0.48 0.013 var(--hue-neutral));
+  --text-muted:   oklch(0.54 0.012 var(--hue-neutral));
+  --accent:       oklch(0.55 0.14 var(--hue-accent));
+  --accent-hover: oklch(0.50 0.15 var(--hue-accent));
+  --accent-quiet: oklch(0.93 0.05 var(--hue-accent));
+  --on-accent:    oklch(0.99 0.015 var(--hue-accent));
+  --danger:       oklch(0.53 0.17 25);
+  --ok:           oklch(0.52 0.12 150);
+  --tint-peach:    oklch(0.93 0.05 40);
+  --tint-rose:     oklch(0.92 0.05 0);
+  --tint-sage:     oklch(0.93 0.045 145);
+  --tint-lavender: oklch(0.93 0.05 295);
+  --tint-sky:      oklch(0.93 0.05 235);
+  --font-display: "Plus Jakarta Sans", ui-rounded, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --text-xs:  clamp(0.75rem,  0.72rem + 0.15vw, 0.8125rem);
+  --text-sm:  clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);
+  --text-base:clamp(1rem,     0.96rem + 0.2vw,  1.0625rem);
+  --text-lg:  clamp(1.125rem, 1.06rem + 0.3vw,  1.25rem);
+  --text-xl:  clamp(1.375rem, 1.25rem + 0.6vw,  1.625rem);
+  --text-2xl: clamp(1.75rem,  1.5rem + 1.2vw,   2.25rem);
+  --text-3xl: clamp(2.25rem,  1.8rem + 2.2vw,   3.25rem);
+  --text-4xl: clamp(2.75rem,  2rem + 3.6vw,     4.5rem);
+  --leading-tight: 1.15;
+  --leading-snug:  1.35;
+  --leading-body:  1.65;
+  --tracking-tight: -0.02em;
+  --tracking-caps: 0.08em;
+  --measure: 68ch;
+  --space-1: 0.25rem;  --space-2: 0.5rem;   --space-3: 0.75rem;
+  --space-4: 1rem;     --space-5: 1.5rem;   --space-6: 2rem;
+  --space-7: 3rem;     --space-8: 4rem;     --space-9: 6rem;  --space-10: 8rem;
+  --radius-sm: 6px;    --radius-md: 10px;   --radius-lg: 16px;
+  --radius-xl: 24px;   --radius-full: 999px;
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.04), 0 1px 1px oklch(0 0 0 / 0.03);
+  --shadow-md: 0 2px 4px oklch(0 0 0 / 0.04), 0 4px 12px oklch(0 0 0 / 0.06);
+  --shadow-lg: 0 4px 8px oklch(0 0 0 / 0.04), 0 16px 32px oklch(0 0 0 / 0.10);
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 180ms;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:            oklch(0.17  0.012 var(--hue-neutral));
+    --surface:       oklch(0.205 0.014 var(--hue-neutral));
+    --surface-sunk:  oklch(0.15  0.012 var(--hue-neutral));
+    --border:        oklch(0.27  0.014 var(--hue-neutral));
+    --border-strong: oklch(0.34  0.016 var(--hue-neutral));
+    --text:        oklch(0.93 0.008 var(--hue-neutral));
+    --text-2:      oklch(0.73 0.01  var(--hue-neutral));
+    --text-muted:  oklch(0.60 0.01  var(--hue-neutral));
+    --accent:       oklch(0.7  0.16 var(--hue-accent));
+    --accent-hover: oklch(0.76 0.16 var(--hue-accent));
+    --accent-quiet: oklch(0.28 0.06 var(--hue-accent));
+    --on-accent:    oklch(0.16 0.02 var(--hue-accent));
+    --danger:       oklch(0.72 0.15 25);
+    --ok:           oklch(0.74 0.12 150);
+    --tint-peach:    oklch(0.30 0.05 40);
+    --tint-rose:     oklch(0.30 0.05 0);
+    --tint-sage:     oklch(0.30 0.045 145);
+    --tint-lavender: oklch(0.30 0.05 295);
+    --tint-sky:      oklch(0.30 0.05 235);
+    --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
+    --shadow-md: 0 2px 8px oklch(0 0 0 / 0.35);
+    --shadow-lg: 0 8px 30px oklch(0 0 0 / 0.45);
+  }
+}
+* { box-sizing: border-box; }
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3 { font-family: var(--font-display); line-height: var(--leading-tight); font-weight: 650; margin: 0; }
+h1 { font-size: var(--text-3xl); letter-spacing: var(--tracking-tight); }
+h2 { font-size: var(--text-xl); }
+h3 { font-size: var(--text-lg); }
+p { margin: 0; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+::selection { background: var(--accent-quiet); }
+.container { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: var(--space-5); }
+.prose { max-width: var(--measure); }
+.prose > * + * { margin-block-start: var(--space-4); }
+.stack   { display: flex; flex-direction: column; gap: var(--space-4); }
+.cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.list { display: flex; flex-direction: column; }
+.list__row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-5);
+  padding-block: var(--space-3);
+  border-block-end: 1px solid var(--border);
+}
+.list__row:last-child { border-block-end: none; }
+.list__label { color: var(--text-2); }
+.list__value { font-weight: 600; font-variant-numeric: tabular-nums; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+.btn {
+  font: inherit; font-weight: 550; cursor: pointer;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  background: var(--surface); color: var(--text);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.btn:hover { background: var(--surface-sunk); }
+.btn--accent { background: var(--accent); border-color: transparent; color: var(--on-accent); }
+.btn--accent:hover { background: var(--accent-hover); }
+.chip {
+  font-size: var(--text-sm); color: var(--text-2);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border); border-radius: var(--radius-full);
+}
+.muted { color: var(--text-muted); font-size: var(--text-sm); }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: start; padding: var(--space-2) var(--space-3); }
+th {
+  font-size: var(--text-xs); font-weight: 600; color: var(--text-2);
+  text-transform: uppercase; letter-spacing: var(--tracking-caps);
+  border-block-end: 1px solid var(--border-strong);
+}
+td { border-block-end: 1px solid var(--border); }
+tbody tr:last-child td { border-block-end: none; }
+.table--striped tbody tr:nth-child(even) { background: var(--surface-sunk); }
+.num { text-align: end; font-variant-numeric: tabular-nums; }
+:where(input, textarea, select) {
+  font: inherit; color: var(--text);
+  background: var(--surface-sunk);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+}
+:where(input, textarea, select):focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent;
+}
+.field { display: flex; flex-direction: column; gap: var(--space-1); }
+.field__label { color: var(--text-2); font-size: var(--text-sm); font-weight: 500; }
+.field__msg { color: var(--text-muted); font-size: var(--text-sm); }
+.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--space-4); }
+.field--error :where(input, textarea, select) { border-color: var(--danger); }
+.field--error .field__msg { color: var(--danger); }
+.field--ok :where(input, textarea, select) { border-color: var(--ok); }
+.field--ok .field__msg { color: var(--ok); }
+@media print {
+  @page { size: A4; margin: 18mm; }
+  :root {
+    --bg: #fff;
+    --surface: #fff;
+    --surface-sunk: #f4f4f4;
+    --border: #d8d8d8;
+    --border-strong: #b8b8b8;
+    --text: #16130f;
+    --text-2: #3a352f;
+    --text-muted: #6a645c;
+    --shadow-sm: none; --shadow-md: none; --shadow-lg: none;
+  }
+  body { background: #fff; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none !important; }
+  .card, .list__row, figure, tr, .avoid-break { break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; }
+  nav, .no-print, [data-no-print] { display: none !important; }
+  a { color: inherit; text-decoration: none; }
+}
+
+/* ── app shell: sidebar nav + contained content column ── */
+.app { display: grid; grid-template-columns: 1fr; min-height: 100vh; }
+@media (min-width: 56rem) { .app { grid-template-columns: 16rem 1fr; } }
+.nav { padding: var(--space-5); border-inline-end: 1px solid var(--border); display: none; }
+@media (min-width: 56rem) { .nav { display: block; } }
+.nav__brand { font-family: var(--font-display); font-weight: 700; padding: var(--space-2) var(--space-3); margin-block-end: var(--space-4); }
+.nav a { display: flex; gap: var(--space-3); align-items: center; padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); color: var(--text-2); text-decoration: none; transition: background var(--dur) var(--ease); }
+.nav a:hover { background: var(--surface-sunk); }
+.nav a[aria-current="true"] { background: var(--accent-quiet); color: var(--accent); font-weight: 550; }
+.main { padding: var(--space-7) var(--space-6); }
+.main__inner { max-width: 48rem; }
+.main h1 { font-size: var(--text-xl); }
+.main h2 { font-size: var(--text-base); }
+</style>
+</head>
+<body>
+  <div class="app">
+    <aside class="nav">
+      <div class="nav__brand">Pulse</div>
+      <div class="stack" style="gap: var(--space-1)">
+        <a href="#" aria-current="true">Overview</a>
+        <a href="#">Habits</a>
+        <a href="#">Members</a>
+        <a href="#">Settings</a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="main__inner stack" style="gap: var(--space-6)">
+        <div class="cluster" style="justify-content: space-between">
+          <h1>Overview</h1>
+          <button class="btn">Export CSV</button>
+        </div>
+
+        <section class="stack" style="gap: var(--space-3)">
+          <h2>This week</h2>
+          <div class="list">
+            <div class="list__row"><span class="list__label">Active members</span><span class="list__value">4,182</span></div>
+            <div class="list__row"><span class="list__label">Habits tracked</span><span class="list__value">12,940</span></div>
+            <div class="list__row"><span class="list__label">7-day retention</span><span class="list__value">63%</span></div>
+            <div class="list__row"><span class="list__label">Avg. check-ins / member / day</span><span class="list__value">3.1</span></div>
+          </div>
+        </section>
+
+        <section class="stack" style="gap: var(--space-3)">
+          <h2>Top habits</h2>
+          <table>
+            <thead>
+              <tr><th>Habit</th><th>Category</th><th class="num">Members</th><th class="num">Completion</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Morning pages</td><td><span class="chip" style="background: var(--tint-lavender); border-color: transparent">Mind</span></td><td class="num">1,208</td><td class="num">78%</td></tr>
+              <tr><td>10k steps</td><td><span class="chip" style="background: var(--tint-sage); border-color: transparent">Health</span></td><td class="num">986</td><td class="num">64%</td></tr>
+              <tr><td>Read 20 pages</td><td><span class="chip" style="background: var(--tint-sky); border-color: transparent">Learning</span></td><td class="num">742</td><td class="num">71%</td></tr>
+              <tr><td>No spend day</td><td><span class="chip" style="background: var(--tint-peach); border-color: transparent">Money</span></td><td class="num">510</td><td class="num">52%</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="stack" style="gap: var(--space-3)">
+          <h2>Featured journey</h2>
+          <div class="card cluster" style="gap: var(--space-4)">
+            <div style="width: 8rem; aspect-ratio: 16/10; border-radius: var(--radius-sm); background: linear-gradient(135deg, var(--tint-peach), var(--tint-lavender)); flex: none"></div>
+            <div class="stack" style="gap: var(--space-1)">
+              <strong style="font-family: var(--font-display)">Two weeks of morning pages</strong>
+              <span class="muted">Guided journey · 14 days · 1,208 members enrolled</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
