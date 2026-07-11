@@ -14,7 +14,7 @@ role: Product Designer
 email: you@example.com
 phone: "+994 ..."
 location: Baku, Azerbaijan
-accent_hue: 35      # maps to --hue-accent
+accent_hue: 32      # maps to --hue-accent
 language: az         # default document language (az / en / …)
 tone: warm           # freeform hint for copy
 ---

@@ -28,6 +28,9 @@ format is near-fixed; otherwise a blocks recipe.
 - Screen-first app/marketing → [examples/dashboard](../examples/dashboard.md) or [landing](../examples/landing.md)
 
 Every template: paste `dist/artifact.css` into the `<style>`, then fill.
+
+Paper documents (resume, ərizə, letter) carry `data-paper` on `<html>` — they render as a white
+sheet on screen, not the cream app background. Keep the attribute when adapting them.
 Print-ready docs pick up A4 + white-paper output from `base.css`'s `@media print` automatically —
 the user exports with the browser's "Save as PDF".
 

@@ -16,7 +16,9 @@
  */
 
 :root {
-  color-scheme: light dark;
+  /* Light is the DEFAULT — artifacts render light regardless of the OS setting.
+     Dark is an explicit opt-in: set data-theme="dark" on the root element. */
+  color-scheme: light;
 
   /* ── Color ── warm pastel: one accent hue, one warm neutral, derived by moving L.
    *
@@ -32,21 +34,27 @@
    * - Gradients: soft warm low-chroma washes only (a faint radial behind a hero).
    *   A garish multi-stop gradient is a tell. Never a rainbow.
    */
-  --hue-accent: 35;         /* the ONE knob: swap this to re-theme everything (35 = soft coral) */
-  --hue-neutral: 70;        /* warm cream tint; reads inviting, never clinical gray */
+  /* Source palette (the brand hexes these tokens realize):
+   *   #fff9db cream → --bg · #252525 ink → --text · #f19a88 coral → accent family
+   *   (exact in dark mode; same hue darkened for AA in light) · #78aba8 teal → --ok
+   *   (exact in dark; darkened in light) · #fdeadc → --tint-peach · #e1eddf →
+   *   --tint-sage · #f0e3f4 → --tint-lavender · #d3dde6 → --tint-sky · #f6e39e +
+   *   #fcdc94 → --tint-butter · #ef9c66 / #c8cfa0 fold into the peach / sage hues. */
+  --hue-accent: 32;         /* the ONE knob: swap this to re-theme everything (32 = #f19a88 coral) */
+  --hue-neutral: 98;        /* warm cream tint (#fff9db); reads inviting, never clinical gray */
 
   /* Light theme (the default). Dark theme overrides these below. */
-  --bg:           oklch(0.972 0.016 var(--hue-neutral));  /* warm cream, not white */
-  --surface:      oklch(0.99  0.008 var(--hue-neutral));  /* soft off-white, sits above bg */
-  --surface-sunk: oklch(0.95  0.014 var(--hue-neutral));  /* wells, code, inputs */
-  --border:       oklch(0.90  0.012 var(--hue-neutral));
-  --border-strong:oklch(0.84  0.014 var(--hue-neutral));
+  --bg:           oklch(0.979 0.040 var(--hue-neutral));  /* #fff9db cream, not white */
+  --surface:      oklch(0.99  0.015 var(--hue-neutral));  /* soft off-white, sits above bg */
+  --surface-sunk: oklch(0.952 0.045 var(--hue-neutral));  /* wells, code, inputs */
+  --border:       oklch(0.90  0.040 var(--hue-neutral));
+  --border-strong:oklch(0.84  0.040 var(--hue-neutral));
 
-  --text:         oklch(0.28 0.014 var(--hue-neutral));  /* warm near-black, never #000 */
-  --text-2:       oklch(0.48 0.013 var(--hue-neutral));  /* secondary / labels */
-  --text-muted:   oklch(0.54 0.012 var(--hue-neutral));  /* captions, meta, placeholder — AA on --bg */
+  --text:         oklch(0.264 0 var(--hue-neutral));      /* #252525 ink, never #000 */
+  --text-2:       oklch(0.48 0.013 var(--hue-neutral));   /* secondary / labels */
+  --text-muted:   oklch(0.54 0.012 var(--hue-neutral));   /* captions, meta, placeholder — AA on --bg */
 
-  --accent:       oklch(0.55 0.14 var(--hue-accent));    /* soft coral, AA for white text and links */
+  --accent:       oklch(0.55 0.14 var(--hue-accent));    /* #f19a88 coral hue, darkened for AA text/links */
   --accent-hover: oklch(0.50 0.15 var(--hue-accent));
   --accent-quiet: oklch(0.93 0.05 var(--hue-accent));    /* peachy tint behind accent text */
   --on-accent:    oklch(0.99 0.015 var(--hue-accent));   /* near-white on a solid accent */
@@ -54,18 +62,19 @@
   /* State colors — form validation, alerts. AA on --bg like the accent.
      Use sparingly; the accent still owns the primary action. */
   --danger:       oklch(0.53 0.17 25);
-  --ok:           oklch(0.52 0.12 150);
+  --ok:           oklch(0.50 0.09 191);                  /* #78aba8 teal hue, darkened for AA */
 
   /* Optional pastel tints — low-chroma washes for tags, soft section
      backgrounds, gentle category coding. Seasoning, not the meal: behind muted
      text, reached for rarely; never competing with the one action accent.
      Like --accent-quiet they flip with the mode (light washes in light mode,
      deep washes in dark), so tinted chips keep readable text in both. */
-  --tint-peach:    oklch(0.93 0.05 40);
-  --tint-rose:     oklch(0.92 0.05 0);
-  --tint-sage:     oklch(0.93 0.045 145);
-  --tint-lavender: oklch(0.93 0.05 295);
-  --tint-sky:      oklch(0.93 0.05 235);
+  --tint-peach:    oklch(0.948 0.028 59);   /* #fdeadc */
+  --tint-rose:     oklch(0.93 0.05 25);     /* coral-red wash — severity, not in-brand pastel */
+  --tint-sage:     oklch(0.933 0.023 141);  /* #e1eddf */
+  --tint-lavender: oklch(0.931 0.027 318);  /* #f0e3f4 */
+  --tint-sky:      oklch(0.893 0.016 245);  /* #d3dde6 */
+  --tint-butter:   oklch(0.915 0.090 95);   /* #f6e39e */
 
   /* ── Type ── system-first stacks: self-contained by default, so artifacts render
    *   identically inside Claude's sandbox (its CSP blocks font CDNs). The named web
@@ -157,8 +166,11 @@
   --dur: 180ms;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+/* Dark theme — OPT-IN only, never automatic. Add data-theme="dark" to <html>
+   (or the artifact root) to activate; without it, artifacts stay light even
+   when the OS is dark. */
+:root[data-theme="dark"] {
+    color-scheme: dark;
     --bg:            oklch(0.17  0.012 var(--hue-neutral));  /* never #000 */
     --surface:       oklch(0.205 0.014 var(--hue-neutral));  /* lighter than bg = raised */
     --surface-sunk:  oklch(0.15  0.012 var(--hue-neutral));
@@ -169,25 +181,25 @@
     --text-2:      oklch(0.73 0.01  var(--hue-neutral));
     --text-muted:  oklch(0.60 0.01  var(--hue-neutral));
 
-    --accent:       oklch(0.7  0.16 var(--hue-accent));      /* lift L in dark so it glows */
-    --accent-hover: oklch(0.76 0.16 var(--hue-accent));
+    --accent:       oklch(0.77 0.108 var(--hue-accent));     /* #f19a88 exact — lifted L glows in dark */
+    --accent-hover: oklch(0.82 0.11 var(--hue-accent));
     --accent-quiet: oklch(0.28 0.06 var(--hue-accent));
     --on-accent:    oklch(0.16 0.02 var(--hue-accent));
 
     --danger:       oklch(0.72 0.15 25);
-    --ok:           oklch(0.74 0.12 150);
+    --ok:           oklch(0.70 0.054 191);                   /* #78aba8 exact */
 
-    --tint-peach:    oklch(0.30 0.05 40);
-    --tint-rose:     oklch(0.30 0.05 0);
-    --tint-sage:     oklch(0.30 0.045 145);
-    --tint-lavender: oklch(0.30 0.05 295);
-    --tint-sky:      oklch(0.30 0.05 235);
+    --tint-peach:    oklch(0.30 0.05 59);
+    --tint-rose:     oklch(0.30 0.05 25);
+    --tint-sage:     oklch(0.30 0.045 141);
+    --tint-lavender: oklch(0.30 0.05 318);
+    --tint-sky:      oklch(0.30 0.04 245);
+    --tint-butter:   oklch(0.30 0.055 95);
 
     /* In dark, shadows barely read — elevate with surface lightness + border instead. */
     --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
     --shadow-md: 0 2px 8px oklch(0 0 0 / 0.35);
     --shadow-lg: 0 8px 30px oklch(0 0 0 / 0.45);
-  }
 }
 
 * { box-sizing: border-box; }

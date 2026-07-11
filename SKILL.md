@@ -68,7 +68,8 @@ Hunt these before returning:
 - **Garish gradients** — rainbow or high-chroma multi-stop fills. (Soft warm low-chroma washes are fine.)
 - **Inconsistent radii** — a sharp card next to a round button; nested corners that aren't concentric.
 - **Everything centered** — center-aligned body text and forms.
-- **Pure `#000` / `#fff`** and harsh single-layer shadows.
+- **Pure `#000` / `#fff`** and harsh single-layer shadows. (Exception: paper documents — resume, ərizə, letter — sit on a white sheet via `data-paper` on the root.)
+- **Edge-border callouts** — a thick colored left/edge border on a note or warning box. Carry the meaning with a translucent tinted wash (e.g. `color-mix(in srgb, var(--danger) 9%, transparent)`) instead; no border.
 - **Accent overuse** — color on every element, so nothing stands out.
 - **Hardcoded values** — any px/hex/radius not from a token, which guarantees drift.
 - **One flat slab** — no surface ladder, no depth, no grouping.
@@ -94,7 +95,7 @@ The artifact is done only when every line holds:
 - [ ] Spacing is generous and proportional; grouping is legible from the gaps alone.
 - [ ] Palette is warm: one soft coral accent used sparingly; pastel tints (if any) stay quiet.
 - [ ] Radii match element size and nest concentrically (`outer − gap`).
-- [ ] Light **and** dark both look intentional (checked the dark block, not just inverted).
+- [ ] Artifacts default to **light** (dark never activates on its own); if dark was opted in via `data-theme="dark"`, its rendering looks intentional (checked the dark block, not just inverted).
 - [ ] For a document type: routed to the right template, filled its contract, **no `{{TOKEN}}` or placeholder left**, gaps marked `[DATA NEEDED]`; identity pulled from the brand profile if present.
 - [ ] Print-ready docs (resume, ərizə, report) checked in print/PDF: A4, white-paper neutralization, no bad page breaks.
 - [ ] None of the [tells](#avoid--the-default-artifact-tells) are present.

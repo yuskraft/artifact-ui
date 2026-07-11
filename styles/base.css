@@ -110,6 +110,20 @@ tbody tr:last-child td { border-block-end: none; }
 .field--ok .field__msg { color: var(--ok); }
 
 /*
+ * ── Paper documents on screen ────────────────────────────────────────────────
+ * Resume and ərizə read as a white sheet on SCREEN too, not the cream app
+ * background — set data-paper on <html> (the templates already do). Print
+ * below neutralizes further (ink-frugal text) for every document type.
+ */
+:root[data-paper] {
+  --bg: #fff;
+  --surface: #fff;
+  --surface-sunk: #f4f4f4;
+  --border: #d8d8d8;
+  --border-strong: #b8b8b8;
+}
+
+/*
  * ── Print / PDF ──────────────────────────────────────────────────────────────
  * The one place print output is defined. Documents meant to be printed (resume,
  * ərizə, reports) pick up A4 pages, white paper, ink-frugal near-black text, and a

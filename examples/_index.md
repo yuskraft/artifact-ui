@@ -14,6 +14,6 @@ layout-specific CSS. The design rules apply to all of them.
 For structured **documents** (resume, ərizə, one-pager, report, timeline) use
 [templates](../templates/_index.md) instead — those are copyable and print-ready.
 
-Every example must look intentional in **both modes** — the tokens flip automatically with
-`prefers-color-scheme`, but check the dark rendering deliberately (surfaces lighter than bg,
-accent glowing, no shadow soup), don't assume the inversion worked.
+Examples render **light by default** — dark is an explicit opt-in (`data-theme="dark"` on the
+root), never automatic. If an example opts in, check the dark rendering deliberately (surfaces
+lighter than bg, accent glowing, no shadow soup), don't assume the inversion worked.
