@@ -44,7 +44,7 @@
   --hue-neutral: 98;        /* warm cream tint (#fff9db); reads inviting, never clinical gray */
 
   /* Light theme (the default). Dark theme overrides these below. */
-  --bg:           oklch(0.979 0.040 var(--hue-neutral));  /* #fff9db cream, not white */
+  --bg:           oklch(0.965 0.008 var(--hue-neutral));  /* #e6e6de warm gray, not white */
   --surface:      oklch(0.99  0.015 var(--hue-neutral));  /* soft off-white, sits above bg */
   --surface-sunk: oklch(0.952 0.045 var(--hue-neutral));  /* wells, code, inputs */
   --border:       oklch(0.90  0.040 var(--hue-neutral));

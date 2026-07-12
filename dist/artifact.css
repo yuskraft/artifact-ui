@@ -4,7 +4,7 @@
   color-scheme: light;
   --hue-accent: 32;
   --hue-neutral: 98;
-  --bg:           oklch(0.979 0.040 var(--hue-neutral));
+  --bg:           oklch(0.965 0.008 var(--hue-neutral));
   --surface:      oklch(0.99  0.015 var(--hue-neutral));
   --surface-sunk: oklch(0.952 0.045 var(--hue-neutral));
   --border:       oklch(0.90  0.040 var(--hue-neutral));
