@@ -145,6 +145,29 @@ tbody tr:last-child td { border-block-end: none; }
 .field--ok :where(input, textarea, select) { border-color: var(--ok); }
 .field--ok .field__msg { color: var(--ok); }
 
+/* ── selectbox ── a wrapped <select> that renders identically on every browser
+   and OS: appearance none strips the native chrome; the chevron is drawn in CSS
+   with token colors (no OS arrow, no embedded image). A bare <select> still
+   gets the shared input styles but keeps the platform arrow. */
+.select { position: relative; display: inline-flex; }
+.select select {
+  appearance: none;
+  width: 100%;
+  padding-inline-end: var(--space-6); /* room for the chevron */
+  cursor: pointer;
+}
+.select::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: var(--space-3);
+  inset-block-start: 50%;
+  width: 0.45em; height: 0.45em;
+  border-inline-end: 2px solid var(--text-2);
+  border-block-end: 2px solid var(--text-2);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
 /* ── callout ── a note / warning / success aside. NO edge border — a translucent
    wash alone carries the meaning, and layers safely on any surface (cream,
    paper white, opt-in dark). Docs: components/_index.md#callout */

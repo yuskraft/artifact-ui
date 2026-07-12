@@ -2,7 +2,7 @@
    Do not edit by hand. Run: node scripts/build.mjs */
 :root {
   color-scheme: light;
-  --hue-accent: 32;
+  --hue-accent: 129;
   --hue-neutral: 98;
   --bg:           oklch(0.965 0.008 var(--hue-neutral));
   --surface:      oklch(0.99  0.015 var(--hue-neutral));
@@ -24,6 +24,7 @@
   --tint-lavender: oklch(0.931 0.027 318);
   --tint-sky:      oklch(0.893 0.016 245);
   --tint-butter:   oklch(0.915 0.090 95);
+  --tint-slate:    oklch(0.20 0.012 245);
   --font-display: "Plus Jakarta Sans", ui-rounded, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
@@ -193,6 +194,24 @@ tbody tr:last-child td { border-block-end: none; }
 .field--error .field__msg { color: var(--danger); }
 .field--ok :where(input, textarea, select) { border-color: var(--ok); }
 .field--ok .field__msg { color: var(--ok); }
+.select { position: relative; display: inline-flex; }
+.select select {
+  appearance: none;
+  width: 100%;
+  padding-inline-end: var(--space-6);
+  cursor: pointer;
+}
+.select::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: var(--space-3);
+  inset-block-start: 50%;
+  width: 0.45em; height: 0.45em;
+  border-inline-end: 2px solid var(--text-2);
+  border-block-end: 2px solid var(--text-2);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
 .callout {
   background: color-mix(in srgb, var(--text) 5%, transparent);
   border-radius: var(--radius-md);

@@ -13,6 +13,7 @@ lives in [`../styles/base.css`](../styles/base.css). Compose them into
 | [Record list](#record-list) | `.records`, `.record`, `.records--grid` | A collection of records/entities — the default over a table. |
 | [Table](#table) | `table`, `.num`, `.table--striped` | Dense many-column comparison. Traditional hairline rules. |
 | [Field](#field) | `.field`, `input`/`textarea`/`select` | Form inputs with label + message. |
+| [Selectbox](#selectbox) | `.select` | A dropdown that looks identical on every browser and OS. |
 | [Form patterns](#form-patterns) | `.form-row`, `.field--error`, `.field--ok` | Multi-field layout and validation states. |
 | [Callout](#callout) | `.callout`, `.callout--warn`, `.callout--ok` | A note, warning, or success aside inside a document. |
 
@@ -85,6 +86,7 @@ A raised surface — **only for grouped or media-rich content, never for plain m
 ```
 
 - A card earns its border when it holds an image, a mixed cluster, or a distinct object. For simple label→value data use [list](#list) instead.
+- **Try everything else first.** The default answer to "how do I present this?" is not a card: running text → plain prose in a `--measure` column; parallel points → a bullet list; label→value pairs → a [list](#list); show/hide detail → a native `<details>` accordion; a collection of entities → a [record list](#record-list). Reach for a card only when none of those fit. A page that is wall-to-wall cards has no hierarchy — nothing raised means anything when everything is raised.
 - **Nest corners concentrically:** inner radius = outer − padding, but only while the padding is *smaller* than the outer radius (e.g. inside `--space-3` padding, `calc(var(--radius-lg) - var(--space-3))` ≈ 4px). The card's own `--space-6` padding (32px) exceeds `--radius-lg` (16px), so a concentric inner corner is ≤ 0 — give nested elements a small fixed radius (`--radius-sm`) or none; never a negative `calc()`, which is invalid CSS.
 - Elevation has meaning — a card sits above the page. Don't shadow flat content.
 
@@ -173,6 +175,33 @@ override).
 - **Focus is visible** — a 2px `--accent` ring; never `outline: none` alone.
 - Every input gets a `.field__label`; never a bare placeholder as the only label.
 - Keep forms left-aligned in a contained column; don't center form fields.
+
+## Selectbox
+
+A `<select>` wrapped so it renders identically everywhere — no macOS/Windows/browser-native
+chrome. CSS: `.select` (wrapper); the well, border, radius, and focus ring come from the shared
+input styles.
+
+```html
+<label class="field">
+  <span class="field__label">Language</span>
+  <span class="select">
+    <select>
+      <option>English</option>
+      <option>Azərbaycanca</option>
+    </select>
+  </span>
+</label>
+```
+
+- **Always wrap in `.select`.** `appearance: none` strips the native chrome and the chevron is
+  drawn in CSS with `--text-2` — no OS arrow, no embedded image. A bare `<select>` still gets the
+  base input styles but keeps the platform arrow.
+- Pairs with [field](#field) for label + message like any input; validation states
+  (`.field--error`, `.field--ok`) apply unchanged.
+- The wrapper stretches inside a `.form-row` (the inner select is `width: 100%`).
+- Only the closed control is stylable — the open dropdown list stays native, which is fine: it's
+  the browser's own overlay, not part of the page.
 
 ## Form patterns
 

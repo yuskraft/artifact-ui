@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Artifact UI — a design system Claude reads</title>
+<title>Artifact UI — a design system the model reads</title>
 <style>
 /* artifact.css — AUTO-GENERATED from tokens/tokens.css + styles/base.css.
    Do not edit by hand. Run: node scripts/build.mjs */
 :root {
   color-scheme: light;
-  --hue-accent: 32;
+  --hue-accent: 129;
   --hue-neutral: 98;
   --bg:           oklch(0.965 0.008 var(--hue-neutral));
   --surface:      oklch(0.99  0.015 var(--hue-neutral));
@@ -31,6 +31,7 @@
   --tint-lavender: oklch(0.931 0.027 318);
   --tint-sky:      oklch(0.893 0.016 245);
   --tint-butter:   oklch(0.915 0.090 95);
+  --tint-slate:    oklch(0.20 0.012 245);
   --font-display: "Plus Jakarta Sans", ui-rounded, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
@@ -200,6 +201,25 @@ tbody tr:last-child td { border-block-end: none; }
 .field--error .field__msg { color: var(--danger); }
 .field--ok :where(input, textarea, select) { border-color: var(--ok); }
 .field--ok .field__msg { color: var(--ok); }
+.select { position: relative; display: inline-flex; }
+.select select {
+  appearance: none;
+  width: 100%;
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-3);
+  padding-inline-end: var(--space-6);
+  cursor: pointer;
+}
+.select::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: var(--space-3);
+  inset-block-start: 50%;
+  width: 0.45em; height: 0.45em;
+  border-inline-end: 2px solid var(--text-2);
+  border-block-end: 2px solid var(--text-2);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
 .callout {
   background: color-mix(in srgb, var(--text) 5%, transparent);
   border-radius: var(--radius-md);
@@ -237,12 +257,25 @@ tbody tr:last-child td { border-block-end: none; }
 }
 
 /* ── page-specific (tokens only) ── */
-.page { padding-block: var(--space-8) var(--space-9); display: flex; flex-direction: column; gap: var(--space-9); }
-.hero { display: flex; flex-direction: column; gap: var(--space-5); max-width: var(--measure); }
-.hero p.lead { font-size: var(--text-lg); color: var(--text-2); }
-.kicker { color: var(--accent); font-weight: 600; font-size: var(--text-sm); }
+.lang-bar { display: flex; justify-content: flex-end; align-items: center; gap: var(--space-2); padding-block-start: var(--space-5); }
+
+.hero { text-align: center; padding-block: var(--space-9) var(--space-10); position: relative; overflow: clip; }
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0.5;
+  background: radial-gradient(60% 60% at 50% 0%, var(--accent-quiet), transparent 70%);
+}
+.hero .kicker { color: var(--accent); font-weight: 600; font-size: var(--text-sm); }
+.hero h1 { font-size: var(--text-4xl); max-width: 18ch; margin-inline: auto; margin-block-start: var(--space-4); }
+.hero p.lead { font-size: var(--text-lg); color: var(--text-2); max-width: 46ch; margin: var(--space-5) auto 0; }
+.hero .cluster { justify-content: center; margin-block-start: var(--space-6); }
+
+.page { display: flex; flex-direction: column; gap: var(--space-9); padding-block-end: var(--space-9); }
 .section { display: flex; flex-direction: column; gap: var(--space-5); }
 .section > .section__intro { color: var(--text-2); max-width: var(--measure); }
+
+.points { margin: 0; padding-inline-start: 1.2em; max-width: var(--measure); display: flex; flex-direction: column; gap: var(--space-3); }
+.points li::marker { color: var(--accent); }
+
 .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--space-4); }
 .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); gap: var(--space-3); }
 .swatch { display: flex; flex-direction: column; gap: var(--space-2); }
@@ -252,8 +285,24 @@ tbody tr:last-child td { border-block-end: none; }
 }
 .swatch__name { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-2); }
 .type-sample { display: flex; flex-direction: column; gap: var(--space-3); }
-.demo { display: flex; flex-direction: column; gap: var(--space-4); }
 .demo__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); gap: var(--space-4); }
+
+.faq { max-width: var(--measure); display: flex; flex-direction: column; gap: var(--space-2); }
+.faq details {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+}
+.faq summary {
+  cursor: pointer; font-weight: 600;
+  padding-block: var(--space-1);
+}
+.faq summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--radius-sm); }
+.faq details[open] summary { margin-block-end: var(--space-2); }
+.faq details p { color: var(--text-2); }
+.faq details p + p { margin-block-start: var(--space-2); }
+
 code {
   font-family: var(--font-mono); font-size: var(--text-sm);
   background: var(--surface-sunk);
@@ -276,48 +325,62 @@ footer { color: var(--text-muted); font-size: var(--text-sm); }
 </style>
 </head>
 <body>
+<div class="container lang-bar no-print">
+  <span class="select">
+    <select id="lang-select" aria-label="Language">
+      <option value="en" selected>EN</option>
+      <option value="az">AZE</option>
+    </select>
+  </span>
+</div>
+
+<!-- Hero — the one sanctioned centered moment -->
+<header class="container hero">
+  <span class="kicker">artifact-styling · works with GPT, Codex, Claude Code, Gemini</span>
+  <h1>A design system the model reads, not a library you install</h1>
+  <p class="lead">Artifact UI turns default-looking HTML artifacts into composed ones. Your agent
+  reads this repo — tokens, primitives, blocks, templates — and ships one self-contained file
+  that renders with the network unplugged.</p>
+  <div class="cluster">
+    <a class="btn btn--accent" href="#system" style="text-decoration:none">Explore the system</a>
+    <a class="btn" href="#components" style="text-decoration:none">See the components</a>
+  </div>
+  <div class="cluster">
+    <span class="chip">Zero dependencies</span>
+    <span class="chip">One-file output</span>
+    <span class="chip">CSP-safe</span>
+    <span class="chip">~2.7k tokens compiled</span>
+  </div>
+</header>
+
 <div class="container page">
 
-  <!-- Hero -->
-  <header class="hero">
-    <span class="kicker">artifact-styling · a Claude skill</span>
-    <h1>A design system the model reads, not a library you install</h1>
-    <p class="lead">Artifact UI turns default-looking HTML artifacts into composed ones. Claude reads
-    this repo — tokens, primitives, blocks, templates — and ships one self-contained file that
-    renders with the network unplugged.</p>
-    <div class="cluster">
-      <a class="btn btn--accent" href="#system" style="text-decoration:none">Explore the system</a>
-      <a class="btn" href="#components" style="text-decoration:none">See the components</a>
+  <!-- Why — plain prose, no boxes -->
+  <section class="section" id="why">
+    <h2>Default output is the tell that no one designed it</h2>
+    <div class="prose">
+      <p>Every model can write HTML. Almost none of it looks intentional: browser-default type,
+      full-width paragraphs, a rainbow of one-off hexes, and a bordered box around everything.
+      Readers can't say what's wrong — they just sense nobody cared.</p>
+      <p>Artifact UI fixes this at the source. Instead of styling each artifact from scratch, the
+      model reads one small design system and composes from it. The same scale, the same accent,
+      the same handling of space and corners — every run, no matter the content. Coherence stops
+      being luck.</p>
     </div>
-    <div class="cluster">
-      <span class="chip">Zero dependencies</span>
-      <span class="chip">One-file output</span>
-      <span class="chip">CSP-safe</span>
-      <span class="chip">~2.6k tokens compiled</span>
-    </div>
-  </header>
+  </section>
 
-  <!-- Purpose -->
+  <!-- Purpose — a bullet list, not three cards -->
   <section class="section" id="purpose">
     <h2>Three words run through everything</h2>
-    <div class="pillars">
-      <div class="card stack" style="gap: var(--space-2)">
-        <h3>Restraint</h3>
-        <p class="muted" style="font-size: var(--text-base)">The taste. Few type sizes, one accent,
-        calm surfaces, generous space. When unsure, remove — polish is what you didn't add.</p>
-      </div>
-      <div class="card stack" style="gap: var(--space-2)">
-        <h3>Tokens</h3>
-        <p class="muted" style="font-size: var(--text-base)">The mechanism. Build only from
-        <code>var()</code> — never a hardcoded px, hex, or one-off radius. Coherence is a side
-        effect of everyone drinking from the same well.</p>
-      </div>
-      <div class="card stack" style="gap: var(--space-2)">
-        <h3>The ladder</h3>
-        <p class="muted" style="font-size: var(--text-base)">The structure. Primitives compose into
-        blocks, blocks into templates. Reach for the highest rung that fits.</p>
-      </div>
-    </div>
+    <ul class="points">
+      <li><strong>Restraint</strong> — the taste. Few type sizes, one accent, calm surfaces,
+      generous space. When unsure, remove — polish is what you <em>didn't</em> add.</li>
+      <li><strong>Tokens</strong> — the mechanism. Build only from <code>var()</code>; never a
+      hardcoded px, hex, or one-off radius. Coherence is a side effect of everyone drinking from
+      the same well.</li>
+      <li><strong>The ladder</strong> — the structure. Primitives compose into blocks, blocks into
+      templates. Reach for the highest rung that fits.</li>
+    </ul>
     <div class="ladder">
       <span class="ladder__step">tokens</span><span class="ladder__arrow">→</span>
       <span class="ladder__step">primitives</span><span class="ladder__arrow">→</span>
@@ -353,6 +416,7 @@ footer { color: var(--text-muted); font-size: var(--text-sm); }
           <div class="swatch"><div class="swatch__chip" style="background: var(--tint-sky)"></div><span class="swatch__name">--tint-sky</span></div>
           <div class="swatch"><div class="swatch__chip" style="background: var(--tint-butter)"></div><span class="swatch__name">--tint-butter</span></div>
           <div class="swatch"><div class="swatch__chip" style="background: var(--tint-rose)"></div><span class="swatch__name">--tint-rose</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-slate)"></div><span class="swatch__name">--tint-slate</span></div>
         </div>
       </div>
 
@@ -379,7 +443,7 @@ footer { color: var(--text-muted); font-size: var(--text-sm); }
 
   <!-- Components -->
   <section class="section" id="components">
-    <h2>The nine components</h2>
+    <h2>The ten components</h2>
     <p class="section__intro">The atoms of the system — their CSS lives in
     <code>styles/base.css</code>, their docs in one index file. Each one exists to answer a
     recurring question with a default, so the same data always gets the same shape.</p>
@@ -392,10 +456,11 @@ footer { color: var(--text-muted); font-size: var(--text-sm); }
         <tr><td>Button</td><td><code>.btn</code>, <code>.btn--accent</code></td><td>Actions — one accent button per view, everything else neutral.</td></tr>
         <tr><td>Chip</td><td><code>.chip</code></td><td>Tags, filters, small metadata pills; tinted only for gentle category coding.</td></tr>
         <tr><td>List</td><td><code>.list</code></td><td>Simple label→value data — the default over boxed stat-cards.</td></tr>
-        <tr><td>Card</td><td><code>.card</code></td><td>Grouped or media-rich content only, never plain metrics.</td></tr>
+        <tr><td>Card</td><td><code>.card</code></td><td>Grouped or media-rich content only — the last resort, never the default wrapper.</td></tr>
         <tr><td>Record list</td><td><code>.records</code>, <code>.record</code></td><td>Collections of records (users, issues, deployments) — the default over a table.</td></tr>
         <tr><td>Table</td><td><code>table</code>, <code>.num</code></td><td>Dense many-column comparison, where row/column scanning is the point.</td></tr>
         <tr><td>Field</td><td><code>.field</code></td><td>A form input with its label and message; focus is always a visible ring.</td></tr>
+        <tr><td>Selectbox</td><td><code>.select</code></td><td>A dropdown that looks identical on every browser and OS — CSS chevron, no native chrome.</td></tr>
         <tr><td>Form patterns</td><td><code>.form-row</code>, <code>.field--error</code></td><td>Multi-field layout and validation states — color plus a message, never color alone.</td></tr>
         <tr><td>Callout</td><td><code>.callout</code>, <code>--warn</code>, <code>--ok</code></td><td>A note, risk, or success aside — a translucent wash, no edge border.</td></tr>
       </tbody>
@@ -489,6 +554,7 @@ footer { color: var(--text-muted); font-size: var(--text-sm); }
         <div class="list__row"><span class="list__label">All-caps headings</span><span class="list__value">weight, not case</span></div>
         <div class="list__row"><span class="list__label">Hairline rules everywhere</span><span class="list__value">spacing separates</span></div>
         <div class="list__row"><span class="list__label">Boxed stat-card grids</span><span class="list__value">list column</span></div>
+        <div class="list__row"><span class="list__label">Cards around everything</span><span class="list__value">prose, lists, accordions first</span></div>
       </div>
       <div class="list">
         <div class="list__row"><span class="list__label">CDN fonts &amp; remote images</span><span class="list__value">everything inlines</span></div>
@@ -501,7 +567,7 @@ footer { color: var(--text-muted); font-size: var(--text-sm); }
 
   <!-- How it's used -->
   <section class="section" id="use">
-    <h2>How Claude uses it</h2>
+    <h2>How your agent uses it</h2>
     <div class="pillars">
       <div class="stack" style="gap: var(--space-2)">
         <h3>1 · Read the foundation</h3>
@@ -543,15 +609,15 @@ node scripts/contrast.mjs       # WCAG AA gate on every color pair</code></pre>
         <div class="list">
           <div class="list__row"><span class="list__label"><code>SKILL.md</code> — router + laws</span><span class="list__value">~2.8k</span></div>
           <div class="list__row"><span class="list__label"><code>tokens/tokens.css</code> — values + rules</span><span class="list__value">~2.9k</span></div>
-          <div class="list__row"><span class="list__label"><code>dist/artifact.css</code> — pasted into the artifact</span><span class="list__value">~2.6k</span></div>
+          <div class="list__row"><span class="list__label"><code>dist/artifact.css</code> — pasted into the artifact</span><span class="list__value">~2.7k</span></div>
         </div>
-        <p class="muted">Baseline ≈ 8.3k: ~5.7k read as input, ~2.6k written out as the inlined stylesheet.</p>
+        <p class="muted">Baseline ≈ 8.4k: ~5.7k read as input, ~2.7k written out as the inlined stylesheet.</p>
       </div>
 
       <div class="stack" style="gap: var(--space-2)">
         <h3>Read only when routed to</h3>
         <div class="list">
-          <div class="list__row"><span class="list__label"><code>components/_index.md</code> — all nine, one file</span><span class="list__value">~2.9k</span></div>
+          <div class="list__row"><span class="list__label"><code>components/_index.md</code> — all ten, one file</span><span class="list__value">~3.2k</span></div>
           <div class="list__row"><span class="list__label">a template (e.g. <code>report.html</code>)</span><span class="list__value">~1k</span></div>
           <div class="list__row"><span class="list__label">an example recipe (e.g. <code>landing.md</code>)</span><span class="list__value">~0.3k</span></div>
           <div class="list__row"><span class="list__label">a folder index (<code>blocks/</code>, <code>templates/</code>)</span><span class="list__value">~0.3–0.8k</span></div>
@@ -559,18 +625,51 @@ node scripts/contrast.mjs       # WCAG AA gate on every color pair</code></pre>
         <p class="muted">A typical styled artifact lands around 9–12k tokens end to end, before the content itself.</p>
       </div>
     </div>
+  </section>
 
-    <div class="callout">
-      <p><strong>Note:</strong> the library can keep growing without raising this bill — the router
-      points to folder indexes, indexes point to files, and only the routed-to file is ever read.
-      The build step alone buys −50%: ~5.1k of sources compile to the ~2.6k <code>dist</code> paste.</p>
+  <!-- FAQ — accordions, not cards -->
+  <section class="section" id="faq">
+    <h2>Questions people actually ask</h2>
+    <div class="faq">
+      <details>
+        <summary>Does it work outside Claude?</summary>
+        <p>Yes. The skill is plain markdown and CSS — GPT, Codex, Gemini, or any agent that can
+        read files applies it the same way. Only the auto-discovery via <code>SKILL.md</code>
+        frontmatter is Claude-specific; everything else is just instructions and tokens.</p>
+      </details>
+      <details>
+        <summary>Why one file with zero external requests?</summary>
+        <p>Claude's artifact hosting enforces a strict CSP that silently blocks CDNs, web fonts,
+        and remote images. A page that depends on the network looks broken exactly where it's most
+        likely to be viewed. System-first font stacks and inline SVG make the output indestructible.</p>
+      </details>
+      <details>
+        <summary>Can I re-theme it?</summary>
+        <p>One knob: <code>--hue-accent</code>. Every accent shade — solid, hover, quiet wash, text
+        on accent — derives from that single OKLCH hue in both light and dark mode. Change one
+        number, rebuild, and the whole system follows.</p>
+      </details>
+      <details>
+        <summary>Will it fight my content?</summary>
+        <p>No — it refuses to invent it. Templates carry a content contract: no lorem ipsum, no
+        padded prose, no fabricated metrics. Missing information is marked <code>[DATA NEEDED]</code>
+        instead of guessed.</p>
+      </details>
     </div>
   </section>
 
   <footer>
-    <p>artifact-styling · entry point <code>SKILL.md</code> · zero-dependency by design</p>
+    <p>artifact-styling · entry point <code>SKILL.md</code> · zero-dependency by design · this
+    page was generated by the skill it describes</p>
   </footer>
 
 </div>
+
+<script>
+  const langSelect = document.getElementById('lang-select');
+  langSelect.addEventListener('change', () => {
+    if (langSelect.value === 'az') window.location.href = 'az.html';
+  });
+</script>
 </body>
 </html>

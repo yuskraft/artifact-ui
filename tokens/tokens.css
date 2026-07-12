@@ -40,7 +40,7 @@
    *   (exact in dark; darkened in light) · #fdeadc → --tint-peach · #e1eddf →
    *   --tint-sage · #f0e3f4 → --tint-lavender · #d3dde6 → --tint-sky · #f6e39e +
    *   #fcdc94 → --tint-butter · #ef9c66 / #c8cfa0 fold into the peach / sage hues. */
-  --hue-accent: 32;         /* the ONE knob: swap this to re-theme everything (32 = #f19a88 coral) */
+  --hue-accent: 129;        /* the ONE knob: swap this to re-theme everything (129 = #74ff8c bright green) */
   --hue-neutral: 98;        /* warm cream tint (#fff9db); reads inviting, never clinical gray */
 
   /* Light theme (the default). Dark theme overrides these below. */
@@ -75,6 +75,7 @@
   --tint-lavender: oklch(0.931 0.027 318);  /* #f0e3f4 */
   --tint-sky:      oklch(0.893 0.016 245);  /* #d3dde6 */
   --tint-butter:   oklch(0.915 0.090 95);   /* #f6e39e */
+  --tint-slate:    oklch(0.20 0.012 245);   /* #28332b — dark slate tint */
 
   /* ── Type ── system-first stacks: self-contained by default, so artifacts render
    *   identically inside Claude's sandbox (its CSP blocks font CDNs). The named web

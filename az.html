@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="az">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artifact UI — modelin oxuduğu dizayn sistemi</title>
+<style>
+/* artifact.css — AUTO-GENERATED from tokens/tokens.css + styles/base.css.
+   Do not edit by hand. Run: node scripts/build.mjs */
+:root {
+  color-scheme: light;
+  --hue-accent: 129;
+  --hue-neutral: 98;
+  --bg:           oklch(0.965 0.008 var(--hue-neutral));
+  --surface:      oklch(0.99  0.015 var(--hue-neutral));
+  --surface-sunk: oklch(0.952 0.045 var(--hue-neutral));
+  --border:       oklch(0.90  0.040 var(--hue-neutral));
+  --border-strong:oklch(0.84  0.040 var(--hue-neutral));
+  --text:         oklch(0.264 0 var(--hue-neutral));
+  --text-2:       oklch(0.48 0.013 var(--hue-neutral));
+  --text-muted:   oklch(0.54 0.012 var(--hue-neutral));
+  --accent:       oklch(0.55 0.14 var(--hue-accent));
+  --accent-hover: oklch(0.50 0.15 var(--hue-accent));
+  --accent-quiet: oklch(0.93 0.05 var(--hue-accent));
+  --on-accent:    oklch(0.99 0.015 var(--hue-accent));
+  --danger:       oklch(0.53 0.17 25);
+  --ok:           oklch(0.50 0.09 191);
+  --tint-peach:    oklch(0.948 0.028 59);
+  --tint-rose:     oklch(0.93 0.05 25);
+  --tint-sage:     oklch(0.933 0.023 141);
+  --tint-lavender: oklch(0.931 0.027 318);
+  --tint-sky:      oklch(0.893 0.016 245);
+  --tint-butter:   oklch(0.915 0.090 95);
+  --tint-slate:    oklch(0.20 0.012 245);
+  --font-display: "Plus Jakarta Sans", ui-rounded, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --text-xs:  clamp(0.75rem,  0.72rem + 0.15vw, 0.8125rem);
+  --text-sm:  clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);
+  --text-base:clamp(1rem,     0.96rem + 0.2vw,  1.0625rem);
+  --text-lg:  clamp(1.125rem, 1.06rem + 0.3vw,  1.25rem);
+  --text-xl:  clamp(1.375rem, 1.25rem + 0.6vw,  1.625rem);
+  --text-2xl: clamp(1.75rem,  1.5rem + 1.2vw,   2.25rem);
+  --text-3xl: clamp(2.25rem,  1.8rem + 2.2vw,   3.25rem);
+  --text-4xl: clamp(2.75rem,  2rem + 3.6vw,     4.5rem);
+  --leading-tight: 1.15;
+  --leading-snug:  1.35;
+  --leading-body:  1.65;
+  --tracking-tight: -0.02em;
+  --tracking-caps: 0.08em;
+  --measure: 68ch;
+  --space-1: 0.25rem;  --space-2: 0.5rem;   --space-3: 0.75rem;
+  --space-4: 1rem;     --space-5: 1.5rem;   --space-6: 2rem;
+  --space-7: 3rem;     --space-8: 4rem;     --space-9: 6rem;  --space-10: 8rem;
+  --radius-sm: 6px;    --radius-md: 10px;   --radius-lg: 16px;
+  --radius-xl: 24px;   --radius-full: 999px;
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.04), 0 1px 1px oklch(0 0 0 / 0.03);
+  --shadow-md: 0 2px 4px oklch(0 0 0 / 0.04), 0 4px 12px oklch(0 0 0 / 0.06);
+  --shadow-lg: 0 4px 8px oklch(0 0 0 / 0.04), 0 16px 32px oklch(0 0 0 / 0.10);
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 180ms;
+}
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg:            oklch(0.17  0.012 var(--hue-neutral));
+    --surface:       oklch(0.205 0.014 var(--hue-neutral));
+    --surface-sunk:  oklch(0.15  0.012 var(--hue-neutral));
+    --border:        oklch(0.27  0.014 var(--hue-neutral));
+    --border-strong: oklch(0.34  0.016 var(--hue-neutral));
+    --text:        oklch(0.93 0.008 var(--hue-neutral));
+    --text-2:      oklch(0.73 0.01  var(--hue-neutral));
+    --text-muted:  oklch(0.60 0.01  var(--hue-neutral));
+    --accent:       oklch(0.77 0.108 var(--hue-accent));
+    --accent-hover: oklch(0.82 0.11 var(--hue-accent));
+    --accent-quiet: oklch(0.28 0.06 var(--hue-accent));
+    --on-accent:    oklch(0.16 0.02 var(--hue-accent));
+    --danger:       oklch(0.72 0.15 25);
+    --ok:           oklch(0.70 0.054 191);
+    --tint-peach:    oklch(0.30 0.05 59);
+    --tint-rose:     oklch(0.30 0.05 25);
+    --tint-sage:     oklch(0.30 0.045 141);
+    --tint-lavender: oklch(0.30 0.05 318);
+    --tint-sky:      oklch(0.30 0.04 245);
+    --tint-butter:   oklch(0.30 0.055 95);
+    --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
+    --shadow-md: 0 2px 8px oklch(0 0 0 / 0.35);
+    --shadow-lg: 0 8px 30px oklch(0 0 0 / 0.45);
+}
+* { box-sizing: border-box; }
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3 { font-family: var(--font-display); line-height: var(--leading-tight); font-weight: 650; margin: 0; }
+h1 { font-size: var(--text-3xl); letter-spacing: var(--tracking-tight); }
+h2 { font-size: var(--text-xl); }
+h3 { font-size: var(--text-lg); }
+p { margin: 0; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+::selection { background: var(--accent-quiet); }
+.container { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: var(--space-5); }
+.prose { max-width: var(--measure); }
+.prose > * + * { margin-block-start: var(--space-4); }
+.stack   { display: flex; flex-direction: column; gap: var(--space-4); }
+.cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.list { display: flex; flex-direction: column; }
+.list__row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-5);
+  padding-block: var(--space-3);
+}
+.list__label { color: var(--text-2); }
+.list__value { font-weight: 600; font-variant-numeric: tabular-nums; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+.btn {
+  font: inherit; font-weight: 550; cursor: pointer;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  background: var(--surface); color: var(--text);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.btn:hover { background: var(--surface-sunk); }
+.btn--accent { background: var(--accent); border-color: transparent; color: var(--on-accent); }
+.btn--accent:hover { background: var(--accent-hover); }
+.chip {
+  font-size: var(--text-sm); color: var(--text-2);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border); border-radius: var(--radius-full);
+}
+.muted { color: var(--text-muted); font-size: var(--text-sm); }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: start; padding: var(--space-2) var(--space-3); }
+th {
+  font-size: var(--text-sm); font-weight: 650; color: var(--text-2);
+  border-block-end: 1px solid var(--border-strong);
+}
+td { border-block-end: 1px solid var(--border); }
+tbody tr:last-child td { border-block-end: none; }
+.table--striped tbody tr:nth-child(even) { background: var(--surface-sunk); }
+.num { text-align: end; font-variant-numeric: tabular-nums; }
+.records {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: var(--space-3);
+}
+.records--grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+}
+.record {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--space-2) var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  transition: border-color var(--dur) var(--ease);
+}
+.record:hover { border-color: var(--border-strong); }
+.records--grid .record { flex-direction: column; align-items: stretch; }
+.record__main { flex: 1 1 14rem; min-width: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+.records--grid .record__main { flex: 0 1 auto; }
+.record__title { font-weight: 600; }
+.record__title a { color: inherit; text-decoration: none; }
+.record__title a:hover { color: var(--accent); }
+.record__meta {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--space-1) var(--space-3);
+  color: var(--text-muted); font-size: var(--text-sm);
+}
+.record__actions { display: flex; align-items: center; gap: var(--space-2); margin-inline-start: auto; }
+.records--grid .record__actions { margin-inline-start: 0; margin-block-start: var(--space-2); }
+:where(input, textarea, select) {
+  font: inherit; color: var(--text);
+  background: var(--surface-sunk);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+}
+:where(input, textarea, select):focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent;
+}
+.field { display: flex; flex-direction: column; gap: var(--space-1); }
+.field__label { color: var(--text-2); font-size: var(--text-sm); font-weight: 500; }
+.field__msg { color: var(--text-muted); font-size: var(--text-sm); }
+.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--space-4); }
+.field--error :where(input, textarea, select) { border-color: var(--danger); }
+.field--error .field__msg { color: var(--danger); }
+.field--ok :where(input, textarea, select) { border-color: var(--ok); }
+.field--ok .field__msg { color: var(--ok); }
+.select { position: relative; display: inline-flex; }
+.select select {
+  appearance: none;
+  width: 100%;
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-3);
+  padding-inline-end: var(--space-6);
+  cursor: pointer;
+}
+.select::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: var(--space-3);
+  inset-block-start: 50%;
+  width: 0.45em; height: 0.45em;
+  border-inline-end: 2px solid var(--text-2);
+  border-block-end: 2px solid var(--text-2);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+.callout {
+  background: color-mix(in srgb, var(--text) 5%, transparent);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+}
+.callout > * + * { margin-block-start: var(--space-2); }
+.callout--warn { background: color-mix(in srgb, var(--danger) 9%, transparent); }
+.callout--ok   { background: color-mix(in srgb, var(--ok) 9%, transparent); }
+:root[data-paper] {
+  --bg: #fff;
+  --surface: #fff;
+  --surface-sunk: #f4f4f4;
+  --border: #d8d8d8;
+  --border-strong: #b8b8b8;
+}
+@media print {
+  @page { size: A4; margin: 18mm; }
+  :root {
+    --bg: #fff;
+    --surface: #fff;
+    --surface-sunk: #f4f4f4;
+    --border: #d8d8d8;
+    --border-strong: #b8b8b8;
+    --text: #16130f;
+    --text-2: #3a352f;
+    --text-muted: #6a645c;
+    --shadow-sm: none; --shadow-md: none; --shadow-lg: none;
+  }
+  body { background: #fff; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none !important; }
+  .card, .list__row, figure, tr, .avoid-break { break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; }
+  nav, .no-print, [data-no-print] { display: none !important; }
+  a { color: inherit; text-decoration: none; }
+}
+
+/* ── page-specific (tokens only) ── */
+.page { padding-block: var(--space-8) var(--space-9); display: flex; flex-direction: column; gap: var(--space-9); }
+.hero { display: flex; flex-direction: column; gap: var(--space-5); max-width: var(--measure); }
+.hero p.lead { font-size: var(--text-lg); color: var(--text-2); }
+.kicker { color: var(--accent); font-weight: 600; font-size: var(--text-sm); }
+.section { display: flex; flex-direction: column; gap: var(--space-5); }
+.section > .section__intro { color: var(--text-2); max-width: var(--measure); }
+.pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--space-4); }
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); gap: var(--space-3); }
+.swatch { display: flex; flex-direction: column; gap: var(--space-2); }
+.swatch__chip {
+  height: 3.5rem; border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+.swatch__name { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-2); }
+.type-sample { display: flex; flex-direction: column; gap: var(--space-3); }
+.demo { display: flex; flex-direction: column; gap: var(--space-4); }
+.demo__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); gap: var(--space-4); }
+code {
+  font-family: var(--font-mono); font-size: var(--text-sm);
+  background: var(--surface-sunk);
+  padding: 0.1em 0.4em; border-radius: var(--radius-sm);
+}
+pre {
+  margin: 0; background: var(--surface-sunk);
+  border-radius: var(--radius-md); padding: var(--space-4);
+  overflow-x: auto;
+}
+pre code { background: none; padding: 0; }
+.ladder { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.ladder__step {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: var(--space-3) var(--space-5);
+  font-weight: 600;
+}
+.ladder__arrow { color: var(--text-muted); }
+footer { color: var(--text-muted); font-size: var(--text-sm); }
+.lang-bar { display: flex; justify-content: flex-end; align-items: center; gap: var(--space-2); padding-block-start: var(--space-5); }
+</style>
+</head>
+<body>
+<div class="container lang-bar no-print">
+  <span class="select">
+    <select id="lang-select" aria-label="Dil">
+      <option value="en">EN</option>
+      <option value="az" selected>AZE</option>
+    </select>
+  </span>
+</div>
+
+<div class="container page">
+
+  <!-- Hero -->
+  <header class="hero">
+    <span class="kicker">artifact-styling · Claude bacarığı</span>
+    <h1>Modelin oxuduğu dizayn sistemi — quraşdırdığınız kitabxana deyil</h1>
+    <p class="lead">Artifact UI standart görünüşlü HTML artefaktları düşünülmüş kompozisiyaya
+    çevirir. Claude bu repozitorini — tokenlər, primitivlər, bloklar, şablonlar — oxuyur və
+    şəbəkə olmadan da render olunan tək, özündə tam bir fayl təqdim edir.</p>
+    <div class="cluster">
+      <a class="btn btn--accent" href="#system-az" style="text-decoration:none">Sistemi kəşf et</a>
+      <a class="btn" href="#components-az" style="text-decoration:none">Komponentlərə bax</a>
+    </div>
+    <div class="cluster">
+      <span class="chip">Sıfır asılılıq</span>
+      <span class="chip">Tək fayl çıxışı</span>
+      <span class="chip">CSP-təhlükəsiz</span>
+      <span class="chip">Kompilyasiya ~2.7k token</span>
+    </div>
+  </header>
+
+  <!-- Purpose -->
+  <section class="section" id="purpose-az">
+    <h2>Hər şeydən üç söz keçir</h2>
+    <div class="pillars">
+      <div class="card stack" style="gap: var(--space-2)">
+        <h3>Təmkin</h3>
+        <p class="muted" style="font-size: var(--text-base)">Zövq budur. Az sayda şrift ölçüsü, bir
+        vurğu rəngi, sakit səthlər, geniş boşluq. Əmin olmayanda — çıxarın; cila əlavə
+        etmədiklərinizdir.</p>
+      </div>
+      <div class="card stack" style="gap: var(--space-2)">
+        <h3>Tokenlər</h3>
+        <p class="muted" style="font-size: var(--text-base)">Mexanizm budur. Yalnız
+        <code>var()</code> ilə qurun — heç vaxt sərt kodlanmış px, hex və ya birdəfəlik radius
+        olmasın. Uyğunluq hamının eyni bulaqdan içməsinin nəticəsidir.</p>
+      </div>
+      <div class="card stack" style="gap: var(--space-2)">
+        <h3>Nərdivan</h3>
+        <p class="muted" style="font-size: var(--text-base)">Struktur budur. Primitivlər bloklara,
+        bloklar şablonlara yığılır. Uyğun gələn ən yüksək pilləyə uzanın.</p>
+      </div>
+    </div>
+    <div class="ladder">
+      <span class="ladder__step">tokenlər</span><span class="ladder__arrow">→</span>
+      <span class="ladder__step">primitivlər</span><span class="ladder__arrow">→</span>
+      <span class="ladder__step">bloklar</span><span class="ladder__arrow">→</span>
+      <span class="ladder__step">şablonlar</span><span class="ladder__arrow">→</span>
+      <span class="ladder__step">tək HTML fayl</span>
+    </div>
+  </section>
+
+  <!-- The system -->
+  <section class="section" id="system-az">
+    <h2>Sistem bir baxışda</h2>
+    <p class="section__intro">Hər dəyər <code>tokens/tokens.css</code>-də yaşayır — istifadə
+    qaydaları hər qrupun yanında şərh kimi gedir. Bir quraşdırma addımı tokenləri və primitivləri
+    <code>dist/artifact.css</code>-ə kompilyasiya edir — bütün sistemi daşıyan tək paste.</p>
+
+    <div class="demo__grid">
+      <div class="stack">
+        <h3>Rəng — açar bir çalardır</h3>
+        <p class="muted" style="font-size: var(--text-base)">İsti pastel, OKLCH.
+        <code>--hue-accent</code>-i dəyişin, bütün çalarlar yenidən törəyir. Fonlar səhifədən
+        qalxmışa, oradan batığa pilləkənlə düzülür; heç vaxt tam qara və ya ağ olmur.</p>
+        <div class="swatches">
+          <div class="swatch"><div class="swatch__chip" style="background: var(--bg)"></div><span class="swatch__name">--bg</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--surface)"></div><span class="swatch__name">--surface</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--surface-sunk)"></div><span class="swatch__name">--surface-sunk</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--accent); border-color: transparent"></div><span class="swatch__name">--accent</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--accent-quiet)"></div><span class="swatch__name">--accent-quiet</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--ok); border-color: transparent"></div><span class="swatch__name">--ok</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-peach)"></div><span class="swatch__name">--tint-peach</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-sage)"></div><span class="swatch__name">--tint-sage</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-lavender)"></div><span class="swatch__name">--tint-lavender</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-sky)"></div><span class="swatch__name">--tint-sky</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-butter)"></div><span class="swatch__name">--tint-butter</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-rose)"></div><span class="swatch__name">--tint-rose</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-slate)"></div><span class="swatch__name">--tint-slate</span></div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <h3>Şrift — üç ölçü, işi çəki görür</h3>
+        <p class="muted" style="font-size: var(--text-base)"><code>clamp()</code> ilə axıcı miqyas,
+        breakpoint yoxdur. Sistem-öncəlikli şrift stekləri — CDN-dən heç nə yüklənmir. İyerarxiya
+        çəkidən və rəngdən gəlir, ölçü uydurmaqdan yox.</p>
+        <div class="card type-sample">
+          <span style="font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 650; line-height: var(--leading-tight); letter-spacing: var(--tracking-tight)">Başlıq, 650</span>
+          <span>Gövdə mətni 400-də — rahat en, sətir hündürlüyü 1.65, heç vaxt tam genişlikdə deyil.</span>
+          <span class="muted">Meta üçün kiçik və sönük — rənglə arxa plana keçirilir, yox olana qədər kiçildilmir.</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm)">kod üçün mono · rəqəmlər üçün tabular-nums</span>
+        </div>
+        <div class="list">
+          <div class="list__row"><span class="list__label">Boşluq bazası</span><span class="list__value">4px miqyas</span></div>
+          <div class="list__row"><span class="list__label">Radiuslar</span><span class="list__value">6 / 10 / 16 / 24</span></div>
+          <div class="list__row"><span class="list__label">Mətn eni</span><span class="list__value">68ch</span></div>
+          <div class="list__row"><span class="list__label">Hərəkət</span><span class="list__value">180ms, bir ease</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Components -->
+  <section class="section" id="components-az">
+    <h2>On komponent</h2>
+    <p class="section__intro">Sistemin atomları — CSS-i <code>styles/base.css</code>-də, sənədləri
+    bir indeks faylındadır. Hər biri təkrarlanan bir suala standart cavab verir ki, eyni data
+    həmişə eyni formanı alsın.</p>
+
+    <table>
+      <thead>
+        <tr><th>Komponent</th><th>Sinif</th><th>Nə üçün</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Düymə</td><td><code>.btn</code>, <code>.btn--accent</code></td><td>Əməliyyatlar — hər görünüşdə bir vurğu düyməsi, qalanları neytral.</td></tr>
+        <tr><td>Çip</td><td><code>.chip</code></td><td>Teqlər, filtrlər, kiçik metadata; yalnız yumşaq kateqoriya kodlaması üçün rənglənir.</td></tr>
+        <tr><td>Siyahı</td><td><code>.list</code></td><td>Sadə etiket→dəyər datası — qutulu stat-kartlar əvəzinə standart seçim.</td></tr>
+        <tr><td>Kart</td><td><code>.card</code></td><td>Yalnız qruplaşdırılmış və ya media-zəngin məzmun; heç vaxt çılpaq metriklər.</td></tr>
+        <tr><td>Qeyd siyahısı</td><td><code>.records</code>, <code>.record</code></td><td>Qeyd kolleksiyaları (istifadəçilər, məsələlər, deploylar) — cədvəl əvəzinə standart seçim.</td></tr>
+        <tr><td>Cədvəl</td><td><code>table</code>, <code>.num</code></td><td>Sıx, çoxsütunlu müqayisə — məqsəd sətir/sütun taramasıdır.</td></tr>
+        <tr><td>Sahə</td><td><code>.field</code></td><td>Etiketi və mesajı ilə form sahəsi; fokus həmişə görünən halqadır.</td></tr>
+        <tr><td>Selectbox</td><td><code>.select</code></td><td>Hər brauzer və ƏS-də eyni görünən açılan seçim — CSS oxu, doğma (native) görünüş yoxdur.</td></tr>
+        <tr><td>Form nümunələri</td><td><code>.form-row</code>, <code>.field--error</code></td><td>Çoxsahəli düzülüş və validasiya halları — rəng üstəgəl mesaj, heç vaxt təkcə rəng.</td></tr>
+        <tr><td>Callout</td><td><code>.callout</code>, <code>--warn</code>, <code>--ok</code></td><td>Qeyd, risk və ya uğur haşiyəsi — şəffaf rəng yuyuntusu, kənar xətsiz.</td></tr>
+      </tbody>
+    </table>
+
+    <p class="muted" style="max-width: var(--measure)">Ortaq xətt: bir neçə komponent konkret bir
+    standart-artefakt əlamətinə qarşı sipərdir. Siyahı metriklərin qutulu şəbəkələrə düşməməsi
+    üçün var; qeyd siyahısı kolleksiyaların cədvələ sıxışdırılmaması üçün; callout qeydlərin
+    rəngli kənar xətt çıxarmaması üçün.</p>
+  </section>
+
+  <!-- Templates -->
+  <section class="section" id="templates-az">
+    <h2>Şablonlar — doldurmağa hazır bütöv sənədlər</h2>
+    <p class="section__intro">Nərdivanın ən üst pilləsi: tam sənəd tipləri. Sabit formatlı
+    sənədlər kopyalana bilən HTML kimi gəlir — kopyalayın, yuvaları doldurun, layout
+    müəllifi olmayın. Yarı-strukturlu sənədlər bloklardan yığılan resept kimi gəlir. İndeksdəki
+    qərar ağacı hər sorğunu sual verilmədən əvvəl yönləndirir.</p>
+
+    <ul class="records">
+      <li class="record">
+        <div class="record__main">
+          <span class="record__title">ərizə</span>
+          <div class="record__meta"><span>quruma ünvanlanan Azərbaycan dilində ərizə/müraciət</span><span>qurum → ərizəçi → mətn → imza + tarix</span></div>
+        </div>
+        <span class="chip" style="background: var(--tint-sky); border-color: transparent">Kopyalana bilən</span>
+        <span class="chip" style="background: var(--tint-peach); border-color: transparent">Kağız</span>
+      </li>
+      <li class="record">
+        <div class="record__main">
+          <span class="record__title">CV / Resume</span>
+          <div class="record__meta"><span>1–2 səhifəlik karyera sənədi</span><span>əlaqə → xülasə → təcrübə → bacarıqlar → təhsil</span></div>
+        </div>
+        <span class="chip" style="background: var(--tint-sky); border-color: transparent">Kopyalana bilən</span>
+        <span class="chip" style="background: var(--tint-peach); border-color: transparent">Kağız</span>
+      </li>
+      <li class="record">
+        <div class="record__main">
+          <span class="record__title">Rəsmi məktub</span>
+          <div class="record__meta"><span>istənilən dildə müraciət və ya ərizə</span><span>göndərən → alan → mövzu → mətn → imza</span></div>
+        </div>
+        <span class="chip" style="background: var(--tint-sky); border-color: transparent">Kopyalana bilən</span>
+        <span class="chip" style="background: var(--tint-peach); border-color: transparent">Kağız</span>
+      </li>
+      <li class="record">
+        <div class="record__main">
+          <span class="record__title">Bir səhifəlik / brif</span>
+          <div class="record__meta"><span>icra xülasəsi, ~1 səhifə</span><span>başlıq → bölmələr → metrik siyahısı → istəyə görə fiqur</span></div>
+        </div>
+        <span class="chip" style="background: var(--tint-lavender); border-color: transparent">Blok resepti</span>
+      </li>
+      <li class="record">
+        <div class="record__main">
+          <span class="record__title">Baxış / audit hesabatı</span>
+          <div class="record__meta"><span>PR icmalı, kod baxışı, tapıntılar</span><span>qərar → xülasə → tapıntılar cədvəli → callout-lar</span></div>
+        </div>
+        <span class="chip" style="background: var(--tint-sky); border-color: transparent">Kopyalana bilən</span>
+      </li>
+      <li class="record">
+        <div class="record__main">
+          <span class="record__title">Zaman xətti / status</span>
+          <div class="record__meta"><span>insident xronologiyası, status səhifəsi, changelog</span><span>başlıq + status → tarixli qeydlər → cari vəziyyət</span></div>
+        </div>
+        <span class="chip" style="background: var(--tint-sky); border-color: transparent">Kopyalana bilən</span>
+      </li>
+    </ul>
+
+    <div class="demo__grid">
+      <div class="callout">
+        <p><strong>Kağız sənədlər həqiqətən çap olunur.</strong> CV, ərizə və məktub
+        <code>data-paper</code> daşıyır — ekranda krem fon əvəzinə ağ vərəq — və A4 ölçüsünü,
+        ağ-kağız neytrallaşdırmasını, təhlükəsiz səhifə qırılmalarını çap blokundan avtomatik
+        alır. İxrac sadəcə brauzerin "PDF kimi saxla" funksiyasıdır.</p>
+      </div>
+      <div class="callout">
+        <p><strong>Məzmun müqaviləsi:</strong> lorem ipsum yox, doldurma mətn yox, uydurma metrik
+        və ya kvalifikasiya yox. Kimlik əvvəlcə brend profilindən, sonra promptdan doldurulur;
+        hələ də çatışmayan hər şey <code>[DATA NEEDED]</code> kimi işarələnir — heç vaxt
+        uydurulmur.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The laws -->
+  <section class="section" id="laws-az">
+    <h2>Tətbiq etdiyi qanunlar</h2>
+    <p class="section__intro">Bacarıq nəticəni qaytarmazdan əvvəl standart-görünüşlü çıxışın
+    əlamətlərini ovlayır. Ən böyüklərindən bir neçəsi:</p>
+    <div class="demo__grid">
+      <div class="list">
+        <div class="list__row"><span class="list__label">Sıxılmış, kənardan-kənara məzmun</span><span class="list__value">mərkəzlənmiş konteyner</span></div>
+        <div class="list__row"><span class="list__label">Tam böyük hərfli başlıqlar</span><span class="list__value">çəki, böyük hərf yox</span></div>
+        <div class="list__row"><span class="list__label">Hər yerdə nazik ayırıcı xətlər</span><span class="list__value">boşluq ayırır</span></div>
+        <div class="list__row"><span class="list__label">Qutulu stat-kart şəbəkələri</span><span class="list__value">siyahı sütunu</span></div>
+      </div>
+      <div class="list">
+        <div class="list__row"><span class="list__label">CDN şriftləri və uzaq şəkillər</span><span class="list__value">hər şey daxildə</span></div>
+        <div class="list__row"><span class="list__label">Hər elementdə vurğu rəngi</span><span class="list__value">bir vurğu, az-az</span></div>
+        <div class="list__row"><span class="list__label">Təmiz #000 / #fff</span><span class="list__value">krem üzərində isti mürəkkəb</span></div>
+        <div class="list__row"><span class="list__label">Sərt kodlanmış px / hex</span><span class="list__value">yalnız tokenlər</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it's used -->
+  <section class="section" id="use-az">
+    <h2>Claude bundan necə istifadə edir</h2>
+    <div class="pillars">
+      <div class="stack" style="gap: var(--space-2)">
+        <h3>1 · Təməli oxu</h3>
+        <p class="muted" style="font-size: var(--text-base)">Dəyərlər və qaydalar üçün
+        <code>tokens/tokens.css</code>-i yüklə, sonra <code>dist/artifact.css</code>-i artefaktın
+        <code>&lt;style&gt;</code>-ına yapışdır.</p>
+      </div>
+      <div class="stack" style="gap: var(--space-2)">
+        <h3>2 · Nərdivanla yuxarı yığ</h3>
+        <p class="muted" style="font-size: var(--text-base)">Komponentlər → bloklar; sənədlər
+        şablondan başlayır, ümumi artefaktlar hazır nümunədən bəhrələnir.</p>
+      </div>
+      <div class="stack" style="gap: var(--space-2)">
+        <h3>3 · Tək fayl təqdim et</h3>
+        <p class="muted" style="font-size: var(--text-base)">Özündə tam bir HTML fayl, sıfır
+        xarici sorğu — şəbəkə olmadan da render olunur.</p>
+      </div>
+    </div>
+    <pre><code>node scripts/build.mjs          # tokenlər + baza → dist/artifact.css
+node scripts/build.mjs --check  # CI qapısı: dist köhnədirsə uğursuz olur
+node scripts/contrast.mjs       # hər rəng cütü üçün WCAG AA qapısı</code></pre>
+    <div class="callout">
+      <p><strong>Qeyd:</strong> bu səhifə sistemin özünü təsvir etməsidir — yuxarıdakı hər rəng,
+      boşluq, radius və kölgə dəyişdirilmədən <code>dist/artifact.css</code>-dən gəlir.</p>
+    </div>
+  </section>
+
+  <!-- Token cost -->
+  <section class="section" id="cost-az">
+    <h2>Token baxımından nəyə başa gəlir</h2>
+    <p class="section__intro">Bacarıq kontekst yükünü sabit saxlamaq üçün qurulub: router və
+    ikisəviyyəli açılış o deməkdir ki, hər icra yalnız sorğusunun yönləndirdiyi faylları oxuyur;
+    kompilyasiya olunmuş <code>dist</code> isə mənbələrinin yarısı boydadır. Aşağıdakı rəqəmlər
+    təxminidir (bayt ÷ 4).</p>
+
+    <div class="demo__grid">
+      <div class="stack" style="gap: var(--space-2)">
+        <h3>Hər icra oxuyur</h3>
+        <div class="list">
+          <div class="list__row"><span class="list__label"><code>SKILL.md</code> — router + qanunlar</span><span class="list__value">~2.8k</span></div>
+          <div class="list__row"><span class="list__label"><code>tokens/tokens.css</code> — dəyərlər + qaydalar</span><span class="list__value">~2.9k</span></div>
+          <div class="list__row"><span class="list__label"><code>dist/artifact.css</code> — artefakta yapışdırılır</span><span class="list__value">~2.7k</span></div>
+        </div>
+        <p class="muted">Baza ≈ 8.4k: ~5.7k giriş kimi oxunur, ~2.7k daxili stil vərəqi kimi yazılır.</p>
+      </div>
+
+      <div class="stack" style="gap: var(--space-2)">
+        <h3>Yalnız yönləndirildikdə oxunur</h3>
+        <div class="list">
+          <div class="list__row"><span class="list__label"><code>components/_index.md</code> — onu bir faylda</span><span class="list__value">~3.2k</span></div>
+          <div class="list__row"><span class="list__label">bir şablon (məs. <code>report.html</code>)</span><span class="list__value">~1k</span></div>
+          <div class="list__row"><span class="list__label">nümunə resepti (məs. <code>landing.md</code>)</span><span class="list__value">~0.3k</span></div>
+          <div class="list__row"><span class="list__label">qovluq indeksi (<code>blocks/</code>, <code>templates/</code>)</span><span class="list__value">~0.3–0.8k</span></div>
+        </div>
+        <p class="muted">Tipik stilləndirilmiş artefakt, məzmunun özündən əvvəl, uc-uca təxminən 9–12k tokenə düşür.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Qeyd:</strong> kitabxana bu xərci artırmadan böyüyə bilər — router qovluq
+      indekslərinə, indekslər fayllara işarə edir və yalnız yönləndirilən fayl oxunur. Təkcə
+      quraşdırma addımı −50% qazandırır: ~5.3k mənbə ~2.7k <code>dist</code> paste-inə
+      kompilyasiya olunur.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>artifact-styling · giriş nöqtəsi <code>SKILL.md</code> · dizayn etibarilə sıfır asılılıq</p>
+  </footer>
+
+</div>
+
+<script>
+  const langSelect = document.getElementById('lang-select');
+  langSelect.addEventListener('change', () => {
+    if (langSelect.value === 'en') window.location.href = 'index.html';
+  });
+</script>
+</body>
+</html>

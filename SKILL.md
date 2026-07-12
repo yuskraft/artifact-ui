@@ -1,6 +1,6 @@
 ---
 name: artifact-styling
-description: Make HTML artifacts and documents look intentionally designed instead of default-styled. Use when generating any self-contained HTML artifact — reports, dashboards, landing pages, chat/answer UIs, data views — or a structured document like a resume/CV, an ərizə or formal letter, or a one-pager; anything where appearance matters, not just the content.
+description: Make HTML artifacts and documents look intentionally designed instead of default-styled. Use when generating any self-contained HTML artifact — reports, dashboards, landing pages, chat/answer UIs, data views — or a structured document like a resume/CV, an ərizə or formal letter, or a one-pager; anything where appearance matters, not just the content. Works with GPT, Codex, Claude Code, Gemini, and more LLMs.
 ---
 
 # Artifact styling
@@ -64,6 +64,7 @@ Hunt these before returning:
 - **Untreated type** — browser-default sizing, no measure cap, full-width paragraphs, no weight hierarchy. (A serif where sans was wanted is the same tell.) The system stack is fine; leaving it *unset* is the tell.
 - **A dead external request** — a font/CSS/JS CDN link or remote image that the sandbox CSP silently blocks. Everything inlines.
 - **Boxy stat-card grids for simple metrics** — bordered boxes around plain label→value data. Use a [list](components/_index.md#list) instead.
+- **Cards as the default wrapper** — every paragraph, list item, or section reflexively boxed in a bordered card. A card is the *last* resort, not the first: running text stays plain prose, parallel items are a bullet list, label→value pairs a [list](components/_index.md#list), collapsible detail a native `<details>` accordion, collections a [record list](components/_index.md#record-list). A card is earned only by genuinely grouped or media-rich content — a page of nothing but cards is as much a tell as no structure at all.
 - **Full-width content** — layout spanning the whole viewport instead of a centered container.
 - **Garish gradients** — rainbow or high-chroma multi-stop fills. (Soft warm low-chroma washes are fine.)
 - **Inconsistent radii** — a sharp card next to a round button; nested corners that aren't concentric.
@@ -94,7 +95,7 @@ The artifact is done only when every line holds:
 - [ ] **Zero external requests** — no CDN links, no remote images (inline SVG / data URIs only), no fetch. Type is applied via `--font-display`/`--font-sans`; the optional web-font `<link>` appears only when the page is explicitly for use outside Claude's sandbox.
 - [ ] At most three type sizes; hierarchy carried by weight + color, not size sprawl.
 - [ ] All content sits in a centered container (prose in a `--measure` column); **nothing runs full-width**; left-aligned.
-- [ ] Simple data uses a **list column**, not boxed stat-cards; cards are reserved for grouped/media-rich content.
+- [ ] Simple data uses a **list column**, not boxed stat-cards; cards are reserved for grouped/media-rich content — prose, bullet lists, and `<details>` were tried before any card.
 - [ ] Spacing is generous and proportional; grouping is legible from the gaps alone.
 - [ ] Palette is warm: one soft coral accent used sparingly; pastel tints (if any) stay quiet.
 - [ ] Radii match element size and nest concentrically (`outer − gap`).
