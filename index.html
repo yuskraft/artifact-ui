@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artifact UI — a design system Claude reads</title>
+<style>
+/* artifact.css — AUTO-GENERATED from tokens/tokens.css + styles/base.css.
+   Do not edit by hand. Run: node scripts/build.mjs */
+:root {
+  color-scheme: light;
+  --hue-accent: 32;
+  --hue-neutral: 98;
+  --bg:           oklch(0.965 0.008 var(--hue-neutral));
+  --surface:      oklch(0.99  0.015 var(--hue-neutral));
+  --surface-sunk: oklch(0.952 0.045 var(--hue-neutral));
+  --border:       oklch(0.90  0.040 var(--hue-neutral));
+  --border-strong:oklch(0.84  0.040 var(--hue-neutral));
+  --text:         oklch(0.264 0 var(--hue-neutral));
+  --text-2:       oklch(0.48 0.013 var(--hue-neutral));
+  --text-muted:   oklch(0.54 0.012 var(--hue-neutral));
+  --accent:       oklch(0.55 0.14 var(--hue-accent));
+  --accent-hover: oklch(0.50 0.15 var(--hue-accent));
+  --accent-quiet: oklch(0.93 0.05 var(--hue-accent));
+  --on-accent:    oklch(0.99 0.015 var(--hue-accent));
+  --danger:       oklch(0.53 0.17 25);
+  --ok:           oklch(0.50 0.09 191);
+  --tint-peach:    oklch(0.948 0.028 59);
+  --tint-rose:     oklch(0.93 0.05 25);
+  --tint-sage:     oklch(0.933 0.023 141);
+  --tint-lavender: oklch(0.931 0.027 318);
+  --tint-sky:      oklch(0.893 0.016 245);
+  --tint-butter:   oklch(0.915 0.090 95);
+  --font-display: "Plus Jakarta Sans", ui-rounded, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --text-xs:  clamp(0.75rem,  0.72rem + 0.15vw, 0.8125rem);
+  --text-sm:  clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);
+  --text-base:clamp(1rem,     0.96rem + 0.2vw,  1.0625rem);
+  --text-lg:  clamp(1.125rem, 1.06rem + 0.3vw,  1.25rem);
+  --text-xl:  clamp(1.375rem, 1.25rem + 0.6vw,  1.625rem);
+  --text-2xl: clamp(1.75rem,  1.5rem + 1.2vw,   2.25rem);
+  --text-3xl: clamp(2.25rem,  1.8rem + 2.2vw,   3.25rem);
+  --text-4xl: clamp(2.75rem,  2rem + 3.6vw,     4.5rem);
+  --leading-tight: 1.15;
+  --leading-snug:  1.35;
+  --leading-body:  1.65;
+  --tracking-tight: -0.02em;
+  --tracking-caps: 0.08em;
+  --measure: 68ch;
+  --space-1: 0.25rem;  --space-2: 0.5rem;   --space-3: 0.75rem;
+  --space-4: 1rem;     --space-5: 1.5rem;   --space-6: 2rem;
+  --space-7: 3rem;     --space-8: 4rem;     --space-9: 6rem;  --space-10: 8rem;
+  --radius-sm: 6px;    --radius-md: 10px;   --radius-lg: 16px;
+  --radius-xl: 24px;   --radius-full: 999px;
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.04), 0 1px 1px oklch(0 0 0 / 0.03);
+  --shadow-md: 0 2px 4px oklch(0 0 0 / 0.04), 0 4px 12px oklch(0 0 0 / 0.06);
+  --shadow-lg: 0 4px 8px oklch(0 0 0 / 0.04), 0 16px 32px oklch(0 0 0 / 0.10);
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 180ms;
+}
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg:            oklch(0.17  0.012 var(--hue-neutral));
+    --surface:       oklch(0.205 0.014 var(--hue-neutral));
+    --surface-sunk:  oklch(0.15  0.012 var(--hue-neutral));
+    --border:        oklch(0.27  0.014 var(--hue-neutral));
+    --border-strong: oklch(0.34  0.016 var(--hue-neutral));
+    --text:        oklch(0.93 0.008 var(--hue-neutral));
+    --text-2:      oklch(0.73 0.01  var(--hue-neutral));
+    --text-muted:  oklch(0.60 0.01  var(--hue-neutral));
+    --accent:       oklch(0.77 0.108 var(--hue-accent));
+    --accent-hover: oklch(0.82 0.11 var(--hue-accent));
+    --accent-quiet: oklch(0.28 0.06 var(--hue-accent));
+    --on-accent:    oklch(0.16 0.02 var(--hue-accent));
+    --danger:       oklch(0.72 0.15 25);
+    --ok:           oklch(0.70 0.054 191);
+    --tint-peach:    oklch(0.30 0.05 59);
+    --tint-rose:     oklch(0.30 0.05 25);
+    --tint-sage:     oklch(0.30 0.045 141);
+    --tint-lavender: oklch(0.30 0.05 318);
+    --tint-sky:      oklch(0.30 0.04 245);
+    --tint-butter:   oklch(0.30 0.055 95);
+    --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
+    --shadow-md: 0 2px 8px oklch(0 0 0 / 0.35);
+    --shadow-lg: 0 8px 30px oklch(0 0 0 / 0.45);
+}
+* { box-sizing: border-box; }
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3 { font-family: var(--font-display); line-height: var(--leading-tight); font-weight: 650; margin: 0; }
+h1 { font-size: var(--text-3xl); letter-spacing: var(--tracking-tight); }
+h2 { font-size: var(--text-xl); }
+h3 { font-size: var(--text-lg); }
+p { margin: 0; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+::selection { background: var(--accent-quiet); }
+.container { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: var(--space-5); }
+.prose { max-width: var(--measure); }
+.prose > * + * { margin-block-start: var(--space-4); }
+.stack   { display: flex; flex-direction: column; gap: var(--space-4); }
+.cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.list { display: flex; flex-direction: column; }
+.list__row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-5);
+  padding-block: var(--space-3);
+}
+.list__label { color: var(--text-2); }
+.list__value { font-weight: 600; font-variant-numeric: tabular-nums; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+.btn {
+  font: inherit; font-weight: 550; cursor: pointer;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  background: var(--surface); color: var(--text);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.btn:hover { background: var(--surface-sunk); }
+.btn--accent { background: var(--accent); border-color: transparent; color: var(--on-accent); }
+.btn--accent:hover { background: var(--accent-hover); }
+.chip {
+  font-size: var(--text-sm); color: var(--text-2);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border); border-radius: var(--radius-full);
+}
+.muted { color: var(--text-muted); font-size: var(--text-sm); }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: start; padding: var(--space-2) var(--space-3); }
+th {
+  font-size: var(--text-sm); font-weight: 650; color: var(--text-2);
+  border-block-end: 1px solid var(--border-strong);
+}
+td { border-block-end: 1px solid var(--border); }
+tbody tr:last-child td { border-block-end: none; }
+.table--striped tbody tr:nth-child(even) { background: var(--surface-sunk); }
+.num { text-align: end; font-variant-numeric: tabular-nums; }
+.records {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: var(--space-3);
+}
+.records--grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+}
+.record {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--space-2) var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  transition: border-color var(--dur) var(--ease);
+}
+.record:hover { border-color: var(--border-strong); }
+.records--grid .record { flex-direction: column; align-items: stretch; }
+.record__main { flex: 1 1 14rem; min-width: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+.records--grid .record__main { flex: 0 1 auto; }
+.record__title { font-weight: 600; }
+.record__title a { color: inherit; text-decoration: none; }
+.record__title a:hover { color: var(--accent); }
+.record__meta {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--space-1) var(--space-3);
+  color: var(--text-muted); font-size: var(--text-sm);
+}
+.record__actions { display: flex; align-items: center; gap: var(--space-2); margin-inline-start: auto; }
+.records--grid .record__actions { margin-inline-start: 0; margin-block-start: var(--space-2); }
+:where(input, textarea, select) {
+  font: inherit; color: var(--text);
+  background: var(--surface-sunk);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+}
+:where(input, textarea, select):focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent;
+}
+.field { display: flex; flex-direction: column; gap: var(--space-1); }
+.field__label { color: var(--text-2); font-size: var(--text-sm); font-weight: 500; }
+.field__msg { color: var(--text-muted); font-size: var(--text-sm); }
+.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--space-4); }
+.field--error :where(input, textarea, select) { border-color: var(--danger); }
+.field--error .field__msg { color: var(--danger); }
+.field--ok :where(input, textarea, select) { border-color: var(--ok); }
+.field--ok .field__msg { color: var(--ok); }
+.callout {
+  background: color-mix(in srgb, var(--text) 5%, transparent);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+}
+.callout > * + * { margin-block-start: var(--space-2); }
+.callout--warn { background: color-mix(in srgb, var(--danger) 9%, transparent); }
+.callout--ok   { background: color-mix(in srgb, var(--ok) 9%, transparent); }
+:root[data-paper] {
+  --bg: #fff;
+  --surface: #fff;
+  --surface-sunk: #f4f4f4;
+  --border: #d8d8d8;
+  --border-strong: #b8b8b8;
+}
+@media print {
+  @page { size: A4; margin: 18mm; }
+  :root {
+    --bg: #fff;
+    --surface: #fff;
+    --surface-sunk: #f4f4f4;
+    --border: #d8d8d8;
+    --border-strong: #b8b8b8;
+    --text: #16130f;
+    --text-2: #3a352f;
+    --text-muted: #6a645c;
+    --shadow-sm: none; --shadow-md: none; --shadow-lg: none;
+  }
+  body { background: #fff; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none !important; }
+  .card, .list__row, figure, tr, .avoid-break { break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; }
+  nav, .no-print, [data-no-print] { display: none !important; }
+  a { color: inherit; text-decoration: none; }
+}
+
+/* ── page-specific (tokens only) ── */
+.page { padding-block: var(--space-8) var(--space-9); display: flex; flex-direction: column; gap: var(--space-9); }
+.hero { display: flex; flex-direction: column; gap: var(--space-5); max-width: var(--measure); }
+.hero p.lead { font-size: var(--text-lg); color: var(--text-2); }
+.kicker { color: var(--accent); font-weight: 600; font-size: var(--text-sm); }
+.section { display: flex; flex-direction: column; gap: var(--space-5); }
+.section > .section__intro { color: var(--text-2); max-width: var(--measure); }
+.pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--space-4); }
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); gap: var(--space-3); }
+.swatch { display: flex; flex-direction: column; gap: var(--space-2); }
+.swatch__chip {
+  height: 3.5rem; border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+.swatch__name { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-2); }
+.type-sample { display: flex; flex-direction: column; gap: var(--space-3); }
+.demo { display: flex; flex-direction: column; gap: var(--space-4); }
+.demo__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); gap: var(--space-4); }
+code {
+  font-family: var(--font-mono); font-size: var(--text-sm);
+  background: var(--surface-sunk);
+  padding: 0.1em 0.4em; border-radius: var(--radius-sm);
+}
+pre {
+  margin: 0; background: var(--surface-sunk);
+  border-radius: var(--radius-md); padding: var(--space-4);
+  overflow-x: auto;
+}
+pre code { background: none; padding: 0; }
+.ladder { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.ladder__step {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: var(--space-3) var(--space-5);
+  font-weight: 600;
+}
+.ladder__arrow { color: var(--text-muted); }
+footer { color: var(--text-muted); font-size: var(--text-sm); }
+</style>
+</head>
+<body>
+<div class="container page">
+
+  <!-- Hero -->
+  <header class="hero">
+    <span class="kicker">artifact-styling · a Claude skill</span>
+    <h1>A design system the model reads, not a library you install</h1>
+    <p class="lead">Artifact UI turns default-looking HTML artifacts into composed ones. Claude reads
+    this repo — tokens, primitives, blocks, templates — and ships one self-contained file that
+    renders with the network unplugged.</p>
+    <div class="cluster">
+      <a class="btn btn--accent" href="#system" style="text-decoration:none">Explore the system</a>
+      <a class="btn" href="#components" style="text-decoration:none">See the components</a>
+    </div>
+    <div class="cluster">
+      <span class="chip">Zero dependencies</span>
+      <span class="chip">One-file output</span>
+      <span class="chip">CSP-safe</span>
+      <span class="chip">~2.6k tokens compiled</span>
+    </div>
+  </header>
+
+  <!-- Purpose -->
+  <section class="section" id="purpose">
+    <h2>Three words run through everything</h2>
+    <div class="pillars">
+      <div class="card stack" style="gap: var(--space-2)">
+        <h3>Restraint</h3>
+        <p class="muted" style="font-size: var(--text-base)">The taste. Few type sizes, one accent,
+        calm surfaces, generous space. When unsure, remove — polish is what you didn't add.</p>
+      </div>
+      <div class="card stack" style="gap: var(--space-2)">
+        <h3>Tokens</h3>
+        <p class="muted" style="font-size: var(--text-base)">The mechanism. Build only from
+        <code>var()</code> — never a hardcoded px, hex, or one-off radius. Coherence is a side
+        effect of everyone drinking from the same well.</p>
+      </div>
+      <div class="card stack" style="gap: var(--space-2)">
+        <h3>The ladder</h3>
+        <p class="muted" style="font-size: var(--text-base)">The structure. Primitives compose into
+        blocks, blocks into templates. Reach for the highest rung that fits.</p>
+      </div>
+    </div>
+    <div class="ladder">
+      <span class="ladder__step">tokens</span><span class="ladder__arrow">→</span>
+      <span class="ladder__step">primitives</span><span class="ladder__arrow">→</span>
+      <span class="ladder__step">blocks</span><span class="ladder__arrow">→</span>
+      <span class="ladder__step">templates</span><span class="ladder__arrow">→</span>
+      <span class="ladder__step">one HTML file</span>
+    </div>
+  </section>
+
+  <!-- The system -->
+  <section class="section" id="system">
+    <h2>The system in one glance</h2>
+    <p class="section__intro">Every value lives in <code>tokens/tokens.css</code> — the usage rules
+    ride along as comments beside each group. One build step compiles tokens + primitives into
+    <code>dist/artifact.css</code>, the single paste that carries the whole system.</p>
+
+    <div class="demo__grid">
+      <div class="stack">
+        <h3>Color — one hue is the knob</h3>
+        <p class="muted" style="font-size: var(--text-base)">Warm pastel, OKLCH. Swap
+        <code>--hue-accent</code> and every shade re-derives. Backgrounds ladder from page to
+        raised to sunk; never pure black or white.</p>
+        <div class="swatches">
+          <div class="swatch"><div class="swatch__chip" style="background: var(--bg)"></div><span class="swatch__name">--bg</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--surface)"></div><span class="swatch__name">--surface</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--surface-sunk)"></div><span class="swatch__name">--surface-sunk</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--accent); border-color: transparent"></div><span class="swatch__name">--accent</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--accent-quiet)"></div><span class="swatch__name">--accent-quiet</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--ok); border-color: transparent"></div><span class="swatch__name">--ok</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-peach)"></div><span class="swatch__name">--tint-peach</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-sage)"></div><span class="swatch__name">--tint-sage</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-lavender)"></div><span class="swatch__name">--tint-lavender</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-sky)"></div><span class="swatch__name">--tint-sky</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-butter)"></div><span class="swatch__name">--tint-butter</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background: var(--tint-rose)"></div><span class="swatch__name">--tint-rose</span></div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <h3>Type — three sizes, weight does the work</h3>
+        <p class="muted" style="font-size: var(--text-base)">Fluid scale via <code>clamp()</code>,
+        no breakpoints. System-first stacks so nothing loads from a CDN. Hierarchy comes from
+        weight and color, never from inventing sizes.</p>
+        <div class="card type-sample">
+          <span style="font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 650; line-height: var(--leading-tight); letter-spacing: var(--tracking-tight)">Heading, 650</span>
+          <span>Body at 400 — a comfortable measure, line-height 1.65, never full-width.</span>
+          <span class="muted">Small and muted for meta — demoted by color, not shrunk to nothing.</span>
+          <span style="font-family: var(--font-mono); font-size: var(--text-sm)">mono for code · tabular-nums for figures</span>
+        </div>
+        <div class="list">
+          <div class="list__row"><span class="list__label">Spacing base</span><span class="list__value">4px scale</span></div>
+          <div class="list__row"><span class="list__label">Radii</span><span class="list__value">6 / 10 / 16 / 24</span></div>
+          <div class="list__row"><span class="list__label">Prose measure</span><span class="list__value">68ch</span></div>
+          <div class="list__row"><span class="list__label">Motion</span><span class="list__value">180ms, one ease</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Components -->
+  <section class="section" id="components">
+    <h2>The nine components</h2>
+    <p class="section__intro">The atoms of the system — their CSS lives in
+    <code>styles/base.css</code>, their docs in one index file. Each one exists to answer a
+    recurring question with a default, so the same data always gets the same shape.</p>
+
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Class</th><th>Use for</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Button</td><td><code>.btn</code>, <code>.btn--accent</code></td><td>Actions — one accent button per view, everything else neutral.</td></tr>
+        <tr><td>Chip</td><td><code>.chip</code></td><td>Tags, filters, small metadata pills; tinted only for gentle category coding.</td></tr>
+        <tr><td>List</td><td><code>.list</code></td><td>Simple label→value data — the default over boxed stat-cards.</td></tr>
+        <tr><td>Card</td><td><code>.card</code></td><td>Grouped or media-rich content only, never plain metrics.</td></tr>
+        <tr><td>Record list</td><td><code>.records</code>, <code>.record</code></td><td>Collections of records (users, issues, deployments) — the default over a table.</td></tr>
+        <tr><td>Table</td><td><code>table</code>, <code>.num</code></td><td>Dense many-column comparison, where row/column scanning is the point.</td></tr>
+        <tr><td>Field</td><td><code>.field</code></td><td>A form input with its label and message; focus is always a visible ring.</td></tr>
+        <tr><td>Form patterns</td><td><code>.form-row</code>, <code>.field--error</code></td><td>Multi-field layout and validation states — color plus a message, never color alone.</td></tr>
+        <tr><td>Callout</td><td><code>.callout</code>, <code>--warn</code>, <code>--ok</code></td><td>A note, risk, or success aside — a translucent wash, no edge border.</td></tr>
+      </tbody>
+    </table>
+
+    <p class="muted" style="max-width: var(--measure)">The through-line: several components are
+    guardrails against a specific default-artifact tell. The list exists so metrics don't end up
+    in boxed grids; the record list so collections don't get crammed into tables; the callout so
+    notes don't grow colored edge borders.</p>
+  </section>
+
+  <!-- Templates -->
+  <section class="section" id="templates">
+    <h2>Templates — whole documents, ready to fill</h2>
+    <p class="section__intro">The top rung of the ladder: complete document types. Fixed-format
+    docs ship as copyable HTML — copy, fill the slots, don't author layout. Semi-structured docs
+    ship as a recipe composed from blocks. A decision tree in the index routes each request before
+    any question is asked.</p>
+
+    <ul class="records">
+      <li class="record">
+        <div class="record__main">
+          <span class="record__title">ərizə</span>
+          <div class="record__meta"><span>Azerbaijani petition/application to an authority</span><span>recipient → applicant → body → signature + date</span></div>
+        </div>
+        <span class="chip" style="background: var(--tint-sky); border-color: transparent">Copyable</span>
+        <span class="chip" style="background: var(--tint-peach); border-color: transparent">Paper</span>
+      </li>
+      <li class="record">
+        <div class="record__main">
+          <span class="record__title">Resume / CV</span>
+          <div class="record__meta"><span>1–2 page career document</span><span>contact → summary → experience → skills → education</span></div>
+        </div>
+        <span class="chip" style="background: var(--tint-sky); border-color: transparent">Copyable</span>
+        <span class="chip" style="background: var(--tint-peach); border-color: transparent">Paper</span>
+      </li>
+      <li class="record">
+        <div class="record__main">
+          <span class="record__title">Formal letter</span>
+          <div class="record__meta"><span>application or petition in any language</span><span>sender → recipient → subject → body → sign-off</span></div>
+        </div>
+        <span class="chip" style="background: var(--tint-sky); border-color: transparent">Copyable</span>
+        <span class="chip" style="background: var(--tint-peach); border-color: transparent">Paper</span>
+      </li>
+      <li class="record">
+        <div class="record__main">
+          <span class="record__title">One-pager / brief</span>
+          <div class="record__meta"><span>exec summary, ~1 page</span><span>header → sections → metrics list → optional figure</span></div>
+        </div>
+        <span class="chip" style="background: var(--tint-lavender); border-color: transparent">Blocks recipe</span>
+      </li>
+      <li class="record">
+        <div class="record__main">
+          <span class="record__title">Review / audit report</span>
+          <div class="record__meta"><span>PR walkthrough, code review, findings</span><span>verdict → summary → findings table → callouts</span></div>
+        </div>
+        <span class="chip" style="background: var(--tint-sky); border-color: transparent">Copyable</span>
+      </li>
+      <li class="record">
+        <div class="record__main">
+          <span class="record__title">Timeline / status</span>
+          <div class="record__meta"><span>incident timeline, status page, changelog</span><span>header + status → dated entries on a rail → current state</span></div>
+        </div>
+        <span class="chip" style="background: var(--tint-sky); border-color: transparent">Copyable</span>
+      </li>
+    </ul>
+
+    <div class="demo__grid">
+      <div class="callout">
+        <p><strong>Paper docs print for real.</strong> Resume, ərizə, and letter carry
+        <code>data-paper</code> — a white sheet on screen instead of the cream app background —
+        and pick up A4 sizing, white-paper neutralization, and safe page breaks from the print
+        block automatically. Export is just the browser's "Save as PDF".</p>
+      </div>
+      <div class="callout">
+        <p><strong>The content contract:</strong> no lorem ipsum, no padded prose, no invented
+        metrics or credentials. Identity fills from the brand profile first, then the prompt;
+        anything still missing is marked <code>[DATA NEEDED]</code> — never faked.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The laws -->
+  <section class="section" id="laws">
+    <h2>The laws it enforces</h2>
+    <p class="section__intro">The skill hunts the tells of default-styled output before returning
+    anything. A few of the big ones:</p>
+    <div class="demo__grid">
+      <div class="list">
+        <div class="list__row"><span class="list__label">Cramped, edge-to-edge content</span><span class="list__value">centered container</span></div>
+        <div class="list__row"><span class="list__label">All-caps headings</span><span class="list__value">weight, not case</span></div>
+        <div class="list__row"><span class="list__label">Hairline rules everywhere</span><span class="list__value">spacing separates</span></div>
+        <div class="list__row"><span class="list__label">Boxed stat-card grids</span><span class="list__value">list column</span></div>
+      </div>
+      <div class="list">
+        <div class="list__row"><span class="list__label">CDN fonts &amp; remote images</span><span class="list__value">everything inlines</span></div>
+        <div class="list__row"><span class="list__label">Accent on everything</span><span class="list__value">one accent, sparingly</span></div>
+        <div class="list__row"><span class="list__label">Pure #000 / #fff</span><span class="list__value">warm ink on cream</span></div>
+        <div class="list__row"><span class="list__label">Hardcoded px / hex</span><span class="list__value">tokens only</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it's used -->
+  <section class="section" id="use">
+    <h2>How Claude uses it</h2>
+    <div class="pillars">
+      <div class="stack" style="gap: var(--space-2)">
+        <h3>1 · Read the foundation</h3>
+        <p class="muted" style="font-size: var(--text-base)">Load <code>tokens/tokens.css</code> for
+        values and rules, then paste <code>dist/artifact.css</code> into the artifact's
+        <code>&lt;style&gt;</code>.</p>
+      </div>
+      <div class="stack" style="gap: var(--space-2)">
+        <h3>2 · Compose up the ladder</h3>
+        <p class="muted" style="font-size: var(--text-base)">Components → blocks; documents start
+        from a template, general artifacts crib from a worked example.</p>
+      </div>
+      <div class="stack" style="gap: var(--space-2)">
+        <h3>3 · Ship one file</h3>
+        <p class="muted" style="font-size: var(--text-base)">One self-contained HTML file, zero
+        external requests — it renders with the network unplugged.</p>
+      </div>
+    </div>
+    <pre><code>node scripts/build.mjs        # tokens + base → dist/artifact.css
+node scripts/build.mjs --check  # CI gate: fails if dist is stale
+node scripts/contrast.mjs       # WCAG AA gate on every color pair</code></pre>
+    <div class="callout">
+      <p><strong>Note:</strong> this page is the system describing itself — every color, gap,
+      radius, and shadow above comes from <code>dist/artifact.css</code>, unedited.</p>
+    </div>
+  </section>
+
+  <!-- Token cost -->
+  <section class="section" id="cost">
+    <h2>What it costs in tokens</h2>
+    <p class="section__intro">The skill is built to keep context load flat: a router plus two-level
+    disclosure means a run reads only the files its request routes to, and the compiled
+    <code>dist</code> is half the size of its sources. Figures below are approximate
+    (bytes ÷ 4).</p>
+
+    <div class="demo__grid">
+      <div class="stack" style="gap: var(--space-2)">
+        <h3>Every run reads</h3>
+        <div class="list">
+          <div class="list__row"><span class="list__label"><code>SKILL.md</code> — router + laws</span><span class="list__value">~2.8k</span></div>
+          <div class="list__row"><span class="list__label"><code>tokens/tokens.css</code> — values + rules</span><span class="list__value">~2.9k</span></div>
+          <div class="list__row"><span class="list__label"><code>dist/artifact.css</code> — pasted into the artifact</span><span class="list__value">~2.6k</span></div>
+        </div>
+        <p class="muted">Baseline ≈ 8.3k: ~5.7k read as input, ~2.6k written out as the inlined stylesheet.</p>
+      </div>
+
+      <div class="stack" style="gap: var(--space-2)">
+        <h3>Read only when routed to</h3>
+        <div class="list">
+          <div class="list__row"><span class="list__label"><code>components/_index.md</code> — all nine, one file</span><span class="list__value">~2.9k</span></div>
+          <div class="list__row"><span class="list__label">a template (e.g. <code>report.html</code>)</span><span class="list__value">~1k</span></div>
+          <div class="list__row"><span class="list__label">an example recipe (e.g. <code>landing.md</code>)</span><span class="list__value">~0.3k</span></div>
+          <div class="list__row"><span class="list__label">a folder index (<code>blocks/</code>, <code>templates/</code>)</span><span class="list__value">~0.3–0.8k</span></div>
+        </div>
+        <p class="muted">A typical styled artifact lands around 9–12k tokens end to end, before the content itself.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Note:</strong> the library can keep growing without raising this bill — the router
+      points to folder indexes, indexes point to files, and only the routed-to file is ever read.
+      The build step alone buys −50%: ~5.1k of sources compile to the ~2.6k <code>dist</code> paste.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>artifact-styling · entry point <code>SKILL.md</code> · zero-dependency by design</p>
+  </footer>
+
+</div>
+</body>
+</html>

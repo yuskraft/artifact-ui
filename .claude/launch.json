@@ -6,6 +6,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8642", "--directory", "testbed"],
       "port": 8642
+    },
+    {
+      "name": "site",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/serve.mjs", "8643"],
+      "port": 8643
     }
   ]
 }
