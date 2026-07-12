@@ -16,6 +16,8 @@ lives in [`../styles/base.css`](../styles/base.css). Compose them into
 | [Selectbox](#selectbox) | `.select` | A dropdown that looks identical on every browser and OS. |
 | [Form patterns](#form-patterns) | `.form-row`, `.field--error`, `.field--ok` | Multi-field layout and validation states. |
 | [Callout](#callout) | `.callout`, `.callout--warn`, `.callout--ok` | A note, warning, or success aside inside a document. |
+| [Image](#image) | `img` | Contained by default, subtle depth outline. |
+| [Motion](#motion) | `.reveal`, `.stagger` | Opt-in one-shot entrance; press feedback ships on `.btn`. |
 
 **To add a component:** add its CSS to `base.css`, rebuild `dist`, and add a section + one table row
 here. Split a component into its own file only when its docs outgrow a screenful.
@@ -250,3 +252,38 @@ a "what to do next". CSS: `.callout` (neutral), `.callout--warn`, `.callout--ok`
 - Body text stays `--text` — the wash is background seasoning, never a text color.
 - Sparingly: a callout interrupts reading. More than one or two per section means the prose needs restructuring, not more boxes.
 - Add `.avoid-break` so a callout never splits across printed pages.
+
+## Image
+
+Bare `img` is styled by `base.css`: contained (`max-width: 100%; height: auto`) and given a subtle
+1px depth outline so photos and screenshots sit cleanly on any surface.
+
+- The outline is a **pure black/white alpha wash** (flips for dark mode) — never a tinted neutral,
+  which picks up the surface color and reads as dirt on the image edge.
+- Opt out per-image for transparent logos/icons: `style="outline: none"`. (Inline SVG is
+  unaffected — the outline applies to `img` only.)
+- Remember the CSP: remote images silently break in the sandbox — inline SVG or data URIs only.
+
+## Motion
+
+Motion is opt-in and restrained; **all rules and values live beside the motion tokens in
+[`tokens.css`](../tokens/tokens.css)** (easing choice, duration tiers, what may animate). What
+`base.css` ships:
+
+- **Press feedback is built into `.btn`** — a `scale(0.97)` compression on `:active`. Nothing to add.
+- **`.reveal`** — a one-shot entrance (fade + rise + unblur) that runs once on load via
+  `@starting-style`. Older browsers and reduced-motion users simply see the content in place.
+- **`.stagger`** — add to the *parent* to cascade its `.reveal` children 60ms apart.
+
+```html
+<main class="container stack stagger">
+  <h1 class="reveal">Quarterly review</h1>
+  <p class="reveal muted">Q2 2026 · engineering</p>
+  <section class="reveal">…</section>
+</main>
+```
+
+- **Decorative only.** Content must read fine if the animation never runs; never gate meaning on motion.
+- A page load is the *only* entrance that earns animation in a document artifact — don't animate
+  list items on hover, and never animate anything keyboard-triggered.
+- Reserve `.reveal` for the few top-level chunks (hero, first sections), not every element.

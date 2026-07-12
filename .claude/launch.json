@@ -12,6 +12,12 @@
       "runtimeExecutable": "node",
       "runtimeArgs": ["scripts/serve.mjs", "8643"],
       "port": 8643
+    },
+    {
+      "name": "site-8645",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/serve.mjs", "8645"],
+      "port": 8645
     }
   ]
 }

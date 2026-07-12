@@ -5,22 +5,31 @@
  * update BOTH tokens/tokens.css and this table when a color token changes.
  * Usage: node scripts/contrast.mjs   → exit 0 if every pair meets its minimum.
  */
-function oklchToSrgb(L, C, H) {
+const gamutWarned = new Set();
+function oklchToSrgb(L, C, H, label) {
   const h = (H * Math.PI) / 180;
   const a = C * Math.cos(h), b = C * Math.sin(h);
   const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
   const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
   const s_ = L - 0.0894841775 * a - 1.291485548 * b;
   const l = l_ ** 3, m = m_ ** 3, s = s_ ** 3;
+  const lin = [
+    4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+    -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s,
+  ];
+  // Gamut gate: chroma outside sRGB gets clamped by the browser, so the color
+  // that renders isn't the one declared — and this contrast result would lie.
+  // Fix by reducing C (keep L and H) until the value fits.
+  if (label && !gamutWarned.has(label) && lin.some((x) => x < -0.005 || x > 1.005)) {
+    gamutWarned.add(label);
+    console.warn(`⚠ ${label} oklch(${L} ${C} ${H}) clips outside sRGB — reduce C`);
+  }
   const gam = (x) => {
     x = Math.min(1, Math.max(0, x));
     return x <= 0.0031308 ? 12.92 * x : 1.055 * x ** (1 / 2.4) - 0.055;
   };
-  return [
-    gam(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
-    gam(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
-    gam(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s),
-  ];
+  return lin.map(gam);
 }
 function relLum([r, g, b]) {
   const lin = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
@@ -31,23 +40,23 @@ function contrast(c1, c2) {
   return (hi + 0.05) / (lo + 0.05);
 }
 // [L, C, H] — keep in sync with tokens/tokens.css.
-const HUE_N = 98, HUE_A = 32;
+const HUE_N = 98, HUE_A = 129;
 const T = {
-  bg:        [0.979, 0.040, HUE_N],  // #fff9db
+  bg:        [0.965, 0.008, HUE_N],  // warm gray
   surface:   [0.99, 0.015, HUE_N],
   text:      [0.264, 0.0, HUE_N],    // #252525
   text2:     [0.48, 0.013, HUE_N],
   muted:     [0.54, 0.012, HUE_N],
-  accent:    [0.55, 0.14, HUE_A],    // #f19a88 hue, darkened for AA
+  accent:    [0.52, 0.14, HUE_A],    // green hue, darkened for AA
   onAccent:  [0.99, 0.015, HUE_A],
   dbg:       [0.17, 0.012, HUE_N],
   dtext:     [0.93, 0.008, HUE_N],
   dtext2:    [0.73, 0.01, HUE_N],
   dmuted:    [0.60, 0.01, HUE_N],
-  daccent:   [0.77, 0.108, HUE_A],   // #f19a88 exact
+  daccent:   [0.77, 0.108, HUE_A],   // lifted L — glows in dark
   donAccent: [0.16, 0.02, HUE_A],
   danger:    [0.53, 0.17, 25],
-  ok:        [0.50, 0.09, 191],      // #78aba8 hue, darkened for AA
+  ok:        [0.50, 0.085, 191],     // #78aba8 hue, darkened for AA; C capped for sRGB
   ddanger:   [0.72, 0.15, 25],
   dok:       [0.70, 0.054, 191],     // #78aba8 exact
   tint:      [0.933, 0.023, 141],    // representative --tint-* (sage, #e1eddf)
@@ -79,9 +88,9 @@ const PAIRS = [
 ];
 let failed = 0;
 for (const [label, f, b, min] of PAIRS) {
-  const r = contrast(oklchToSrgb(...T[f]), oklchToSrgb(...T[b]));
+  const r = contrast(oklchToSrgb(...T[f], f), oklchToSrgb(...T[b], b));
   const ok = r >= min;
   if (!ok) failed++;
   console.log(`${ok ? "✓" : "✗"} ${r.toFixed(2)}:1 (min ${min}) ${label}`);
 }
-process.exit(failed ? 1 : 0);
+process.exit(failed || gamutWarned.size ? 1 : 0);

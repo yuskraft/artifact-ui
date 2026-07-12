@@ -42,3 +42,6 @@ the user exports with the browser's "Save as PDF".
 - **Fill from the [brand profile](brand.md) first** (personal/formal docs only), then the prompt,
   then ask once for what's still missing.
 - **Match the document's language** for headings, sign-offs, and dates.
+- **Smart punctuation.** Curly quotes in prose (straight only in code); en dash for ranges
+  (`2010–2020`); em dash for asides; a real ellipsis (`…`); `&nbsp;` between a value and its unit
+  (`16&nbsp;px`).

@@ -53,6 +53,7 @@ The full per-dimension rules (type, spacing, color, corners, elevation, motion) 
 
 - **Focus is always visible.** Every interactive element keeps a `:focus-visible` ring; never `outline: none` without a replacement.
 - **Hover is a hint, not a jump.** Background/border shifts over `--dur`; avoid layout-shifting hovers.
+- **Motion is opt-in and rule-bound.** Press feedback ships on `.btn` (scale 0.97); a page-load entrance is opt-in via `.reveal`/`.stagger`, decorative only. The motion rules (easing, duration tiers, what may animate) live beside the motion tokens in `tokens/tokens.css`.
 - **States use tokens too.** Disabled → `opacity: 0.5; cursor: not-allowed`. Active nav → `--accent-quiet` fill. Loading → a token-colored shimmer, not a default-blue spinner.
 - **Tap targets ≥ 44px** for anything touchable (padding, not font-size).
 
@@ -75,6 +76,7 @@ Hunt these before returning:
 - **Pure `#000` / `#fff`** and harsh single-layer shadows. (Exception: paper documents — resume, ərizə, letter — sit on a white sheet via `data-paper` on the root.)
 - **Edge-border callouts** — a thick colored left/edge border on a note or warning box. Use the [callout component](components/_index.md#callout) (`.callout`, `.callout--warn`, `.callout--ok`): a translucent tinted wash, no border.
 - **Accent overuse** — color on every element, so nothing stands out.
+- **Careless motion** — `transition: all`, `ease-in` on UI, entrances from `scale(0)`, UI animation over 300ms, or autoplaying attention-grabbing loops. Motion follows the rules beside the motion tokens.
 - **Hardcoded values** — any px/hex/radius not from a token, which guarantees drift.
 - **One flat slab** — no surface ladder, no depth, no grouping.
 
@@ -99,6 +101,7 @@ The artifact is done only when every line holds:
 - [ ] Spacing is generous and proportional; grouping is legible from the gaps alone.
 - [ ] Palette is warm: one soft coral accent used sparingly; pastel tints (if any) stay quiet.
 - [ ] Radii match element size and nest concentrically (`outer − gap`).
+- [ ] Motion (if any) animates only transform/opacity, uses the easing/duration tokens, and stays under 300ms; nothing animates that the reader sees repeatedly.
 - [ ] Artifacts default to **light** (dark never activates on its own); if dark was opted in via `data-theme="dark"`, its rendering looks intentional (checked the dark block, not just inverted).
 - [ ] For a document type: routed to the right template, filled its contract, **no `{{TOKEN}}` or placeholder left**, gaps marked `[DATA NEEDED]`; identity pulled from the brand profile if present.
 - [ ] Print-ready docs (resume, ərizə, report) checked in print/PDF: A4, white-paper neutralization, no bad page breaks.

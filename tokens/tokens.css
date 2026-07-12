@@ -35,11 +35,11 @@
    *   A garish multi-stop gradient is a tell. Never a rainbow.
    */
   /* Source palette (the brand hexes these tokens realize):
-   *   #fff9db cream → --bg · #252525 ink → --text · #f19a88 coral → accent family
-   *   (exact in dark mode; same hue darkened for AA in light) · #78aba8 teal → --ok
-   *   (exact in dark; darkened in light) · #fdeadc → --tint-peach · #e1eddf →
-   *   --tint-sage · #f0e3f4 → --tint-lavender · #d3dde6 → --tint-sky · #f6e39e +
-   *   #fcdc94 → --tint-butter · #ef9c66 / #c8cfa0 fold into the peach / sage hues. */
+   *   warm gray → --bg · #252525 ink → --text · #74ff8c green (hue 129) → accent
+   *   family (lightness darkened for AA in light mode, lifted to glow in dark) ·
+   *   #78aba8 teal → --ok (exact in dark; darkened in light) · #fdeadc →
+   *   --tint-peach · #e1eddf → --tint-sage · #f0e3f4 → --tint-lavender ·
+   *   #d3dde6 → --tint-sky · #f6e39e + #fcdc94 → --tint-butter. */
   --hue-accent: 129;        /* the ONE knob: swap this to re-theme everything (129 = #74ff8c bright green) */
   --hue-neutral: 98;        /* warm cream tint (#fff9db); reads inviting, never clinical gray */
 
@@ -54,15 +54,15 @@
   --text-2:       oklch(0.48 0.013 var(--hue-neutral));   /* secondary / labels */
   --text-muted:   oklch(0.54 0.012 var(--hue-neutral));   /* captions, meta, placeholder — AA on --bg */
 
-  --accent:       oklch(0.55 0.14 var(--hue-accent));    /* #f19a88 coral hue, darkened for AA text/links */
-  --accent-hover: oklch(0.50 0.15 var(--hue-accent));
+  --accent:       oklch(0.52 0.14 var(--hue-accent));    /* accent hue darkened for AA text/links (≥4.5 on --bg) */
+  --accent-hover: oklch(0.47 0.15 var(--hue-accent));
   --accent-quiet: oklch(0.93 0.05 var(--hue-accent));    /* peachy tint behind accent text */
   --on-accent:    oklch(0.99 0.015 var(--hue-accent));   /* near-white on a solid accent */
 
   /* State colors — form validation, alerts. AA on --bg like the accent.
      Use sparingly; the accent still owns the primary action. */
   --danger:       oklch(0.53 0.17 25);
-  --ok:           oklch(0.50 0.09 191);                  /* #78aba8 teal hue, darkened for AA */
+  --ok:           oklch(0.50 0.085 191);                 /* #78aba8 teal hue, darkened for AA; C capped to stay in sRGB gamut */
 
   /* Optional pastel tints — low-chroma washes for tags, soft section
      backgrounds, gentle category coding. Seasoning, not the meal: behind muted
@@ -160,11 +160,31 @@
   --shadow-md: 0 2px 4px oklch(0 0 0 / 0.04), 0 4px 12px oklch(0 0 0 / 0.06);
   --shadow-lg: 0 4px 8px oklch(0 0 0 / 0.04), 0 16px 32px oklch(0 0 0 / 0.10);
 
-  /* ── Motion ── short, eased, limited to hover/focus/enter states on interactive
-     elements. No autoplaying, attention-grabbing animation. Reduced motion is
-     honored globally below. */
-  --ease: cubic-bezier(0.2, 0, 0, 1);
-  --dur: 180ms;
+  /* ── Motion ── restraint first: the more often an interaction is seen, the
+   * less it animates; never animate keyboard-triggered actions. No autoplaying,
+   * attention-grabbing animation.
+   *
+   * Rules:
+   * - Animate ONLY transform/opacity (GPU-composited; filter sparingly). Never
+   *   `transition: all` — name the properties.
+   * - Easing: enters/exits/hovers/fades → --ease; something MOVING to a new
+   *   place on screen → --ease-inout; constant motion (spinners) → linear.
+   *   NEVER ease-in on UI — it delays the moment the user is watching.
+   * - Duration: press feedback --dur-fast; hover/small popovers --dur; panels
+   *   and entrances --dur-slow. UI motion stays under 300ms.
+   * - Physicality: entrances scale from ≥0.95 + fade, never scale(0); press is
+   *   scale 0.96–0.98 (never below 0.95); popovers get transform-origin at
+   *   their trigger (only modals stay centered).
+   * - Enter/exit are asymmetric (exit shorter) and travel the SAME path.
+   * - Stagger entrances 30–80ms apart (`.stagger`); decorative only, never
+   *   blocking — content must be readable if the animation never runs.
+   * - Reduced motion is honored globally below (a blanket kill, on purpose:
+   *   artifacts are documents; instant is an acceptable end state). */
+  --ease:       cubic-bezier(0.2, 0, 0, 1);      /* default: enter/exit/hover/fade */
+  --ease-inout: cubic-bezier(0.77, 0, 0.175, 1); /* on-screen movement/morph */
+  --dur-fast: 120ms;
+  --dur:      180ms;
+  --dur-slow: 260ms;
 }
 
 /* Dark theme — OPT-IN only, never automatic. Add data-theme="dark" to <html>
@@ -182,7 +202,7 @@
     --text-2:      oklch(0.73 0.01  var(--hue-neutral));
     --text-muted:  oklch(0.60 0.01  var(--hue-neutral));
 
-    --accent:       oklch(0.77 0.108 var(--hue-accent));     /* #f19a88 exact — lifted L glows in dark */
+    --accent:       oklch(0.77 0.108 var(--hue-accent));     /* lifted L — the accent glows in dark */
     --accent-hover: oklch(0.82 0.11 var(--hue-accent));
     --accent-quiet: oklch(0.28 0.06 var(--hue-accent));
     --on-accent:    oklch(0.16 0.02 var(--hue-accent));
