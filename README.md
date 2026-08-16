@@ -1,4 +1,6 @@
-# artifact-styling
+# artifact-ui
+
+[![Install with skills.sh](https://skills.sh/b/yuskraft/artifact-ui)](https://skills.sh/yuskraft/artifact-ui)
 
 A design-system **skill** that makes the HTML artifacts and documents an LLM returns look
 intentionally designed instead of default-styled — general-purpose, self-contained, print-ready.
@@ -9,8 +11,54 @@ It sits in the deterministic middle of the artifact-skill landscape: not a philo
 **real token system + copyable templates**, WCAG-gated, zero dependencies, ~2k tokens of CSS per
 artifact, valid under Claude's artifact-sandbox CSP by construction.
 
-The repo root **is** the skill: [`SKILL.md`](SKILL.md) is the entry point; everything else is its
-library.
+The installable skill lives in [`skills/artifact-ui/`](skills/artifact-ui/);
+[`SKILL.md`](skills/artifact-ui/SKILL.md) is the entry point, everything beside it is its library.
+
+## Install
+
+```bash
+npx skills add yuskraft/artifact-ui
+```
+
+Works with Claude Code, Cursor, Codex, and [70+ agents](https://skills.sh) — add `-g` to install
+globally for all projects, and pull updates later with `npx skills update`.
+
+**Or as a Claude Code plugin** (managed updates, versioned releases):
+
+```
+/plugin marketplace add yuskraft/artifact-ui
+/plugin install artifact-ui@artifact-ui
+```
+
+Pick **one** channel — installing via both loads the skill twice.
+
+<details>
+<summary>Manual install</summary>
+
+```bash
+# personal (all projects)
+cp -R skills/artifact-ui ~/.claude/skills/artifact-ui
+# or project-local
+cp -R skills/artifact-ui <your-project>/.claude/skills/artifact-ui
+```
+
+</details>
+
+It's a **model-invoked** skill — there is no slash command. Just ask in natural language; the model
+reads the skill's description and fires it when your request matches:
+
+> "Make me a resume as an HTML artifact."
+> "Write an ərizə requesting leave."
+> "Style this report so it looks designed."
+
+To force it, name it: *"use artifact-ui to …"*.
+
+### Optional: brand profile
+
+Personal/formal docs (resume, ərizə) auto-fill identity from an optional
+`~/.config/artifact-ui/brand.md` (or project `./.artifact-brand.md`) — name, role, contact,
+`accent_hue`, language. Absent → the skill fills from your prompt or asks once. Schema is documented
+in [`templates/brand.md`](skills/artifact-ui/templates/brand.md).
 
 ## What it does
 
@@ -22,18 +70,19 @@ general artifacts (articles, dashboards, landing pages, answer UIs) and structur
 ## Structure — the atomic ladder
 
 ```
-SKILL.md            # foundations (design laws) + router + return checklist — the one always-read file
-tokens/
-  tokens.css        # canonical design tokens + their usage rules (in comments) — single source of truth
-styles/
-  base.css          # reset + primitive classes + @media print (A4, white-paper)
-dist/
-  artifact.css      # GENERATED: tokens.css + base.css merged & minified — what artifacts inline
-components/         # one file: button, chip, list, card, table, field, form patterns
-blocks/             # composed sections: section, doc-header, contact-row, experience-entry, signature
-templates/          # document types: resume, erize, letter, one-pager, report, timeline (+ brand profile)
-examples/           # worked artifacts: article, dashboard, landing, answer
-scripts/            # build.mjs (regenerate dist) + contrast.mjs (WCAG AA gate)
+skills/artifact-ui/   # ← the installable skill payload
+  SKILL.md            # foundations (design laws) + router + return checklist — the one always-read file
+  tokens/
+    tokens.css        # canonical design tokens + their usage rules (in comments) — single source of truth
+  styles/
+    base.css          # reset + primitive classes + @media print (A4, white-paper)
+  dist/
+    artifact.css      # GENERATED: tokens.css + base.css merged & minified — what artifacts inline
+  components/         # one file: button, chip, list, card, table, field, form patterns
+  blocks/             # composed sections: section, doc-header, contact-row, experience-entry, signature
+  templates/          # document types: resume, erize, letter, one-pager, report, timeline (+ brand profile)
+  examples/           # worked artifacts: article, dashboard, landing, answer
+scripts/              # build.mjs (regenerate dist) + contrast.mjs (WCAG AA gate) — dev-only, not installed
 ```
 
 **Primitives → blocks → templates.** Small pieces compose into sections; sections compose into
@@ -44,34 +93,6 @@ ONE self-contained HTML file — the skill inlines `dist/artifact.css` and the m
 step, no JS libraries, **no external requests at all**: artifacts render identically with the network
 unplugged, so they're valid inside Claude's CSP-locked artifact sandbox (claude.ai and Claude Code
 artifact hosting) by construction. See [Fonts](#fonts).
-
-## Install
-
-It's a **model-invoked** skill — copy the repo into your skills directory:
-
-```bash
-# personal (all projects)
-cp -R . ~/.claude/skills/artifact-styling
-# or project-local
-cp -R . <your-project>/.claude/skills/artifact-styling
-```
-
-Then just ask in natural language — **there is no slash command**. The model reads the skill's
-description and fires it when your request matches:
-
-> "Make me a resume as an HTML artifact."
-> "Write an ərizə requesting leave."
-> "Style this report so it looks designed."
-
-To force it, name it: *"use artifact-styling to …"*. (You can also package it as a plugin and add a
-`/…` command wrapper if you want an explicit trigger.)
-
-### Optional: brand profile
-
-Personal/formal docs (resume, ərizə) auto-fill identity from an optional
-`~/.config/artifact-ui/brand.md` (or project `./.artifact-brand.md`) — name, role, contact,
-`accent_hue`, language. Absent → the skill fills from your prompt or asks once. Schema is documented
-in [`templates/brand.md`](templates/brand.md).
 
 ## Token usage & cost
 
@@ -103,8 +124,9 @@ so the rules ride along in comments the build strips from `dist`.
 
 ## Development
 
-`tokens/` + `styles/` are the **single source of truth** (commented, human-edited).
-`dist/artifact.css` is **generated** — never hand-edit it. After changing a token or style, rebuild:
+`tokens/` + `styles/` (under `skills/artifact-ui/`) are the **single source of truth** (commented,
+human-edited). `dist/artifact.css` is **generated** — never hand-edit it. After changing a token or
+style, rebuild:
 
 ```bash
 node scripts/build.mjs          # regenerate dist/artifact.css (zero dependencies)
@@ -114,6 +136,10 @@ node scripts/build.mjs --check  # CI/pre-commit: fails if dist is stale
 The build only regenerates the skill's own stylesheet — **output artifacts stay buildless.**
 
 To re-theme everything, change one number: `--hue-accent` in `tokens/tokens.css`, then rebuild.
+
+Releases: bump `version` in [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json)
+and tag (`vX.Y.Z`) — plugin users pick up the update on the version change; `npx skills` users
+track `main` (or pin with `yuskraft/artifact-ui@vX.Y.Z`).
 
 ## Fonts
 
@@ -126,3 +152,7 @@ The named web fonts (Plus Jakarta Sans / Inter / JetBrains Mono) still *lead* ea
 **opt-in upgrade**: for a page that will live outside the sandbox, add the Google-Fonts `<link>`
 (each template carries it in a comment) and the same tokens pick the web fonts up automatically.
 To get the exact web-font look inside the sandbox, inline the fonts as base64 `@font-face`.
+
+## License
+
+[MIT](LICENSE)

@@ -19,8 +19,9 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const SOURCES = ["tokens/tokens.css", "styles/base.css"];
-const OUT = "dist/artifact.css";
+const SKILL = "skills/artifact-ui";
+const SOURCES = [`${SKILL}/tokens/tokens.css`, `${SKILL}/styles/base.css`];
+const OUT = `${SKILL}/dist/artifact.css`;
 
 const HEADER =
   "/* artifact.css — AUTO-GENERATED from tokens/tokens.css + styles/base.css.\n" +
@@ -50,7 +51,7 @@ if (process.argv.includes("--check")) {
   }
   console.log(`✓ ${OUT} is up to date`);
 } else {
-  mkdirSync(join(ROOT, "dist"), { recursive: true });
+  mkdirSync(join(ROOT, SKILL, "dist"), { recursive: true });
   writeFileSync(outPath, merged);
 
   const srcBytes = SOURCES.reduce(

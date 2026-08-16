@@ -1,5 +1,5 @@
 ---
-name: artifact-styling
+name: artifact-ui
 description: Make HTML artifacts and documents look intentionally designed instead of default-styled. Use when generating any self-contained HTML artifact — reports, dashboards, landing pages, chat/answer UIs, data views — or a structured document like a resume/CV, an ərizə or formal letter, or a one-pager; anything where appearance matters, not just the content. Works with GPT, Codex, Claude Code, Gemini, and more LLMs.
 ---
 

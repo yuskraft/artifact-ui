@@ -11,8 +11,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: dist/artifact.css is up to date
+      - name: skills/artifact-ui/dist/artifact.css is up to date
         run: node scripts/build.mjs --check
-      - name: contrast gate (present only after plan 003 lands)
-        run: |
-          if [ -f scripts/contrast.mjs ]; then node scripts/contrast.mjs; else echo "no contrast script yet — skipping"; fi
+      - name: contrast gate (WCAG AA)
+        run: node scripts/contrast.mjs
