@@ -12,6 +12,7 @@ Three leading words run through everything:
 - **Restraint** — the taste. Few type sizes, one accent, calm surfaces, generous space. When unsure, remove. Polish is what you _didn't_ add.
 - **Tokens** — the mechanism. Build _only_ from `var()`. Never hardcode a px, a hex, or a one-off radius. Coherence is a side effect of everyone drinking from the same well.
 - **The ladder** — the structure: **primitives → blocks → templates**. Small pieces compose into sections; sections compose into documents. Reach for the highest rung that fits.
+- **One moment** — the signature. Every artifact earns _exactly one_ expressive move: a `--wash-hero` behind the opener, one `.display`-sized number, one tinted `.band`, one `--chart-strong` bar, a `--glow-accent` in dark. Zero moments reads generic; two compete and cancel. This is a budget, not a licence — restraint everywhere else is what makes the one moment land.
 
 This is reference, not a workflow — one system to apply in full. Before returning any artifact, every rule that applies must have been considered; the [return checklist](#before-you-return) is the exhaustiveness bar.
 
@@ -32,6 +33,8 @@ This is reference, not a workflow — one system to apply in full. Before return
 | one-pager / exec summary / brief | [`templates/one-pager.md`](templates/one-pager.md) |
 | PR walkthrough / code review / audit / findings report | [`templates/report.html`](templates/report.html) |
 | incident timeline / status page / changelog | [`templates/timeline.html`](templates/timeline.html) |
+| chart / metrics / data-viz / dashboard numbers | [`components/charts.md`](components/charts.md) |
+| hero / cover / opening moment | [`blocks/hero.md`](blocks/hero.md) |
 | long article / essay / docs page | [`examples/article.md`](examples/article.md) |
 | dashboard / app UI | [`examples/dashboard.md`](examples/dashboard.md) |
 | landing / marketing page | [`examples/landing.md`](examples/landing.md) |
@@ -49,6 +52,16 @@ The full per-dimension rules (type, spacing, color, corners, elevation, motion) 
 - **Match density to purpose.** Reading artifacts are airy; tool/dashboard artifacts are tighter and more information-dense — but still token-spaced. Don't make a dashboard breathe like an essay or vice-versa.
 - **Responsive without breakpoints where possible.** Fluid type + `grid-template-columns: repeat(auto-fit, minmax(...))` adapts most layouts; add a media query only when reflow genuinely needs one.
 
+## Composition — what makes it good, not just correct
+
+Passing every rule below still allows something calm, correct, and forgettable. These are the moves that make an artifact worth looking at:
+
+- **Mood first.** Before building, pick the accent preset that matches the subject (the table sits beside `--hue-accent` in `tokens/tokens.css`) and decide light or dark. A financial review and a kids' study guide should not arrive in the same green.
+- **Give the eye somewhere to land.** Within a second of opening, one thing should be obviously the most important — usually the opener's title or its one headline number. The largest type and the accent belong to the *same* element; splitting them leaves the page with two weak centers instead of one strong one.
+- **Vary the shape.** Three consecutive sections built the same way read as generated, however well-spaced. Alternate the register: prose → a `.stats` row → a chart → prose. Airy and dense next to each other make both legible.
+- **When it reads flat, add in this order** — stop at the first one that fixes it: `--wash-hero` behind the opener → promote one number to `.display` → one tinted `.band` → replace a list of numbers with `.bars`. That is also the whole budget; the [one moment](#artifact-styling) rule still caps you at one.
+- **Then stop.** The add-ladder is bounded on purpose. Everything after the signature moment goes back to plain, contained, left-aligned defaults — the calm is what makes the moment visible.
+
 ## Interaction patterns
 
 - **Focus is always visible.** Every interactive element keeps a `:focus-visible` ring; never `outline: none` without a replacement.
@@ -64,7 +77,7 @@ Hunt these before returning:
 - **Cramped spacing** — content packed edge to edge with no breathing room.
 - **Untreated type** — browser-default sizing, no measure cap, full-width paragraphs, no weight hierarchy. (A serif where sans was wanted is the same tell.) The system stack is fine; leaving it *unset* is the tell.
 - **A dead external request** — a font/CSS/JS CDN link or remote image that the sandbox CSP silently blocks. Everything inlines.
-- **Boxy stat-card grids for simple metrics** — bordered boxes around plain label→value data. Use a [list](components/_index.md#list) instead.
+- **Boxy stat-card grids for simple metrics** — bordered boxes around plain label→value data. Use a [list](components/_index.md#list), or an unboxed [stat row](components/charts.md#stat-row) when the numbers deserve real presence.
 - **Cards as the default wrapper** — every paragraph, list item, or section reflexively boxed in a bordered card. A card is the *last* resort, not the first: running text stays plain prose, parallel items are a bullet list, label→value pairs a [list](components/_index.md#list), collapsible detail a native `<details>` accordion, collections a [record list](components/_index.md#record-list). A card is earned only by genuinely grouped or media-rich content — a page of nothing but cards is as much a tell as no structure at all.
 - **Full-width content** — layout spanning the whole viewport instead of a centered container.
 - **Garish gradients** — rainbow or high-chroma multi-stop fills. (Soft warm low-chroma washes are fine.)
@@ -99,7 +112,9 @@ The artifact is done only when every line holds:
 - [ ] All content sits in a centered container (prose in a `--measure` column); **nothing runs full-width**; left-aligned.
 - [ ] Simple data uses a **list column**, not boxed stat-cards; cards are reserved for grouped/media-rich content — prose, bullet lists, and `<details>` were tried before any card.
 - [ ] Spacing is generous and proportional; grouping is legible from the gaps alone.
-- [ ] Palette is warm: one soft coral accent used sparingly; pastel tints (if any) stay quiet.
+- [ ] Palette is warm: one accent derived from `--hue-accent` used sparingly; pastel tints (if any) stay quiet.
+- [ ] **One signature moment exists — and only one.** The accent preset was chosen for the subject, not left on the default by accident.
+- [ ] Any chart follows the chart rules: one hue by default with a single promoted mark, values labelled on the marks, no gridlines, drawn in CSS/inline SVG rather than JS.
 - [ ] Radii match element size and nest concentrically (`outer − gap`).
 - [ ] Motion (if any) animates only transform/opacity, uses the easing/duration tokens, and stays under 300ms; nothing animates that the reader sees repeatedly.
 - [ ] Artifacts default to **light** (dark never activates on its own); if dark was opted in via `data-theme="dark"`, its rendering looks intentional (checked the dark block, not just inverted).

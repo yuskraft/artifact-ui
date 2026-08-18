@@ -11,8 +11,11 @@
  * number), fluid type via clamp() (no breakpoints), logical properties downstream,
  * color-scheme for native form/scrollbar theming.
  *
- * To re-theme: change --hue-accent. That is the knob. Don't hand-pick a second
- * accent — derive shades from the one hue by moving lightness/chroma.
+ * To re-theme: copy ONE row from the mood preset table below — it sets
+ * --hue-accent and --chroma-accent together. Hue alone is not enough: sRGB holds
+ * far more chroma at magenta than at teal, so each preset carries the most
+ * saturation its hue can hold while still clearing AA. Never hand-pick a second
+ * accent — every accent shade derives from that one pair.
  */
 
 :root {
@@ -31,8 +34,8 @@
    * - Text hierarchy is three steps: --text / --text-2 / --text-muted. Demote
    *   meta to muted instead of shrinking it to nothing.
    * - Never pure black or white; the tokens already avoid #000/#fff.
-   * - Gradients: soft warm low-chroma washes only (a faint radial behind a hero).
-   *   A garish multi-stop gradient is a tell. Never a rainbow.
+   * - Gradients: use --wash-hero / --wash-duo below and nothing else. A garish
+   *   multi-stop gradient is a tell. Never a rainbow.
    */
   /* Source palette (the brand hexes these tokens realize):
    *   warm gray → --bg · #252525 ink → --text · #74ff8c green (hue 129) → accent
@@ -40,7 +43,25 @@
    *   #78aba8 teal → --ok (exact in dark; darkened in light) · #fdeadc →
    *   --tint-peach · #e1eddf → --tint-sage · #f0e3f4 → --tint-lavender ·
    *   #d3dde6 → --tint-sky · #f6e39e + #fcdc94 → --tint-butter. */
-  --hue-accent: 129;        /* the ONE knob: swap this to re-theme everything (129 = #74ff8c bright green) */
+  /* Mood presets — pick ONE row before building; the subject picks it, not taste.
+   * Both numbers move together; every row is gamut- and AA-checked by
+   * scripts/contrast.mjs, so a row is safe exactly as written.
+   *
+   *   subject                                  --hue-accent  --chroma-accent
+   *   product / default / general                   129           0.13   (green, the brand)
+   *   technical / dev tools / data                  191           0.08   (teal; its hue holds the least chroma)
+   *   financial / legal / serious                   250           0.13   (blue)
+   *   editorial / essay / warm                       25           0.14   (warm red)
+   *   playful / educational / kids                   59           0.11   (amber)
+   *   celebratory / creative / launch               318           0.14   (magenta)
+   *
+   * Each chroma is the most its hue can hold at BOTH --accent (L 0.52) and
+   * --accent-hover (L 0.47) without leaving sRGB. Raising one past its row makes
+   * the browser silently clamp it, so the color that renders is not the one
+   * declared — and the contrast it was approved at becomes a fiction.
+   */
+  --hue-accent: 129;        /* mood preset hue (129 = #74ff8c bright green) */
+  --chroma-accent: 0.13;    /* travels with the hue — see the preset table above */
   --hue-neutral: 98;        /* warm cream tint (#fff9db); reads inviting, never clinical gray */
 
   /* Light theme (the default). Dark theme overrides these below. */
@@ -54,10 +75,12 @@
   --text-2:       oklch(0.48 0.013 var(--hue-neutral));   /* secondary / labels */
   --text-muted:   oklch(0.54 0.012 var(--hue-neutral));   /* captions, meta, placeholder — AA on --bg */
 
-  --accent:       oklch(0.52 0.14 var(--hue-accent));    /* accent hue darkened for AA text/links (≥4.5 on --bg) */
-  --accent-hover: oklch(0.47 0.15 var(--hue-accent));
-  --accent-quiet: oklch(0.93 0.05 var(--hue-accent));    /* peachy tint behind accent text */
-  --on-accent:    oklch(0.99 0.015 var(--hue-accent));   /* near-white on a solid accent */
+  --accent:       oklch(0.52 var(--chroma-accent) var(--hue-accent));  /* darkened for AA text/links (≥4.5 on --bg) */
+  --accent-hover: oklch(0.47 var(--chroma-accent) var(--hue-accent));
+  --accent-quiet: oklch(0.93 0.03 var(--hue-accent));    /* quiet tint of the accent hue, behind accent text.
+                                                            C is fixed low, not scaled: at this lightness blue and
+                                                            red run out of gamut around 0.035. */
+  --on-accent:    oklch(0.98 0.008 var(--hue-accent));   /* near-white on a solid accent; C stays tiny so every preset fits sRGB */
 
   /* State colors — form validation, alerts. AA on --bg like the accent.
      Use sparingly; the accent still owns the primary action. */
@@ -76,6 +99,37 @@
   --tint-sky:      oklch(0.893 0.016 245);  /* #d3dde6 */
   --tint-butter:   oklch(0.915 0.090 95);   /* #f6e39e */
   --tint-slate:    oklch(0.20 0.012 245);   /* #28332b — dark slate tint */
+
+  /* Washes — the ONLY sanctioned gradients. Both are built from tokens above, so
+     they re-theme with the preset. One wash per artifact, behind an opener or a
+     .band; never on text, never two at once. Anything else is the garish-gradient
+     tell. */
+  --wash-hero: radial-gradient(60% 60% at 50% 0%, var(--accent-quiet), transparent 70%);
+  --wash-duo:  linear-gradient(135deg, var(--tint-peach), var(--tint-lavender));
+
+  /* Glow — a dark-mode-only signature move (light mode has nothing to glow
+     against, so it resolves to none). At most one glowing element per page. */
+  --glow-accent: none;
+
+  /* ── Chart color ── the accent leads; everything else recedes.
+   *
+   * Rules:
+   * - ONE hue by default: draw every mark in --chart-muted and promote the single
+   *   mark that carries the point to --chart-strong. A chart where everything is
+   *   colored says nothing.
+   * - --chart-2/-3/-4 are for GENUINELY categorical data (unrelated series), never
+   *   for decoration. Max four categories; beyond that the chart is the wrong form.
+   * - Always label categorical marks directly — color alone never carries meaning
+   *   (colorblind readers, grayscale print).
+   * - If the chosen preset shares a hue with a chart color (e.g. the technical
+   *   preset and --chart-2), skip that chart color rather than let them collide.
+   */
+  --chart-strong: var(--accent);                        /* the one mark that matters */
+  --chart-muted:  oklch(0.78 0.055 var(--hue-accent));  /* every other mark; stays distinct from --surface-sunk */
+  --chart-2:      oklch(0.50 0.085 191);                /* categorical only — teal */
+  --chart-3:      oklch(0.55 0.09 59);                  /* categorical only — amber */
+  --chart-4:      oklch(0.55 0.09 318);                 /* categorical only — magenta */
+  --chart-grid:   var(--border);                        /* axis/baseline hints, when one is unavoidable */
 
   /* ── Type ── system-first stacks: self-contained by default, so artifacts render
    *   identically inside Claude's sandbox (its CSP blocks font CDNs). The named web
@@ -189,7 +243,15 @@
 
 /* Dark theme — OPT-IN only, never automatic. Add data-theme="dark" to <html>
    (or the artifact root) to activate; without it, artifacts stay light even
-   when the OS is dark. */
+   when the OS is dark.
+
+   Opt in when dark is the RIGHT answer, not as a default: developer/technical
+   dashboards and log views, media- or chart-heavy showcases where dark makes the
+   content glow, night/space/audio subject matter, or an explicit request. Reading
+   documents (reports, letters, resumes, essays) stay light. Dark is a design
+   choice with real upside — it is where --glow-accent earns its keep — so choose
+   it deliberately and check the rendering, since these are hand-tuned values and
+   not an inversion of the light palette. */
 :root[data-theme="dark"] {
     color-scheme: dark;
     --bg:            oklch(0.17  0.012 var(--hue-neutral));  /* never #000 */
@@ -202,6 +264,8 @@
     --text-2:      oklch(0.73 0.01  var(--hue-neutral));
     --text-muted:  oklch(0.60 0.01  var(--hue-neutral));
 
+    /* Dark holds more chroma at high lightness than light mode does, so these
+       are fixed values rather than --chroma-accent: every preset hue fits. */
     --accent:       oklch(0.77 0.108 var(--hue-accent));     /* lifted L — the accent glows in dark */
     --accent-hover: oklch(0.82 0.11 var(--hue-accent));
     --accent-quiet: oklch(0.28 0.06 var(--hue-accent));
@@ -221,6 +285,14 @@
     --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
     --shadow-md: 0 2px 8px oklch(0 0 0 / 0.35);
     --shadow-lg: 0 8px 30px oklch(0 0 0 / 0.45);
+
+    /* The dark-only signature move — one element, never a page of them. */
+    --glow-accent: 0 0 32px oklch(0.77 0.108 var(--hue-accent) / 0.25);
+
+    --chart-muted: oklch(0.38 0.05 var(--hue-accent));
+    --chart-2:     oklch(0.70 0.054 191);
+    --chart-3:     oklch(0.75 0.09 59);
+    --chart-4:     oklch(0.72 0.09 318);
 }
 
 * { box-sizing: border-box; }

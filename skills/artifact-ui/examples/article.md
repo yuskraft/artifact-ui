@@ -36,8 +36,9 @@ the most. Assumes `dist/artifact.css` is in the document.
     <a href="#s3">Make it explicit</a>
   </nav>
   <article class="doc__body prose">
-    <header class="stack" style="gap: var(--space-2)">
-      <h1>Corners are relative</h1>
+    <header class="stack" style="gap: var(--space-3)">
+      <span class="doc__meta">Design systems · 003</span>
+      <h1 class="display">Corners are relative</h1>
       <p class="doc__meta">Published 29 June 2026 · 6 min read</p>
     </header>
     <h2 id="s1">The number is not enough</h2>
@@ -47,5 +48,11 @@ the most. Assumes `dist/artifact.css` is in the document.
 </div>
 ```
 
-Uses the [doc-header](../blocks/doc-header.md) block. The TOC rail is optional — drop it for short
-pieces and the body centers on its own.
+The opener is the left-aligned [hero](../blocks/hero.md) variant — kicker, `.display` title, meta
+line — which is where this artifact spends its signature moment; the body below stays plain. For a
+short piece, drop back to the simpler [doc-header](../blocks/doc-header.md) block. The TOC rail is
+optional — remove it and the body centers on its own.
+
+Long-form reading is the natural home of the **editorial** mood preset (`--hue-accent: 25`,
+`--chroma-accent: 0.14`) — a warm red that reads like ink rather than product green. Set it on the
+root and every accent, link, and blockquote rule re-themes.

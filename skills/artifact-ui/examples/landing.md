@@ -1,31 +1,51 @@
 # Landing / hero
 
-The one place restraint loosens slightly: a centered hero is allowed (a single focal moment). One
-headline, one sub, one accent CTA. A quiet two-hue wash behind the hero is the only sanctioned
-gradient — low chroma, near-neighbor hues. Assumes `dist/artifact.css` is in the document.
+The one page type built around its opening. A centered hero is allowed here — one headline, one sub,
+one accent CTA, over `--wash-hero`. Full hero guidance is in [blocks/hero.md](../blocks/hero.md);
+this shows a landing composed end to end. Assumes `dist/artifact.css` is in the document.
 
 ```html
 <style>
-  .hero { text-align: center; padding-block: var(--space-10); position: relative; overflow: clip; }
-  .hero::before {
-    content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0.5;
-    background: radial-gradient(60% 60% at 50% 0%,
-      var(--accent-quiet), transparent 70%);
-  }
-  .hero h1 { font-size: var(--text-4xl); max-width: 18ch; margin-inline: auto; }
+  .hero { text-align: center; padding-block: var(--space-9) var(--space-10); background: var(--wash-hero); }
+  .hero .display { max-width: 18ch; margin-inline: auto; }
   .hero p { font-size: var(--text-lg); color: var(--text-2); max-width: 46ch; margin: var(--space-5) auto 0; }
   .hero .cluster { justify-content: center; margin-block-start: var(--space-6); }
 </style>
 
-<section class="container hero">
-  <h1>Make every artifact look designed</h1>
-  <p>A system, not a coat of paint — restraint, tokens, and one accent.</p>
-  <div class="cluster">
-    <button class="btn btn--accent">Get started</button>
-    <button class="btn">Learn more</button>
+<header class="hero stagger">
+  <div class="container">
+    <h1 class="display reveal">Make every artifact look designed</h1>
+    <p class="reveal">A system, not a coat of paint — restraint, tokens, and one accent.</p>
+    <div class="cluster reveal">
+      <button class="btn btn--accent">Get started</button>
+      <button class="btn">Learn more</button>
+    </div>
   </div>
-</section>
+</header>
+
+<!-- back to left-aligned, contained columns -->
+<main class="container stack" style="gap: var(--space-9); padding-block: var(--space-9)">
+  <section class="stack" style="gap: var(--space-4)">
+    <h2>What you get</h2>
+    <ul class="prose" style="margin: 0; padding-inline-start: 1.2em">
+      <li>One paste of tokens — type, space, color, corners, print.</li>
+      <li>Primitives that compose into blocks and templates.</li>
+      <li>Zero external requests; renders with the network unplugged.</li>
+    </ul>
+  </section>
+</main>
+
+<!-- the one band: a change of register before the close -->
+<div class="band" style="background: var(--tint-sage)">
+  <div class="container stack" style="gap: var(--space-4)">
+    <h2>Built for the sandbox</h2>
+    <p style="max-width: var(--measure); color: var(--text-2)">
+      Strict CSP, one self-contained file, under the size cap by orders of magnitude.
+    </p>
+  </div>
+</div>
 ```
 
-Centering is allowed here and _only_ here — body sections below the hero go back to left-aligned,
-contained columns.
+The hero spends the signature moment on `--wash-hero` + `.display`; the `.band` near the close is a
+register change, not a second hero. Centering applies to the hero's own short lines and nowhere
+else — body sections stay left-aligned and contained.

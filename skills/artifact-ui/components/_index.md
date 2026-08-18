@@ -17,6 +17,11 @@ lives in [`../styles/base.css`](../styles/base.css). Compose them into
 | [Form patterns](#form-patterns) | `.form-row`, `.field--error`, `.field--ok` | Multi-field layout and validation states. |
 | [Callout](#callout) | `.callout`, `.callout--warn`, `.callout--ok` | A note, warning, or success aside inside a document. |
 | [Image](#image) | `img` | Contained by default, subtle depth outline. |
+| [Inline SVG & icons](#inline-svg--icons) | `svg` | Icons and decorative geometry, drawn not fetched. |
+| [Display](#display) | `.display` | The one oversized type step — an opener's title or a hero number. |
+| [Band](#band) | `.band` | The sanctioned full-bleed moment; background reaches the edges, content does not. |
+| [Stat](charts.md#stat-row) | `.stats`, `.stat` | Headline metrics carried by type, not boxes. |
+| [Charts](charts.md) | `.bars`, `.bar`, `.spark` | Bars, meters, sparklines, donuts — CSS and inline SVG only. |
 | [Motion](#motion) | `.reveal`, `.stagger` | Opt-in one-shot entrance; press feedback ships on `.btn`. |
 
 **To add a component:** add its CSS to `base.css`, rebuild `dist`, and add a section + one table row
@@ -263,6 +268,67 @@ Bare `img` is styled by `base.css`: contained (`max-width: 100%; height: auto`) 
 - Opt out per-image for transparent logos/icons: `style="outline: none"`. (Inline SVG is
   unaffected — the outline applies to `img` only.)
 - Remember the CSP: remote images silently break in the sandbox — inline SVG or data URIs only.
+
+## Inline SVG & icons
+
+Every graphic is drawn in the document. An icon font or a remote sprite sheet is a dead external
+request; inline SVG costs nothing and themes itself.
+
+```html
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+     stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M20 6 9 17l-5-5"></path>
+</svg>
+```
+
+- **One icon grammar:** a 24×24 `viewBox`, `fill="none"`, `stroke="currentColor"`,
+  `stroke-width="1.75"`, round caps and joins. `currentColor` means an icon inherits the text color
+  it sits beside and flips with dark mode for free — never hardcode a stroke color.
+- **Size with the text**, not with magic numbers: `width="1em" height="1em"` for an icon inside a
+  line of text; 24px standalone. Mixing stroke widths across a page is the icon equivalent of
+  inconsistent radii.
+- **Decorative geometry** (a ring behind a number, a dot on a timeline, a soft blob) uses
+  `--accent-quiet` or a `--tint-*` fill only. It sits *behind* content and never competes with the
+  accent.
+- **Accessibility:** an icon that carries meaning gets `role="img"` plus a `<title>` or
+  `aria-label`; an icon beside text that already says the same thing gets `aria-hidden="true"`. An
+  icon-only button always needs an `aria-label`.
+- Don't draw illustrations by hand-writing hundreds of path points — if a graphic needs that much
+  detail, it wants a real image, and this system's answer is to leave it out.
+
+## Display
+
+`.display` is the one oversized type step — `--text-4xl` at weight 700. It is a signature move: once
+per artifact, on an opener's title or a single hero number, never on a section heading.
+
+```html
+<h1 class="display">Platform reliability</h1>
+```
+
+- It does not count against the three-sizes rule — it *replaces* the heading it sits on rather than
+  adding a fourth size beside it.
+- Best under roughly six words. A `.display` title that wraps to three lines reads worse than a
+  plain `<h1>`; drop back when the title is long.
+- Full usage in [blocks/hero.md](../blocks/hero.md).
+
+## Band
+
+The sanctioned full-bleed moment. Only the **background** reaches the viewport edges; the content
+stays in its `.container`, so the "never full-width" law holds.
+
+```html
+<div class="band" style="background: var(--tint-sage)">
+  <div class="container stack">
+    <h2>What changed this quarter</h2>
+    <p style="max-width: var(--measure)">…</p>
+  </div>
+</div>
+```
+
+- Background comes from a token — a `--tint-*` or a `--wash-*` — never a one-off color.
+- **One band per artifact.** It marks a change of register (a summary, a call to action, a pull
+  quote); a page of alternating bands is stripes, not rhythm.
+- Text inside a band keeps normal alignment. A band is a background change, not a license to center.
 
 ## Motion
 

@@ -1,3 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quarterly reliability review — artifact-ui showcase</title>
+<style>
 /* artifact.css — AUTO-GENERATED from tokens/tokens.css + styles/base.css.
    Do not edit by hand. Run: node scripts/build.mjs */
 :root {
@@ -317,3 +324,115 @@ tbody tr:last-child td { border-block-end: none; }
   nav, .no-print, [data-no-print] { display: none !important; }
   a { color: inherit; text-decoration: none; }
 }
+/* end artifact.css */
+
+/* ── page-specific (tokens only) ── */
+/* Mood preset: product / default (green) */
+
+.page { padding-block: var(--space-8) var(--space-9); }
+.doc { max-width: 52rem; }
+.finding { padding-block: var(--space-4); }
+.finding__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-3); }
+</style>
+</head>
+<body>
+
+<div class="container page doc stack stagger" style="gap: var(--space-8)">
+
+  <!-- signature moment: the .display title + one promoted stat. No wash, no band. -->
+  <header class="stack reveal" style="gap: var(--space-5)">
+    <div class="stack" style="gap: var(--space-2)">
+      <span class="muted">Quarterly review · Q1 2026 · platform team</span>
+      <h1 class="display">Reliability held</h1>
+    </div>
+    <p style="max-width: var(--measure); color: var(--text-2); font-size: var(--text-lg)">
+      Three incidents, all resolved inside the error budget. The database migration
+      landed without downtime. Two findings need attention before Q2.
+    </p>
+    <div class="stats">
+      <div class="stat stat--strong">
+        <span class="stat__value">99.98%</span>
+        <span class="stat__label">Availability</span>
+        <span class="stat__delta stat__delta--up">+0.04</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">3</span>
+        <span class="stat__label">Incidents</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">21%</span>
+        <span class="stat__label">Error budget used</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="stack reveal" style="gap: var(--space-4)">
+    <h2>Where the budget went</h2>
+    <div class="bars">
+      <div class="bar bar--strong">
+        <span class="bar__label">Migration</span>
+        <span class="bar__track"><span class="bar__fill" style="--size: 100%"></span></span>
+        <span class="bar__value">11%</span>
+      </div>
+      <div class="bar">
+        <span class="bar__label">Upstream API</span>
+        <span class="bar__track"><span class="bar__fill" style="--size: 55%"></span></span>
+        <span class="bar__value">6%</span>
+      </div>
+      <div class="bar">
+        <span class="bar__label">Deploy rollback</span>
+        <span class="bar__track"><span class="bar__fill" style="--size: 36%"></span></span>
+        <span class="bar__value">4%</span>
+      </div>
+    </div>
+    <p class="muted">Percentages are of the quarterly error budget, not of total downtime.</p>
+  </section>
+
+  <!-- findings: separated by spacing, not rules; chips carry severity -->
+  <section class="stack reveal" style="gap: var(--space-3)">
+    <h2>Findings</h2>
+
+    <div class="finding avoid-break stack" style="gap: var(--space-2)">
+      <div class="finding__head">
+        <h3>Retry storm on upstream timeout</h3>
+        <span class="chip" style="background: var(--tint-rose)">High</span>
+      </div>
+      <p style="max-width: var(--measure)">
+        The client retries three times with no jitter, so a single upstream blip
+        arrives back as a synchronised burst. Add exponential backoff with jitter
+        before the next traffic peak.
+      </p>
+    </div>
+
+    <div class="finding avoid-break stack" style="gap: var(--space-2)">
+      <div class="finding__head">
+        <h3>Migration lock held longer than planned</h3>
+        <span class="chip" style="background: var(--tint-butter)">Medium</span>
+      </div>
+      <p style="max-width: var(--measure)">
+        The backfill held a table lock for 40 seconds against an estimated 5.
+        Reads were unaffected; writes queued. Chunk the backfill next time.
+      </p>
+    </div>
+
+    <div class="finding avoid-break stack" style="gap: var(--space-2)">
+      <div class="finding__head">
+        <h3>Alert routing gap on weekends</h3>
+        <span class="chip" style="background: var(--tint-sky)">Low</span>
+      </div>
+      <p style="max-width: var(--measure)">
+        Two alerts reached a rotation with no weekend coverage. Both were
+        low-severity and caught by the morning sweep, but the routing is wrong.
+      </p>
+    </div>
+  </section>
+
+  <div class="callout callout--ok reveal avoid-break">
+    <p><strong>Recommendation.</strong> Ship the backoff fix and the routing correction in the first
+      sprint of Q2. Neither is large, and both remove a whole class of incident.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

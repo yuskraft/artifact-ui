@@ -1,3 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Corners are relative — artifact-ui showcase</title>
+<style>
 /* artifact.css — AUTO-GENERATED from tokens/tokens.css + styles/base.css.
    Do not edit by hand. Run: node scripts/build.mjs */
 :root {
@@ -317,3 +324,107 @@ tbody tr:last-child td { border-block-end: none; }
   nav, .no-print, [data-no-print] { display: none !important; }
   a { color: inherit; text-decoration: none; }
 }
+/* end artifact.css */
+
+/* ── page-specific (tokens only) ── */
+/* Mood preset: editorial / essay / warm (warm red) */
+:root { --hue-accent: 25; --chroma-accent: 0.14; }
+
+.doc { display: grid; grid-template-columns: 1fr; gap: var(--space-7); padding-block: var(--space-8) var(--space-9); }
+@media (min-width: 60rem) {
+  .doc { grid-template-columns: 13rem minmax(0, var(--measure)); justify-content: center; gap: var(--space-9); }
+}
+.doc__toc { position: sticky; top: var(--space-6); align-self: start; display: none; }
+@media (min-width: 60rem) { .doc__toc { display: block; } }
+.doc__toc a {
+  display: block; color: var(--text-muted); text-decoration: none;
+  padding-block: var(--space-1); font-size: var(--text-sm);
+  transition: color var(--dur) var(--ease);
+}
+.doc__toc a:hover { color: var(--text); }
+.doc__toc a[aria-current="true"] { color: var(--text); }
+.doc__body { font-size: var(--text-lg); }
+.doc__body h2 { margin-block-start: var(--space-7); }
+.doc__meta { color: var(--text-muted); font-size: var(--text-sm); }
+.doc__body pre {
+  font-family: var(--font-mono); font-size: var(--text-sm); line-height: var(--leading-snug);
+  background: var(--surface-sunk); border-radius: var(--radius-md);
+  padding: var(--space-4); overflow-x: auto; margin: 0;
+}
+blockquote {
+  margin: 0; padding-inline-start: var(--space-4);
+  border-inline-start: 2px solid var(--accent); color: var(--text-2);
+}
+</style>
+</head>
+<body>
+
+<div class="container doc">
+
+  <nav class="doc__toc stack" style="gap: var(--space-1)">
+    <span class="muted" style="margin-block-end: var(--space-2)">Design systems · 003</span>
+    <a href="#s1" aria-current="true">The number is not enough</a>
+    <a href="#s2">Nested corners</a>
+    <a href="#s3">Make it explicit</a>
+  </nav>
+
+  <article class="doc__body prose stagger">
+
+    <!-- signature moment: the .display title. The body stays plain throughout. -->
+    <header class="stack reveal" style="gap: var(--space-3)">
+      <span class="doc__meta">Design systems · 003</span>
+      <h1 class="display">Corners are relative</h1>
+      <p class="doc__meta">Published 29 June 2026 · 6 min read</p>
+    </header>
+
+    <h2 id="s1">The number is not enough</h2>
+    <p>
+      A border-radius is just a number, and a number cannot describe how a corner should feel. The
+      same 12&nbsp;pixels that soften a button will look almost square on a modal and conspicuously
+      round on a chip. Radius is not an absolute value; it is a ratio between the corner and the
+      thing it belongs to.
+    </p>
+    <p>
+      This is why a token set that ships one radius produces work that looks subtly wrong at both
+      ends of the scale. What you want is a small family — a value for chips and inputs, one for
+      buttons, one for cards, one for panels — and the discipline to pick by element size rather
+      than by taste on the day.
+    </p>
+
+    <blockquote>
+      <p>Pick one radius family and hold it. A sharp card beside a round button is the tell.</p>
+    </blockquote>
+
+    <h2 id="s2">Nested corners</h2>
+    <p>
+      The rule that matters most is the one almost nobody applies: when a rounded thing sits inside
+      another rounded thing, the inner radius equals the outer radius minus the gap between them.
+      Get this wrong and the corners look like they are fighting, even though a reader could never
+      tell you why.
+    </p>
+    <pre><code>.inner { border-radius: calc(var(--radius-lg) - var(--space-3)); }</code></pre>
+    <p>
+      The subtraction is only valid while the padding is smaller than the outer radius. Past that
+      point the result goes negative, and a negative radius is not a rounder corner — it is a broken
+      declaration. Fall back to a small fixed radius instead.
+    </p>
+
+    <h2 id="s3">Make it explicit</h2>
+    <p>
+      None of this survives as folklore. Written down beside the values it governs, the rule gets
+      applied; left in someone's head, it lasts exactly as long as that person is reviewing the
+      pull request. The comment beside the token is the cheapest design system you will ever ship.
+    </p>
+
+    <div class="callout">
+      <p>
+        This page uses the editorial mood preset — a warm red accent rather than the default green.
+        Two numbers changed; every link, rule, and quote bar followed.
+      </p>
+    </div>
+
+  </article>
+</div>
+
+</body>
+</html>

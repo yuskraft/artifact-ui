@@ -7,9 +7,13 @@ and no package.json; the only executables are the zero-dependency scripts.
 ## Commands
 
 - `node scripts/build.mjs` — regenerate `skills/artifact-ui/dist/artifact.css`
-  from `skills/artifact-ui/tokens/tokens.css` + `skills/artifact-ui/styles/base.css`.
-  Run after ANY edit to `tokens/` or `styles/`.
-- `node scripts/build.mjs --check` — fails if `dist/artifact.css` is stale. CI runs this.
+  from `skills/artifact-ui/tokens/tokens.css` + `skills/artifact-ui/styles/base.css`,
+  then sync that CSS into every page that embeds it (`index.html`, `az.html`,
+  `showcase/*.html`). Run after ANY edit to `tokens/` or `styles/`.
+- `node scripts/build.mjs --check` — fails if `dist/artifact.css` **or any embedded
+  copy** is stale. CI runs this.
+- `node scripts/serve.mjs` — static dev server on :8643 for viewing the landing
+  pages and `showcase/`.
 
 ## Hard rules
 
@@ -22,8 +26,13 @@ and no package.json; the only executables are the zero-dependency scripts.
 - Artifacts make **zero external requests** — system-first font stacks; the
   web-font `<link>` is opt-in for pages outside Claude's sandbox only.
 - Do not add dependencies or a `package.json` — the repo is zero-dependency by design.
-- After changing a color token, update the pairs table in `scripts/contrast.mjs`
-  and run `node scripts/contrast.mjs` (WCAG AA gate).
+- After changing a color token, update the tables in `scripts/contrast.mjs` and
+  run `node scripts/contrast.mjs` (WCAG AA gate). Accent colors are gated across
+  every mood preset in `ACCENT_PRESETS`, which must mirror the preset table in
+  `tokens.css`. The gate also fails on sRGB gamut clipping — if a preset's
+  chroma clips, lower **that preset's chroma**, never a minimum.
+- Pages that embed the CSS need the `/* end artifact.css */` marker after the
+  generated block, or the build's sync step will error.
 
 ## Structure
 
@@ -37,6 +46,7 @@ folder's `_index.md`. To add a component: CSS in `base.css` + one section in
 `components/_index.md` (see SKILL.md "Scalability").
 
 Repo root holds distribution + site only: `scripts/` (build/contrast/serve),
-`index.html`/`az.html` (landing pages), `.claude-plugin/marketplace.json`
-(Claude Code plugin marketplace), CI. When cutting a release, bump `version` in
-`.claude-plugin/marketplace.json`.
+`index.html`/`az.html` (landing pages), `showcase/` (complete rendered proof
+pages — outside the payload on purpose, so they cost the agent nothing),
+`.claude-plugin/marketplace.json` (Claude Code plugin marketplace), CI. When
+cutting a release, bump `version` in `.claude-plugin/marketplace.json`.

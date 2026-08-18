@@ -26,6 +26,16 @@ h2 { font-size: var(--text-xl); }
 h3 { font-size: var(--text-lg); }
 p { margin: 0; text-wrap: pretty; }   /* no single-word orphan on the last line */
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+/* ── display ── the one oversized type step, for an opener's title or a single
+   hero number. This is a signature move: once per artifact, never for a section
+   heading. It does not count against the three-sizes rule — it replaces the
+   heading it sits on. Docs: blocks/hero.md */
+.display {
+  font-family: var(--font-display); font-size: var(--text-4xl); font-weight: 700;
+  line-height: var(--leading-tight); letter-spacing: var(--tracking-tight);
+  margin: 0; text-wrap: balance;
+}
 ::selection { background: var(--accent-quiet); }
 :where(a, button, summary):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
@@ -42,6 +52,13 @@ img { max-width: 100%; height: auto; outline: 1px solid oklch(0 0 0 / 0.1); outl
 .prose > * + * { margin-block-start: var(--space-4); }   /* flow rhythm */
 .stack   { display: flex; flex-direction: column; gap: var(--space-4); }
 .cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+
+/* ── band ── the sanctioned full-bleed moment: only the BACKGROUND reaches the
+   edges, while the content stays in its .container. Set the background inline
+   from a token (a --tint-* or --wash-*). One band per artifact — it marks a
+   change of register, not every section. Markup: <div class="band" style="…">
+   <div class="container">…</div></div> */
+.band { padding-block: var(--space-8); }
 
 /* ── list ── minimal list column: the default for simple label→value data.
    No boxes, no rules — rows separate by spacing alone. ── */
@@ -65,6 +82,10 @@ img { max-width: 100%; height: auto; outline: 1px solid oklch(0 0 0 / 0.1); outl
 /* ── button ── */
 .btn {
   font: inherit; font-weight: 550; cursor: pointer;
+  /* inline-flex + no underline so <a class="btn"> and <button class="btn">
+     render identically — an anchor is inline and underlined by default. */
+  display: inline-flex; align-items: center; justify-content: center;
+  text-decoration: none;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-strong);
@@ -99,6 +120,44 @@ td { border-block-end: 1px solid var(--border); }
 tbody tr:last-child td { border-block-end: none; }
 .table--striped tbody tr:nth-child(even) { background: var(--surface-sunk); }
 .num { text-align: end; font-variant-numeric: tabular-nums; }
+
+/* ── stats ── headline metrics carried by TYPE, not by boxes: no borders, no
+   surfaces, separation by gap alone. This is the answer to the boxy-stat-card
+   tell when a metric deserves more presence than a .list row. Promote at most
+   one .stat--strong per row — that one is the signature moment.
+   Docs: components/charts.md */
+.stats { display: flex; flex-wrap: wrap; gap: var(--space-6) var(--space-8); }
+.stat { display: flex; flex-direction: column; gap: var(--space-1); }
+.stat__value {
+  font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700;
+  line-height: var(--leading-tight); letter-spacing: var(--tracking-tight);
+  font-variant-numeric: tabular-nums;
+}
+.stat--strong .stat__value { color: var(--accent); }
+.stat__label { color: var(--text-2); font-size: var(--text-sm); }
+.stat__delta { font-size: var(--text-sm); font-variant-numeric: tabular-nums; color: var(--text-muted); }
+.stat__delta--up   { color: var(--ok); }
+.stat__delta--down { color: var(--danger); }
+
+/* ── bars ── the default chart: a labelled magnitude comparison, pure CSS. Set
+   each fill's length inline with --size (a percentage). Everything is
+   --chart-muted; promote the ONE bar that carries the point to .bar--strong.
+   A single .bar on its own is the meter/progress pattern.
+   Docs: components/charts.md */
+.bars { display: flex; flex-direction: column; gap: var(--space-3); }
+.bar { display: grid; grid-template-columns: minmax(6rem, auto) 1fr auto; align-items: center; gap: var(--space-3); }
+.bar__label { color: var(--text-2); font-size: var(--text-sm); }
+.bar__track { display: block; background: var(--surface-sunk); border-radius: var(--radius-full); block-size: var(--space-2); overflow: hidden; }
+.bar__fill  { display: block; background: var(--chart-muted); border-radius: inherit; block-size: 100%; inline-size: var(--size, 0%); }
+.bar--strong .bar__fill { background: var(--chart-strong); }
+.bar__value { font-variant-numeric: tabular-nums; font-weight: 600; font-size: var(--text-sm); }
+
+/* ── spark ── sizing for an inline-SVG sparkline/trend line (the SVG is written
+   by hand; see components/charts.md for the recipe). Word-sized by default;
+   raise to var(--space-8) when it is a section's own chart rather than a mark
+   beside a number. */
+.spark { display: block; inline-size: 100%; block-size: var(--space-6); overflow: visible; }
+.spark polyline, .spark path { fill: none; stroke: var(--chart-strong); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 
 /* ── record list ── the DEFAULT for a collection of records/entities (users,
    issues, deployments, projects). Each record is a visually distinct item —

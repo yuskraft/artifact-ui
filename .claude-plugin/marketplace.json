@@ -10,7 +10,7 @@
       "name": "artifact-ui",
       "source": "./",
       "description": "Make HTML artifacts and documents look intentionally designed instead of default-styled. A real token system + copyable templates — reports, dashboards, landing pages, resumes, formal letters — WCAG-gated, zero dependencies, CSP-safe.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "license": "MIT",
       "homepage": "https://yuskraft.github.io/artifact-ui/",
       "repository": "https://github.com/yuskraft/artifact-ui",

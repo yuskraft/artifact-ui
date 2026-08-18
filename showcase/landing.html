@@ -1,3 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledger — artifact-ui showcase</title>
+<style>
 /* artifact.css — AUTO-GENERATED from tokens/tokens.css + styles/base.css.
    Do not edit by hand. Run: node scripts/build.mjs */
 :root {
@@ -317,3 +324,106 @@ tbody tr:last-child td { border-block-end: none; }
   nav, .no-print, [data-no-print] { display: none !important; }
   a { color: inherit; text-decoration: none; }
 }
+/* end artifact.css */
+
+/* ── page-specific (tokens only) ── */
+/* Mood preset: financial / legal / serious (blue) */
+:root { --hue-accent: 250; --chroma-accent: 0.13; }
+
+.hero { text-align: center; padding-block: var(--space-9) var(--space-10); background: var(--wash-hero); }
+.hero .display { max-width: 17ch; margin-inline: auto; }
+.hero__sub { font-size: var(--text-lg); color: var(--text-2); max-width: 46ch; margin: var(--space-5) auto 0; }
+.hero .cluster { justify-content: center; margin-block-start: var(--space-6); }
+.feature { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--space-6); }
+</style>
+</head>
+<body>
+
+<!-- signature moment: --wash-hero behind a .display title. Nothing else competes. -->
+<header class="hero stagger">
+  <div class="container">
+    <h1 class="display reveal">Every number, where it belongs</h1>
+    <p class="hero__sub reveal">
+      Ledger reconciles your accounts the moment money moves — no imports,
+      no spreadsheet at the end of the month.
+    </p>
+    <div class="cluster reveal">
+      <a class="btn btn--accent" href="#start">Start free</a>
+      <a class="btn" href="#how">See how it works</a>
+    </div>
+  </div>
+</header>
+
+<!-- back to left-aligned, contained columns -->
+<main class="container stack" style="gap: var(--space-9); padding-block: var(--space-9)">
+
+  <section class="stack" style="gap: var(--space-5)" id="how">
+    <h2>Built for closing the books</h2>
+    <div class="feature">
+      <div class="stack" style="gap: var(--space-2)">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+             style="color: var(--accent)">
+          <path d="M20 6 9 17l-5-5"></path>
+        </svg>
+        <h3>Continuous reconciliation</h3>
+        <p style="color: var(--text-2)">Transactions match against invoices as they clear, not in a monthly batch.</p>
+      </div>
+      <div class="stack" style="gap: var(--space-2)">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+             style="color: var(--accent)">
+          <path d="M12 2v20M2 12h20"></path>
+        </svg>
+        <h3>Every ledger, one view</h3>
+        <p style="color: var(--text-2)">Bank, card, and payout accounts consolidate without a single export.</p>
+      </div>
+      <div class="stack" style="gap: var(--space-2)">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+             style="color: var(--accent)">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        <h3>Audit-ready by default</h3>
+        <p style="color: var(--text-2)">Every change keeps an immutable trail your accountant can follow.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack" style="gap: var(--space-4)">
+    <h2>Questions people ask first</h2>
+    <details>
+      <summary>Does it connect to my bank?</summary>
+      <p style="max-width: var(--measure); color: var(--text-2); margin-block-start: var(--space-2)">
+        Ledger reads from 14,000 institutions through a read-only connection. It can never move money.
+      </p>
+    </details>
+    <details>
+      <summary>What happens to my data if I leave?</summary>
+      <p style="max-width: var(--measure); color: var(--text-2); margin-block-start: var(--space-2)">
+        Full export in CSV and JSON, on demand, including the audit trail. Deletion completes within 30 days.
+      </p>
+    </details>
+  </section>
+
+</main>
+
+<!-- the one band: a change of register before the close -->
+<div class="band" style="background: var(--tint-sky)">
+  <div class="container stack" style="gap: var(--space-4)">
+    <h2>Close your first month in an afternoon</h2>
+    <p style="max-width: var(--measure); color: var(--text-2)">
+      Connect an account, import last quarter, and see what reconciles itself.
+    </p>
+    <div class="cluster">
+      <a class="btn btn--accent" href="#start">Start free</a>
+    </div>
+  </div>
+</div>
+
+<footer class="container" style="padding-block: var(--space-7)">
+  <p class="muted">Ledger — a fictional product, built to show the system.</p>
+</footer>
+
+</body>
+</html>

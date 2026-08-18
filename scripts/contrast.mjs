@@ -40,21 +40,30 @@ function contrast(c1, c2) {
   return (hi + 0.05) / (lo + 0.05);
 }
 // [L, C, H] — keep in sync with tokens/tokens.css.
-const HUE_N = 98, HUE_A = 129;
+const HUE_N = 98;
+// Every mood preset offered in tokens/tokens.css. Each carries its own chroma
+// because sRGB holds far more of it at some hues than others (teal runs out near
+// 0.09 where magenta reaches 0.26). A preset only ships if it clears this gate; a
+// failing one is fixed by lowering its CHROMA here and in tokens.css — never by
+// lowering a minimum.
+const ACCENT_PRESETS = [
+  { hue: 129, chroma: 0.13, name: "product" },
+  { hue: 191, chroma: 0.08, name: "technical" },
+  { hue: 250, chroma: 0.13, name: "serious" },
+  { hue: 25,  chroma: 0.14, name: "editorial" },
+  { hue: 59,  chroma: 0.11, name: "playful" },
+  { hue: 318, chroma: 0.14, name: "creative" },
+];
 const T = {
   bg:        [0.965, 0.008, HUE_N],  // warm gray
   surface:   [0.99, 0.015, HUE_N],
   text:      [0.264, 0.0, HUE_N],    // #252525
   text2:     [0.48, 0.013, HUE_N],
   muted:     [0.54, 0.012, HUE_N],
-  accent:    [0.52, 0.14, HUE_A],    // green hue, darkened for AA
-  onAccent:  [0.99, 0.015, HUE_A],
   dbg:       [0.17, 0.012, HUE_N],
   dtext:     [0.93, 0.008, HUE_N],
   dtext2:    [0.73, 0.01, HUE_N],
   dmuted:    [0.60, 0.01, HUE_N],
-  daccent:   [0.77, 0.108, HUE_A],   // lifted L — glows in dark
-  donAccent: [0.16, 0.02, HUE_A],
   danger:    [0.53, 0.17, 25],
   ok:        [0.50, 0.085, 191],     // #78aba8 hue, darkened for AA; C capped for sRGB
   ddanger:   [0.72, 0.15, 25],
@@ -63,20 +72,39 @@ const T = {
   tintSky:   [0.893, 0.016, 245],    // darkest light tint (--tint-sky, #d3dde6)
   tintButter:[0.915, 0.090, 95],     // strongest-chroma tint (--tint-butter, #f6e39e)
   dtint:     [0.30, 0.045, 141],
+  sunk:      [0.952, 0.045, HUE_N],  // --surface-sunk, the bar track
+  dsunk:     [0.15, 0.012, HUE_N],
+  chart2:    [0.50, 0.085, 191],     // categorical chart colors — graphics, not text
+  chart3:    [0.55, 0.09, 59],
+  chart4:    [0.55, 0.09, 318],
+  dchart2:   [0.70, 0.054, 191],
+  dchart3:   [0.75, 0.09, 59],
+  dchart4:   [0.72, 0.09, 318],
 };
+// Accent-derived tokens: lightness is shared, chroma and hue come from the preset.
+const ACCENT_KEYS = new Set([
+  "accent", "accentHover", "onAccent", "accentQuiet", "chartMuted",
+  "daccent", "donAccent", "daccentQuiet", "dchartMuted",
+]);
+const accentTokens = ({ hue: H, chroma: C }) => ({
+  accent:      [0.52, C, H],         // darkened for AA as text/links in light
+  accentHover: [0.47, C, H],
+  onAccent:    [0.98, 0.008, H],     // near-white; C tiny so every hue fits sRGB
+  accentQuiet: [0.93, 0.03, H],      // pale wash behind accent text + ::selection
+  chartMuted:  [0.78, 0.055, H],     // de-emphasized chart marks
+  daccent:     [0.77, 0.108, H],     // lifted L — glows in dark
+  donAccent:   [0.16, 0.02, H],
+  daccentQuiet:[0.28, 0.06, H],
+  dchartMuted: [0.38, 0.05, H],
+});
 // [label, fg, bg, minimum]. 4.5 = AA normal text.
 const PAIRS = [
   ["text on bg (light)", "text", "bg", 4.5],
   ["text-2 on bg (light)", "text2", "bg", 4.5],
   ["text-muted on bg (light)", "muted", "bg", 4.5],
-  ["on-accent on accent (light) — .btn--accent", "onAccent", "accent", 4.5],
-  ["accent on bg (light) — links", "accent", "bg", 4.5],
-  ["accent on surface (light) — links on cards", "accent", "surface", 4.5],
   ["text on bg (dark)", "dtext", "dbg", 4.5],
   ["text-2 on bg (dark)", "dtext2", "dbg", 4.5],
   ["text-muted on bg (dark)", "dmuted", "dbg", 4.5],
-  ["on-accent on accent (dark)", "donAccent", "daccent", 4.5],
-  ["accent on bg (dark) — links", "daccent", "dbg", 4.5],
   ["danger on bg (light) — error text", "danger", "bg", 4.5],
   ["ok on bg (light) — success text", "ok", "bg", 4.5],
   ["danger on bg (dark)", "ddanger", "dbg", 4.5],
@@ -86,11 +114,42 @@ const PAIRS = [
   ["text-2 on tint-butter (light) — strongest tint", "text2", "tintButter", 4.5],
   ["text-2 on tint (dark) — tinted chips", "dtext2", "dtint", 4.5],
 ];
+// Non-text minimums: 3 = WCAG AA for graphics/UI; 1.5 = a chart fill must simply
+// be tellable from the track it sits in.
+const PAIRS_GRAPHIC = [
+  ["chart-2 on bg (light) — categorical mark", "chart2", "bg", 3],
+  ["chart-3 on bg (light) — categorical mark", "chart3", "bg", 3],
+  ["chart-4 on bg (light) — categorical mark", "chart4", "bg", 3],
+  ["chart-2 on bg (dark)", "dchart2", "dbg", 3],
+  ["chart-3 on bg (dark)", "dchart3", "dbg", 3],
+  ["chart-4 on bg (dark)", "dchart4", "dbg", 3],
+];
+// Run once per mood preset.
+const ACCENT_PAIRS = [
+  ["on-accent on accent (light) — .btn--accent", "onAccent", "accent", 4.5],
+  ["on-accent on accent-hover (light)", "onAccent", "accentHover", 4.5],
+  ["accent on bg (light) — links", "accent", "bg", 4.5],
+  ["accent on surface (light) — links on cards", "accent", "surface", 4.5],
+  ["text on accent-quiet (light) — ::selection, active nav", "text", "accentQuiet", 4.5],
+  ["chart-muted on surface-sunk (light) — bar fill vs track", "chartMuted", "sunk", 1.5],
+  ["on-accent on accent (dark)", "donAccent", "daccent", 4.5],
+  ["accent on bg (dark) — links", "daccent", "dbg", 4.5],
+  ["text on accent-quiet (dark)", "dtext", "daccentQuiet", 4.5],
+  ["chart-muted on surface-sunk (dark) — bar fill vs track", "dchartMuted", "dsunk", 1.5],
+];
 let failed = 0;
-for (const [label, f, b, min] of PAIRS) {
-  const r = contrast(oklchToSrgb(...T[f], f), oklchToSrgb(...T[b], b));
-  const ok = r >= min;
-  if (!ok) failed++;
-  console.log(`${ok ? "✓" : "✗"} ${r.toFixed(2)}:1 (min ${min}) ${label}`);
+function check(pairs, preset) {
+  const table = preset === null ? T : { ...T, ...accentTokens(preset) };
+  const suffix = preset === null ? "" : ` [${preset.name} ${preset.hue}]`;
+  const tag = (k) => (preset !== null && ACCENT_KEYS.has(k) ? `${k}@${preset.hue}` : k);
+  for (const [label, f, b, min] of pairs) {
+    const r = contrast(oklchToSrgb(...table[f], tag(f)), oklchToSrgb(...table[b], tag(b)));
+    const ok = r >= min;
+    if (!ok) failed++;
+    console.log(`${ok ? "✓" : "✗"} ${r.toFixed(2)}:1 (min ${min}) ${label}${suffix}`);
+  }
 }
+check(PAIRS, null);
+check(PAIRS_GRAPHIC, null);
+for (const preset of ACCENT_PRESETS) check(ACCENT_PAIRS, preset);
 process.exit(failed || gamutWarned.size ? 1 : 0);
