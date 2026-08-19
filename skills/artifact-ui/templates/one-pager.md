@@ -5,7 +5,7 @@ Semi-structured, so it's a **blocks recipe**, not a copyable template — compos
 most. Paste `dist/artifact.css` first.
 
 ## Structure (contract)
-1. **[Doc header](../blocks/doc-header.md)** — title + one-line meta (date, author, or purpose).
+1. **Title** — a bare `<h1>`. No date/author strip above or below it.
 2. **Lead** — 1–2 sentences stating the takeaway up front. No throat-clearing.
 3. **Sections** ([section block](../blocks/section.md)) — 2–4 short titled sections carrying the
    argument. Each is a tight paragraph or a short list, not a wall of text.
@@ -22,10 +22,7 @@ most. Paste `dist/artifact.css` first.
 ```html
 <main class="container stack" style="gap: var(--space-6); max-width: 48rem; padding-block: var(--space-8)">
   <!-- 1. doc header -->
-  <header class="stack" style="gap: var(--space-2)">
-    <h1>{{TITLE}}</h1>
-    <p class="muted">{{DATE}} · {{AUTHOR or PURPOSE}}</p>
-  </header>
+  <h1>{{TITLE}}</h1>
 
   <!-- 2. lead -->
   <p style="font-size: var(--text-lg)">{{One-sentence takeaway, stated plainly.}}</p>

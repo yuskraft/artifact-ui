@@ -32,10 +32,7 @@ dashboard's signature moment.
 
       <!-- opener: left-aligned document hero, no CTA -->
       <header class="stack reveal" style="gap: var(--space-4)">
-        <div class="stack" style="gap: var(--space-2)">
-          <span class="muted">Workspace · week 12</span>
-          <h1 class="display">This week</h1>
-        </div>
+        <h1 class="display">This week</h1>
         <div class="stats">
           <div class="stat stat--strong">
             <span class="stat__value">12,840</span>

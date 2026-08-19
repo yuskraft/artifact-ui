@@ -34,15 +34,12 @@ Centering is earned here and almost nowhere else. One accent button; a second ac
 ## Left-aligned — report / article / dashboard opener
 
 A document does not need a sales hero, but it does deserve a real opening instead of a bare `<h1>`.
-No CTA; the meta line and an optional `.stats` row carry the substance. This is the upgrade path
-from [doc-header](doc-header.md) when the document has headline numbers worth showing.
+No CTA, and no meta strip above or below the title — the lead sentence and an optional `.stats`
+row carry the substance.
 
 ```html
 <header class="stack stagger" style="gap: var(--space-5); padding-block: var(--space-8) var(--space-7)">
-  <div class="stack reveal" style="gap: var(--space-2)">
-    <span class="muted">Quarterly review · March 2026</span>
-    <h1 class="display">Platform reliability</h1>
-  </div>
+  <h1 class="display reveal">Platform reliability</h1>
   <p class="reveal" style="max-width: var(--measure); color: var(--text-2); font-size: var(--text-lg)">
     Three incidents, all resolved inside the error budget. The migration held.
   </p>
@@ -73,4 +70,6 @@ three lines is worse than a normal one. `.display` is for titles of roughly six 
 - **Motion is optional garnish.** `.stagger` on the header, `.reveal` on its direct children, and
   nothing else on the page — entrances are a page-load event, not a per-section effect. The content
   must read identically if the animation never runs.
+- **No kicker, no dateline.** The title carries itself. Scope and date, when they matter, go in the
+  lead sentence at body size — never in a muted strip above or below the heading.
 - **Never center body text.** Centering applies to the hero's own short lines only.

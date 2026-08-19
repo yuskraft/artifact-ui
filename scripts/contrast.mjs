@@ -67,6 +67,8 @@ const T = {
   danger:    [0.53, 0.17, 25],
   ok:        [0.50, 0.085, 191],     // #78aba8 hue, darkened for AA; C capped for sRGB
   ddanger:   [0.72, 0.15, 25],
+  onDanger:  [0.98, 0.008, 25],     // .btn--danger ink
+  donDanger: [0.16, 0.02, 25],
   dok:       [0.70, 0.054, 191],     // #78aba8 exact
   tint:      [0.933, 0.023, 141],    // representative --tint-* (sage, #e1eddf)
   tintSky:   [0.893, 0.016, 245],    // darkest light tint (--tint-sky, #d3dde6)
@@ -80,6 +82,17 @@ const T = {
   dchart2:   [0.70, 0.054, 191],
   dchart3:   [0.75, 0.09, 59],
   dchart4:   [0.72, 0.09, 318],
+  dsurface:  [0.205, 0.014, HUE_N], // dark --surface, the .code card ground
+  codeKey:   [0.52, 0.17, 12],      // syntax roles — text on the .code card
+  codeName:  [0.52, 0.15, 258],
+  codeAttr:  [0.50, 0.17, 305],
+  codeTag:   [0.50, 0.13, 150],
+  codeCom:   [0.555, 0.012, HUE_N],
+  dcodeKey:  [0.75, 0.14, 12],
+  dcodeName: [0.78, 0.10, 258],
+  dcodeAttr: [0.76, 0.12, 305],
+  dcodeTag:  [0.76, 0.11, 150],
+  dcodeCom:  [0.63, 0.012, HUE_N],
 };
 // Accent-derived tokens: lightness is shared, chroma and hue come from the preset.
 const ACCENT_KEYS = new Set([
@@ -109,10 +122,22 @@ const PAIRS = [
   ["ok on bg (light) — success text", "ok", "bg", 4.5],
   ["danger on bg (dark)", "ddanger", "dbg", 4.5],
   ["ok on bg (dark)", "dok", "dbg", 4.5],
+  ["on-danger on danger (light) — .btn--danger", "onDanger", "danger", 4.5],
+  ["on-danger on danger (dark) — .btn--danger", "donDanger", "ddanger", 4.5],
   ["text-2 on tint (light) — tinted chips", "text2", "tint", 4.5],
   ["text-2 on tint-sky (light) — darkest tint", "text2", "tintSky", 4.5],
   ["text-2 on tint-butter (light) — strongest tint", "text2", "tintButter", 4.5],
   ["text-2 on tint (dark) — tinted chips", "dtext2", "dtint", 4.5],
+  ["code-key on surface (light) — .tok-key", "codeKey", "surface", 4.5],
+  ["code-name on surface (light) — .tok-name", "codeName", "surface", 4.5],
+  ["code-attr on surface (light) — .tok-attr", "codeAttr", "surface", 4.5],
+  ["code-tag on surface (light) — .tok-tag", "codeTag", "surface", 4.5],
+  ["code-com on surface (light) — .tok-com", "codeCom", "surface", 4.5],
+  ["code-key on surface (dark)", "dcodeKey", "dsurface", 4.5],
+  ["code-name on surface (dark)", "dcodeName", "dsurface", 4.5],
+  ["code-attr on surface (dark)", "dcodeAttr", "dsurface", 4.5],
+  ["code-tag on surface (dark)", "dcodeTag", "dsurface", 4.5],
+  ["code-com on surface (dark)", "dcodeCom", "dsurface", 4.5],
 ];
 // Non-text minimums: 3 = WCAG AA for graphics/UI; 1.5 = a chart fill must simply
 // be tellable from the track it sits in.

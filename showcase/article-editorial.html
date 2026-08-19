@@ -25,6 +25,7 @@
   --accent-quiet: oklch(0.93 0.03 var(--hue-accent));
   --on-accent:    oklch(0.98 0.008 var(--hue-accent));
   --danger:       oklch(0.53 0.17 25);
+  --on-danger:    oklch(0.98 0.008 25);
   --ok:           oklch(0.50 0.085 191);
   --tint-peach:    oklch(0.948 0.028 59);
   --tint-rose:     oklch(0.93 0.05 25);
@@ -42,9 +43,15 @@
   --chart-3:      oklch(0.55 0.09 59);
   --chart-4:      oklch(0.55 0.09 318);
   --chart-grid:   var(--border);
+  --code-key:  oklch(0.52 0.17 12);
+  --code-name: oklch(0.52 0.15 258);
+  --code-attr: oklch(0.50 0.17 305);
+  --code-tag:  oklch(0.50 0.13 150);
+  --code-com:  oklch(0.555 0.012 var(--hue-neutral));
   --font-display: "Plus Jakarta Sans", ui-rounded, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --font-serif: ui-serif, Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
   --text-xs:  clamp(0.75rem,  0.72rem + 0.15vw, 0.8125rem);
   --text-sm:  clamp(0.875rem, 0.85rem + 0.15vw, 0.9375rem);
   --text-base:clamp(1rem,     0.96rem + 0.2vw,  1.0625rem);
@@ -88,6 +95,7 @@
     --accent-quiet: oklch(0.28 0.06 var(--hue-accent));
     --on-accent:    oklch(0.16 0.02 var(--hue-accent));
     --danger:       oklch(0.72 0.15 25);
+    --on-danger:    oklch(0.16 0.02 25);
     --ok:           oklch(0.70 0.054 191);
     --tint-peach:    oklch(0.30 0.05 59);
     --tint-rose:     oklch(0.30 0.05 25);
@@ -103,6 +111,11 @@
     --chart-2:     oklch(0.70 0.054 191);
     --chart-3:     oklch(0.75 0.09 59);
     --chart-4:     oklch(0.72 0.09 318);
+    --code-key:  oklch(0.75 0.14 12);
+    --code-name: oklch(0.78 0.10 258);
+    --code-attr: oklch(0.76 0.12 305);
+    --code-tag:  oklch(0.76 0.11 150);
+    --code-com:  oklch(0.63 0.012 var(--hue-neutral));
 }
 * { box-sizing: border-box; }
 @media (prefers-reduced-motion: reduce) {
@@ -171,6 +184,8 @@ img { max-width: 100%; height: auto; outline: 1px solid oklch(0 0 0 / 0.1); outl
 .btn:active { scale: 0.97; }
 .btn--accent { background: var(--accent); border-color: transparent; color: var(--on-accent); }
 .btn--accent:hover { background: var(--accent-hover); }
+.btn--danger { background: var(--danger); border-color: transparent; color: var(--on-danger); }
+.btn--danger:hover { background: color-mix(in srgb, var(--danger) 86%, black); }
 .chip {
   font-size: var(--text-sm); color: var(--text-2);
   padding: var(--space-1) var(--space-3);
@@ -277,13 +292,82 @@ tbody tr:last-child td { border-block-end: none; }
   pointer-events: none;
 }
 .callout {
-  background: color-mix(in srgb, var(--text) 5%, transparent);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
+  position: relative;
+  background: var(--surface); color: var(--text-2);
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-5);
 }
 .callout > * + * { margin-block-start: var(--space-2); }
-.callout--warn { background: color-mix(in srgb, var(--danger) 9%, transparent); }
-.callout--ok   { background: color-mix(in srgb, var(--ok) 9%, transparent); }
+.callout:has(> .callout__icon)  { padding-inline-start: calc(var(--space-5) + 1.5rem + var(--space-4)); }
+.callout:has(> .callout__close) { padding-inline-end: calc(var(--space-5) + 1.5rem); }
+.callout__title { color: var(--text); font-weight: 650; }
+.callout__icon {
+  position: absolute; inset-block-start: var(--space-5); inset-inline-start: var(--space-5);
+  width: 1.5rem; height: 1.5rem; margin: 0; color: var(--text-2);
+}
+.callout__close {
+  position: absolute; inset-block-start: var(--space-4); inset-inline-end: var(--space-4);
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.75rem; height: 1.75rem; margin: 0; padding: 0;
+  border: 0; border-radius: var(--radius-sm); background: none;
+  color: var(--text-muted); cursor: pointer;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.callout__close:hover { background: var(--surface-sunk); color: var(--text); }
+.callout__close svg { width: 1rem; height: 1rem; }
+.callout__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-block-start: var(--space-4); }
+.callout--ok   .callout__icon { color: var(--ok); }
+.callout--warn .callout__icon { color: var(--danger); }
+.callout.callout--row {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+}
+.callout--row > * + * { margin-block-start: 0; }
+.callout--row .callout__icon, .callout--row .callout__close { position: static; }
+.callout--row .callout__action { margin-inline-start: auto; }
+blockquote {
+  margin: 0;
+  font-family: var(--font-serif); font-size: var(--text-2xl); font-weight: 400;
+  line-height: var(--leading-snug); color: var(--text);
+  text-wrap: pretty;
+  hanging-punctuation: first;
+}
+blockquote > p + p { margin-block-start: var(--space-4); }
+blockquote cite {
+  display: block; margin-block-start: var(--space-5);
+  font-family: var(--font-sans); font-size: var(--text-sm); font-style: normal;
+  line-height: var(--leading-snug); color: var(--text-muted); text-align: end;
+}
+blockquote cite b, blockquote cite strong { color: var(--text-2); font-weight: 600; }
+blockquote cite::before {
+  content: ""; display: inline-block; vertical-align: middle;
+  width: var(--space-7); height: 1px; margin-inline-end: var(--space-3);
+  background: var(--border-strong);
+}
+.prose > blockquote { margin-block: var(--space-7); }
+code, kbd, samp {
+  font-family: var(--font-mono); font-size: 0.9em;
+  font-variant-ligatures: none;
+}
+:not(pre) > code {
+  background: var(--surface-sunk); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 0.1em 0.35em;
+}
+.code {
+  margin: 0; overflow-x: auto;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: var(--space-5);
+  font-family: var(--font-mono); font-size: var(--text-sm);
+  line-height: var(--leading-body); tab-size: 2;
+}
+.code code { font-size: inherit; background: none; border: 0; padding: 0; }
+.prose > .code { margin-block: var(--space-6); }
+.tok-key  { color: var(--code-key); }
+.tok-name { color: var(--code-name); }
+.tok-attr { color: var(--code-attr); }
+.tok-tag  { color: var(--code-tag); }
+.tok-com  { color: var(--code-com); }
 .reveal {
   opacity: 1; translate: 0 0; filter: none;
   transition: opacity var(--dur-slow) var(--ease),
@@ -319,9 +403,9 @@ tbody tr:last-child td { border-block-end: none; }
   }
   body { background: #fff; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none !important; }
-  .card, .list__row, figure, tr, .avoid-break { break-inside: avoid; }
+  .card, .list__row, figure, tr, blockquote, .callout, .avoid-break { break-inside: avoid; }
   h1, h2, h3 { break-after: avoid; }
-  nav, .no-print, [data-no-print] { display: none !important; }
+  nav, .callout__close, .no-print, [data-no-print] { display: none !important; }
   a { color: inherit; text-decoration: none; }
 }
 /* end artifact.css */
@@ -330,51 +414,20 @@ tbody tr:last-child td { border-block-end: none; }
 /* Mood preset: editorial / essay / warm (warm red) */
 :root { --hue-accent: 25; --chroma-accent: 0.14; }
 
-.doc { display: grid; grid-template-columns: 1fr; gap: var(--space-7); padding-block: var(--space-8) var(--space-9); }
-@media (min-width: 60rem) {
-  .doc { grid-template-columns: 13rem minmax(0, var(--measure)); justify-content: center; gap: var(--space-9); }
-}
-.doc__toc { position: sticky; top: var(--space-6); align-self: start; display: none; }
-@media (min-width: 60rem) { .doc__toc { display: block; } }
-.doc__toc a {
-  display: block; color: var(--text-muted); text-decoration: none;
-  padding-block: var(--space-1); font-size: var(--text-sm);
-  transition: color var(--dur) var(--ease);
-}
-.doc__toc a:hover { color: var(--text); }
-.doc__toc a[aria-current="true"] { color: var(--text); }
-.doc__body { font-size: var(--text-lg); }
+.doc { padding-block: var(--space-8) var(--space-9); }
+.doc__body { font-size: var(--text-lg); margin-inline: auto; }
 .doc__body h2 { margin-block-start: var(--space-7); }
-.doc__meta { color: var(--text-muted); font-size: var(--text-sm); }
-.doc__body pre {
-  font-family: var(--font-mono); font-size: var(--text-sm); line-height: var(--leading-snug);
-  background: var(--surface-sunk); border-radius: var(--radius-md);
-  padding: var(--space-4); overflow-x: auto; margin: 0;
-}
-blockquote {
-  margin: 0; padding-inline-start: var(--space-4);
-  border-inline-start: 2px solid var(--accent); color: var(--text-2);
-}
 </style>
 </head>
 <body>
 
 <div class="container doc">
 
-  <nav class="doc__toc stack" style="gap: var(--space-1)">
-    <span class="muted" style="margin-block-end: var(--space-2)">Design systems · 003</span>
-    <a href="#s1" aria-current="true">The number is not enough</a>
-    <a href="#s2">Nested corners</a>
-    <a href="#s3">Make it explicit</a>
-  </nav>
-
   <article class="doc__body prose stagger">
 
     <!-- signature moment: the .display title. The body stays plain throughout. -->
     <header class="stack reveal" style="gap: var(--space-3)">
-      <span class="doc__meta">Design systems · 003</span>
       <h1 class="display">Corners are relative</h1>
-      <p class="doc__meta">Published 29 June 2026 · 6 min read</p>
     </header>
 
     <h2 id="s1">The number is not enough</h2>
@@ -392,7 +445,9 @@ blockquote {
     </p>
 
     <blockquote>
-      <p>Pick one radius family and hold it. A sharp card beside a round button is the tell.</p>
+      <p>&ldquo;Pick one radius family and hold it.<br>
+      A sharp card beside a round button is the <em>tell</em>.&rdquo;</p>
+      <cite><b>Rasmus Andersson</b>, Notes on corner geometry</cite>
     </blockquote>
 
     <h2 id="s2">Nested corners</h2>
@@ -402,7 +457,15 @@ blockquote {
       Get this wrong and the corners look like they are fighting, even though a reader could never
       tell you why.
     </p>
-    <pre><code>.inner { border-radius: calc(var(--radius-lg) - var(--space-3)); }</code></pre>
+    <pre class="code"><code><span class="tok-com">/* inner radius = outer radius − the gap between them */</span>
+<span class="tok-attr">.panel</span> {
+  <span class="tok-attr">border-radius</span>: <span class="tok-name">var</span>(<span class="tok-name">--radius-lg</span>);
+  <span class="tok-attr">padding</span>: <span class="tok-name">var</span>(<span class="tok-name">--space-3</span>);
+}
+
+<span class="tok-attr">.panel</span> <span class="tok-key">&gt;</span> <span class="tok-attr">.inner</span> {
+  <span class="tok-attr">border-radius</span>: <span class="tok-name">calc</span>(<span class="tok-name">var</span>(<span class="tok-name">--radius-lg</span>) <span class="tok-key">-</span> <span class="tok-name">var</span>(<span class="tok-name">--space-3</span>));
+}</code></pre>
     <p>
       The subtraction is only valid while the padding is smaller than the outer radius. Past that
       point the result goes negative, and a negative radius is not a rounder corner — it is a broken

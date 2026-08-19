@@ -21,7 +21,6 @@
   font-size: var(--text-base); font-weight: 700;
   margin-block-end: var(--space-4);
 }
-.report__meta { color: var(--text-2); font-size: var(--text-sm); }
 .report__lead { font-size: var(--text-lg); max-width: var(--measure); }
 
 /* Callouts come from base.css (.callout / --warn / --ok) — no local styles. */
@@ -37,7 +36,6 @@ code { font-family: var(--font-mono); font-size: var(--text-sm); background: var
         <h1 style="font-size: var(--text-2xl)">{{TITLE — e.g. "Review: payment-retry PR #482"}}</h1>
         <span class="chip" style="background: var(--tint-sage); border-color: transparent">{{VERDICT — e.g. "approve", "changes requested", "3 findings"}}</span>
       </div>
-      <p class="report__meta">{{DATE}} · {{AUTHOR_OR_REVIEWER}} · {{SCOPE — repo, branch, or system under review}}</p>
     </header>
 
     <section>
@@ -72,7 +70,12 @@ code { font-family: var(--font-mono); font-size: var(--text-sm); background: var
       <div class="stack" style="gap: var(--space-3)">
         <p>{{What it is, why it matters, how it fails. Concrete inputs → wrong output.}}</p>
         <div class="callout callout--warn avoid-break">
-          <p><strong>Risk:</strong> {{the failure scenario in one sentence}}</p>
+          <svg class="callout__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 4 2.5 20h19L12 4Z"/><path d="M12 10v4"/><path d="M12 17.5v.01"/>
+          </svg>
+          <p class="callout__title">Risk</p>
+          <p>{{the failure scenario in one sentence}}</p>
           <p><strong>Fix:</strong> {{the suggested change}}</p>
         </div>
       </div>

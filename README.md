@@ -79,7 +79,7 @@ skills/artifact-ui/   # ← the installable skill payload
   dist/
     artifact.css      # GENERATED: tokens.css + base.css merged & minified — what artifacts inline
   components/         # one file: button, chip, list, card, table, field, form patterns
-  blocks/             # composed sections: section, doc-header, contact-row, experience-entry, signature
+  blocks/             # composed sections: hero, section, contact-row, experience-entry, signature
   templates/          # document types: resume, erize, letter, one-pager, report, timeline (+ brand profile)
   examples/           # worked artifacts: article, dashboard, landing, answer
 scripts/              # build.mjs (regenerate dist) + contrast.mjs (WCAG AA gate) — dev-only, not installed

@@ -16,7 +16,6 @@
 
 /* ── timeline: dated entries on a quiet rail, newest first. ── */
 .tlpage { max-width: 44rem; margin-inline: auto; padding: var(--space-8) var(--space-6); }
-.tlpage__meta { color: var(--text-2); font-size: var(--text-sm); }
 
 .tl { list-style: none; margin: var(--space-6) 0 0; padding: 0; }
 .tl__entry {
@@ -49,7 +48,6 @@
         <h1 style="font-size: var(--text-2xl)">{{TITLE — e.g. "API outage — 2026-07-08" or "Release log"}}</h1>
         <span class="chip" style="background: var(--tint-sage); border-color: transparent">{{CURRENT_STATUS — e.g. "resolved", "monitoring", "v2.4 shipped"}}</span>
       </div>
-      <p class="tlpage__meta">{{DATE_RANGE_OR_SCOPE}} · {{OWNER_OR_TEAM}}</p>
     </header>
 
     <p style="margin-block-start: var(--space-5); max-width: var(--measure)">{{ONE-PARAGRAPH SUMMARY — what happened / what this log tracks, and where things stand now.}}</p>

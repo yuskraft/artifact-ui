@@ -6,7 +6,7 @@ lives in [`../styles/base.css`](../styles/base.css). Compose them into
 
 | Component | Class | Use for |
 |---|---|---|
-| [Button](#button) | `.btn`, `.btn--accent` | Actions. One accent button per view. |
+| [Button](#button) | `.btn`, `.btn--accent`, `.btn--danger` | Actions. One accent button per view; `--danger` for irreversible ones. |
 | [Chip](#chip) | `.chip` | Tags, filters, small metadata pills. |
 | [List](#list) | `.list`, `.list__row` | Simple label→value data. The default over boxed cards. |
 | [Card](#card) | `.card` | Grouped or media-rich content only — never plain metrics. |
@@ -15,7 +15,9 @@ lives in [`../styles/base.css`](../styles/base.css). Compose them into
 | [Field](#field) | `.field`, `input`/`textarea`/`select` | Form inputs with label + message. |
 | [Selectbox](#selectbox) | `.select` | A dropdown that looks identical on every browser and OS. |
 | [Form patterns](#form-patterns) | `.form-row`, `.field--error`, `.field--ok` | Multi-field layout and validation states. |
-| [Callout](#callout) | `.callout`, `.callout--warn`, `.callout--ok` | A note, warning, or success aside inside a document. |
+| [Callout](#callout) | `.callout`, `.callout__icon`, `.callout--row` | The notice card — a result, confirmation, announcement, or destructive confirm. |
+| [Blockquote](#blockquote) | `blockquote`, `cite` | The serif pull quote — a signature moment, not every quotation. |
+| [Code](#code) | `.code`, `.tok-*` | Fenced blocks and inline code, highlighted by hand. |
 | [Image](#image) | `img` | Contained by default, subtle depth outline. |
 | [Inline SVG & icons](#inline-svg--icons) | `svg` | Icons and decorative geometry, drawn not fetched. |
 | [Display](#display) | `.display` | The one oversized type step — an opener's title or a hero number. |
@@ -29,15 +31,18 @@ here. Split a component into its own file only when its docs outgrow a screenful
 
 ## Button
 
-Actions. CSS: `.btn` (neutral) and `.btn--accent` (the one primary action).
+Actions. CSS: `.btn` (neutral), `.btn--accent` (the one primary action), `.btn--danger` (the
+destructive confirm).
 
 ```html
 <button class="btn">Secondary</button>
 <button class="btn btn--accent">Primary action</button>
+<button class="btn btn--danger">Delete</button>
 ```
 
 - **One accent button per view.** The `--accent` fill marks the single most important action; everything else is a neutral `.btn`. Two accent buttons side by side is accent overuse.
 - **Focus stays visible** — never remove the focus ring without replacing it.
+- **`--danger` is for irreversible actions only** — deleting, revoking, wiping. It belongs in a [callout](#callout)'s `__actions` next to a plain `.btn` escape hatch, never as a page's general primary button. Red on a reversible action trains people to ignore red.
 - **Tap target ≥ 44px** for touch (add padding, not font-size).
 - Keep labels short and verb-first ("Start", "Send", "Download").
 
@@ -238,25 +243,142 @@ Multi-field layout and validation states. CSS: `.form-row`, `.field--error`, `.f
 
 ## Callout
 
-A note, warning, or success aside inside a document — a risk in a report, a caveat under a section,
-a "what to do next". CSS: `.callout` (neutral), `.callout--warn`, `.callout--ok`.
+The **notice card**: one message the reader should act on or acknowledge. A raised `--surface`
+container with a quiet all-round border and `--shadow-sm`; the **icon carries the type**, never a
+tinted fill and never a colored edge bar. CSS: `.callout` plus `__icon`, `__title`, `__close`,
+`__actions`, `__action`, and the `--ok` / `--warn` / `--row` modifiers.
+
+The minimum is a plain note — children flow normally, so no wrapper element is needed:
 
 ```html
-<div class="callout avoid-break">
+<div class="callout">
   <p><strong>Note:</strong> exports include archived members by default.</p>
-</div>
-
-<div class="callout callout--warn avoid-break">
-  <p><strong>Risk:</strong> concurrent check-ins double-spend a streak freeze.</p>
-  <p><strong>Fix:</strong> make the decrement conditional and branch on the affected-row count.</p>
 </div>
 ```
 
-- **No edge border — ever.** A thick colored left border is a [tell](../SKILL.md#avoid--the-default-artifact-tells). The translucent wash alone carries the meaning and layers safely on any surface (cream, paper white, opt-in dark).
-- **Color is not the message.** Lead with a bolded word ("Risk:", "Fix:", "Note:") so the meaning survives grayscale print and screen readers.
-- Body text stays `--text` — the wash is background seasoning, never a text color.
-- Sparingly: a callout interrupts reading. More than one or two per section means the prose needs restructuring, not more boxes.
-- Add `.avoid-break` so a callout never splits across printed pages.
+The full form adds an icon, a title, and a dismiss. The gutter for each is reserved only when that
+part is present, so every combination below is valid markup:
+
+```html
+<div class="callout callout--ok">
+  <svg class="callout__icon" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="10" fill="currentColor"/>
+    <path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="var(--surface)" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <p class="callout__title">Credits purchased successfully</p>
+  <p>You've added credits to your account. Start generating with more customization.</p>
+  <p><a href="#balance">View credit balance &rarr;</a></p>
+  <button class="callout__close" type="button" aria-label="Dismiss">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+</div>
+```
+
+A notice that **asks** something gets `__actions`. This is the only place `.btn--danger` belongs:
+
+```html
+<div class="callout callout--warn">
+  <svg class="callout__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>
+  </svg>
+  <p class="callout__title">Delete conversation?</p>
+  <p>Deleting <strong>Intergalactic Concepts</strong> permanently removes the chat memory and its
+     associated data <strong>(32 images &amp; 2 files)</strong> from the server.</p>
+  <p class="muted">This action cannot be undone.</p>
+  <div class="callout__actions">
+    <button class="btn btn--danger" type="button">Delete</button>
+    <button class="btn" type="button">Cancel</button>
+  </div>
+</div>
+```
+
+`--row` is the one-line notice — a fact plus an escape hatch. The icon and dismiss rejoin the flow
+so everything centers on one baseline; `__action` pins the inline action to the end:
+
+```html
+<div class="callout callout--row">
+  <svg class="callout__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linejoin="round" aria-hidden="true">
+    <rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11h14V8M10 12h4"/>
+  </svg>
+  <span>32 images archived</span>
+  <a class="callout__action" href="#undo">Undo</a>
+  <button class="callout__close" type="button" aria-label="Dismiss">…</button>
+</div>
+```
+
+- **The card never changes color.** `--ok` and `--warn` tint the *icon* only. A green-washed or
+  red-washed panel is the [tell](../SKILL.md#avoid--the-default-artifact-tells) — meaning belongs to
+  the icon and the words, so it survives grayscale print and a screen reader.
+- **Colored edge bars stay banned.** A thick red or blue border down one side is the same tell
+  wearing a different coat; the border here is quiet, neutral, and all the way round.
+- **Lead with a bolded word or a `__title`** ("Risk:", "Fix:", "Delete conversation?"). A reader
+  scanning the page should get the point from the first three words.
+- **Only a notice that asks something gets buttons.** A confirmation that merely reports ("Image
+  generated in 4 secs") takes a link at most. Two buttons on a passive notice is noise.
+- **The dismiss is real UI.** `<button type="button">` with an `aria-label`, never a bare `×`
+  glyph in a `<span>`. It is hidden automatically in print.
+- Icons are inline SVG at 24px, `currentColor`, `aria-hidden="true"` — the text already says it.
+- Sparingly: a callout interrupts reading. More than one or two per section means the prose needs
+  restructuring, not more boxes.
+- Add `.avoid-break` on long notices; the component already sets `break-inside: avoid` for print.
+
+## Blockquote
+
+The **pull quote**: one line the artifact wants you to carry away, set in `--font-serif` at
+`--text-2xl` against the sans body. That face-and-size contrast is the entire effect. CSS:
+`blockquote`, with attribution in a `<cite>`.
+
+```html
+<blockquote>
+  <p>&ldquo;In a world of scarcity, we treasure <em>tools</em>.<br>
+  In a world of abundance, we treasure <em>taste</em>.&rdquo;</p>
+  <cite><b>Anu Atluru</b>, Taste is Eating Silicon Valley</cite>
+</blockquote>
+```
+
+- **A signature moment — once or twice per artifact.** An ordinary supporting quotation stays in the prose flow as a normal paragraph. Reaching for the serif every time you quote someone spends the effect and the page goes limp.
+- **No edge bar.** The change of face already separates it; a colored left border on top of that is a rule doing a job whitespace already did, and it is a [tell](../SKILL.md#avoid--the-default-artifact-tells).
+- **Type the curly quotes** (`&ldquo;` / `&rdquo;`) into the content — they are punctuation, not decoration, and `hanging-punctuation: first` lets the opening one hang into the margin where the browser supports it.
+- **Italicise the pivot, not the line.** One or two `<em>` words — the ones the quote turns on. A fully italic pull quote reads as emphasis with nothing to emphasise.
+- `<cite>` is optional but nearly always right: quote a person, name them. Bold the name (`<b>`), leave the source plain. The short rule before it is a citation mark — the one hairline in this system that is not a divider.
+- Use `<br>` only for a deliberate line break the author wrote, as above; otherwise let it wrap.
+
+## Code
+
+A fenced block is a **true container**, so it keeps a border and sits on `--surface` — raised above
+the page ground like a card, not sunk into a well. Inline code is a chip inside a sentence. CSS:
+`.code` on the `<pre>`, plus the five `.tok-*` roles.
+
+```html
+<p>This can now also be solved with the <code>@starting-style</code> CSS at-rule.</p>
+
+<pre class="code"><code><span class="tok-com">// Calculate offset up until current toast</span>
+<span class="tok-key">const</span> offset = React.<span class="tok-name">useMemo</span>(
+  () <span class="tok-key">=&gt;</span> heightIndex * GAP + toastsHeightBefore,
+  [heightIndex, toastsHeightBefore],
+);</code></pre>
+```
+
+- **There is no highlighter.** The sandbox CSP blocks one, so every color is a `<span>` you typed on purpose. That is a feature: you highlight what a reader scans for and nothing else.
+- **Most of a block should stay un-spanned.** Un-spanned code inherits `--text`, which is the correct default. A line where every token is colored is a rainbow, not a highlight.
+- The five roles, from the `--code-*` tokens:
+
+| Class | Role |
+|---|---|
+| `.tok-key` | Keywords, booleans, operators, parameters |
+| `.tok-name` | Function and method names, strings, numbers, CSS values |
+| `.tok-attr` | CSS selectors and properties, at-rules, attribute names |
+| `.tok-tag` | Markup tag names |
+| `.tok-com` | Comments |
+
+- **Escape the markup**: `&lt;`, `&gt;`, `&amp;` inside a code sample, or the browser renders your example instead of showing it.
+- Whitespace inside `<pre>` is literal — do not indent the opening `<code>` to match the surrounding HTML, or the first line arrives pre-indented.
+- The block scrolls horizontally on its own (`overflow-x: auto`); never let a long line widen the page.
+- Code colors are **hue-fixed, not accent-derived** — a snippet reads identically in every mood preset.
 
 ## Image
 
@@ -344,7 +466,6 @@ Motion is opt-in and restrained; **all rules and values live beside the motion t
 ```html
 <main class="container stack stagger">
   <h1 class="reveal">Quarterly review</h1>
-  <p class="reveal muted">Q2 2026 · engineering</p>
   <section class="reveal">…</section>
 </main>
 ```
