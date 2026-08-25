@@ -40,6 +40,9 @@ const SITES = [
   "showcase/report.html",
   "showcase/landing.html",
   "showcase/article-editorial.html",
+  "showcase/resume.html",
+  "showcase/erize.html",
+  "showcase/letter.html",
 ];
 
 function compact(css) {

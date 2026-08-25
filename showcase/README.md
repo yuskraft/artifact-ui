@@ -9,6 +9,9 @@ one page per archetype. These are proofs, not part of the installable skill (`sk
 | [report.html](report.html) | Document hero opener, bars, findings, print-ready |
 | [landing.html](landing.html) | `--wash-hero`, serious preset, inline-SVG icons, one `.band` |
 | [article-editorial.html](article-editorial.html) | Editorial preset, TOC rail, long-form reading |
+| [resume.html](resume.html) | `data-paper` resume — white sheet, entry layout, chip skills, print-ready |
+| [erize.html](erize.html) | Azerbaijani ərizə — traditional top-right addressee, centered title, signature row |
+| [letter.html](letter.html) | Language-neutral formal letter — sender block, subject, sign-off |
 
 Each spends exactly one signature moment. View them with:
 
