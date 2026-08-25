@@ -45,6 +45,14 @@ To add a block/template/example: one new file in the folder + one row in that
 folder's `_index.md`. To add a component: CSS in `base.css` + one section in
 `components/_index.md` (see SKILL.md "Scalability").
 
+**What goes where:** a value + its usage rule → `tokens/tokens.css`; a CSS
+primitive → `styles/base.css` (then rebuild dist); its usage doc →
+`components/_index.md` (own file only past a screenful); a markup recipe with no
+new CSS → `blocks/`; a whole-document skeleton → `templates/`; a full-page study
+→ `examples/`; a rendered proof kept on purpose → `showcase/` (outside the
+payload); an ephemeral render-proof → the session scratchpad, never the repo
+(`_*.html` is gitignored as a backstop).
+
 Repo root holds distribution + site only: `scripts/` (build/contrast/serve),
 `index.html`/`az.html` (landing pages), `showcase/` (complete rendered proof
 pages — outside the payload on purpose, so they cost the agent nothing),

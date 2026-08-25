@@ -326,6 +326,36 @@ tbody tr:last-child td { border-block-end: none; }
 .callout--row > * + * { margin-block-start: 0; }
 .callout--row .callout__icon, .callout--row .callout__close { position: static; }
 .callout--row .callout__action { margin-inline-start: auto; }
+.faq {
+  display: flex; flex-direction: column; gap: var(--space-3);
+  interpolate-size: allow-keywords;
+}
+.faq__item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+  padding: var(--space-4) var(--space-5);
+}
+.faq__q {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  list-style: none; cursor: pointer;
+  color: var(--text); font-weight: 650;
+}
+.faq__q::-webkit-details-marker { display: none; }
+.faq__a { padding-block-start: var(--space-4); color: var(--text-2); }
+.faq__a > * + * { margin-block-start: var(--space-3); }
+.faq__icon {
+  flex: none; width: 1.25rem; height: 1.25rem; color: var(--text-muted);
+  transition: rotate var(--dur-slow) var(--ease), color var(--dur) var(--ease);
+}
+.faq__icon > * { transform-box: view-box; transform-origin: center; }
+.faq__icon-bar { transition: rotate var(--dur-slow) var(--ease); }
+.faq__item[open] > .faq__q > .faq__icon { rotate: 180deg; color: var(--text); }
+.faq__item[open] > .faq__q > .faq__icon > .faq__icon-bar { rotate: 90deg; }
+.faq__item::details-content {
+  block-size: 0; overflow: hidden;
+  transition: block-size var(--dur-slow) var(--ease), content-visibility var(--dur-slow) allow-discrete;
+}
+.faq__item[open]::details-content { block-size: auto; }
 blockquote {
   margin: 0;
   font-family: var(--font-serif); font-size: var(--text-2xl); font-weight: 400;
@@ -403,9 +433,10 @@ code, kbd, samp {
   }
   body { background: #fff; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none !important; }
-  .card, .list__row, figure, tr, blockquote, .callout, .avoid-break { break-inside: avoid; }
+  .card, .list__row, figure, tr, blockquote, .callout, .faq__item, .avoid-break { break-inside: avoid; }
   h1, h2, h3 { break-after: avoid; }
-  nav, .callout__close, .no-print, [data-no-print] { display: none !important; }
+  nav, .callout__close, .faq__icon, .no-print, [data-no-print] { display: none !important; }
+  .faq__item::details-content { block-size: auto; content-visibility: visible; }
   a { color: inherit; text-decoration: none; }
 }
 /* end artifact.css */
@@ -440,33 +471,8 @@ code, kbd, samp {
 .type-sample { display: flex; flex-direction: column; gap: var(--space-3); }
 .demo__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); gap: var(--space-4); }
 
-.faq { max-width: var(--measure); display: flex; flex-direction: column; gap: var(--space-2); }
-.faq details {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-}
-.faq summary {
-  cursor: pointer; font-weight: 600;
-  padding-block: var(--space-1);
-}
-.faq summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--radius-sm); }
-.faq details[open] summary { margin-block-end: var(--space-2); }
-.faq details p { color: var(--text-2); }
-.faq details p + p { margin-block-start: var(--space-2); }
+.faq { max-width: var(--measure); }   /* the component ships the rest */
 
-code {
-  font-family: var(--font-mono); font-size: var(--text-sm);
-  background: var(--surface-sunk);
-  padding: 0.1em 0.4em; border-radius: var(--radius-sm);
-}
-pre {
-  margin: 0; background: var(--surface-sunk);
-  border-radius: var(--radius-md); padding: var(--space-4);
-  overflow-x: auto;
-}
-pre code { background: none; padding: 0; }
 .ladder { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
 .ladder__step {
   background: var(--surface); border: 1px solid var(--border);
@@ -740,7 +746,7 @@ footer { color: var(--text-muted); font-size: var(--text-sm); }
         external requests — it renders with the network unplugged.</p>
       </div>
     </div>
-    <pre><code>node scripts/build.mjs        # tokens + base → dist/artifact.css
+    <pre class="code"><code>node scripts/build.mjs        # tokens + base → dist/artifact.css
 node scripts/build.mjs --check  # CI gate: fails if dist is stale
 node scripts/contrast.mjs       # WCAG AA gate on every color pair</code></pre>
     <div class="callout">
@@ -785,29 +791,45 @@ node scripts/contrast.mjs       # WCAG AA gate on every color pair</code></pre>
   <section class="section" id="faq">
     <h2>Questions people actually ask</h2>
     <div class="faq">
-      <details>
-        <summary>Does it work outside Claude?</summary>
-        <p>Yes. The skill is plain markdown and CSS — GPT, Codex, Gemini, or any agent that can
+      <details class="faq__item">
+        <summary class="faq__q">Does it work outside Claude?
+          <svg class="faq__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M5 12h14"/><path class="faq__icon-bar" d="M12 5v14"/>
+        </svg>
+        </summary>
+        <div class="faq__a">        <p>Yes. The skill is plain markdown and CSS — GPT, Codex, Gemini, or any agent that can
         read files applies it the same way. Only the auto-discovery via <code>SKILL.md</code>
-        frontmatter is Claude-specific; everything else is just instructions and tokens.</p>
+        frontmatter is Claude-specific; everything else is just instructions and tokens.</p></div>
       </details>
-      <details>
-        <summary>Why one file with zero external requests?</summary>
-        <p>Claude's artifact hosting enforces a strict CSP that silently blocks CDNs, web fonts,
+      <details class="faq__item">
+        <summary class="faq__q">Why one file with zero external requests?
+          <svg class="faq__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M5 12h14"/><path class="faq__icon-bar" d="M12 5v14"/>
+        </svg>
+        </summary>
+        <div class="faq__a">        <p>Claude's artifact hosting enforces a strict CSP that silently blocks CDNs, web fonts,
         and remote images. A page that depends on the network looks broken exactly where it's most
-        likely to be viewed. System-first font stacks and inline SVG make the output indestructible.</p>
+        likely to be viewed. System-first font stacks and inline SVG make the output indestructible.</p></div>
       </details>
-      <details>
-        <summary>Can I re-theme it?</summary>
-        <p>One knob: <code>--hue-accent</code>. Every accent shade — solid, hover, quiet wash, text
+      <details class="faq__item">
+        <summary class="faq__q">Can I re-theme it?
+          <svg class="faq__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M5 12h14"/><path class="faq__icon-bar" d="M12 5v14"/>
+        </svg>
+        </summary>
+        <div class="faq__a">        <p>One knob: <code>--hue-accent</code>. Every accent shade — solid, hover, quiet wash, text
         on accent — derives from that single OKLCH hue in both light and dark mode. Change one
-        number, rebuild, and the whole system follows.</p>
+        number, rebuild, and the whole system follows.</p></div>
       </details>
-      <details>
-        <summary>Will it fight my content?</summary>
-        <p>No — it refuses to invent it. Templates carry a content contract: no lorem ipsum, no
+      <details class="faq__item">
+        <summary class="faq__q">Will it fight my content?
+          <svg class="faq__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M5 12h14"/><path class="faq__icon-bar" d="M12 5v14"/>
+        </svg>
+        </summary>
+        <div class="faq__a">        <p>No — it refuses to invent it. Templates carry a content contract: no lorem ipsum, no
         padded prose, no fabricated metrics. Missing information is marked <code>[DATA NEEDED]</code>
-        instead of guessed.</p>
+        instead of guessed.</p></div>
       </details>
     </div>
   </section>

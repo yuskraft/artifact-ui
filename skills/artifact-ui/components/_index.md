@@ -17,6 +17,7 @@ lives in [`../styles/base.css`](../styles/base.css). Compose them into
 | [Form patterns](#form-patterns) | `.form-row`, `.field--error`, `.field--ok` | Multi-field layout and validation states. |
 | [Callout](#callout) | `.callout`, `.callout__icon`, `.callout--row` | The notice card — a result, confirmation, announcement, or destructive confirm. |
 | [Blockquote](#blockquote) | `blockquote`, `cite` | The serif pull quote — a signature moment, not every quotation. |
+| [FAQ](#faq) | `.faq`, `.faq__item`, `.faq__q`, `.faq__a` | Question list on native `<details>`; plus-to-minus marker. |
 | [Code](#code) | `.code`, `.tok-*` | Fenced blocks and inline code, highlighted by hand. |
 | [Image](#image) | `img` | Contained by default, subtle depth outline. |
 | [Inline SVG & icons](#inline-svg--icons) | `svg` | Icons and decorative geometry, drawn not fetched. |
@@ -380,6 +381,42 @@ the page ground like a card, not sunk into a well. Inline code is a chip inside 
 - The block scrolls horizontally on its own (`overflow-x: auto`); never let a long line widen the page.
 - Code colors are **hue-fixed, not accent-derived** — a snippet reads identically in every mood preset.
 
+## FAQ
+
+A question list built on **native `<details>`** — it opens with zero JS, stays searchable with
+find-in-page, and unfolds automatically in print. Each item wears the same shell as
+[code](#code) and [callout](#callout): raised `--surface`, quiet `--border`, `--radius-lg`,
+`--shadow-sm`. CSS: `.faq` on the wrapper, `.faq__item` / `__q` / `__a` / `__icon` / `__icon-bar`.
+
+```html
+<div class="faq">
+  <details class="faq__item">
+    <summary class="faq__q">Does it work outside Claude?
+      <svg class="faq__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M5 12h14"/><path class="faq__icon-bar" d="M12 5v14"/>
+      </svg>
+    </summary>
+    <div class="faq__a">
+      <p>Yes. The skill is plain markdown and CSS — any agent that reads files applies it.</p>
+    </div>
+  </details>
+</div>
+```
+
+- **The plus is the marker.** On open it becomes a minus: the vertical bar turns 90° onto the
+  horizontal one while the whole mark turns 180° — one gesture, `--dur-slow`, state feedback rather
+  than decoration (under reduced motion it swaps instantly). The icon is the two-path SVG above;
+  the `class="faq__icon-bar"` on the **vertical** path is what animates, so don't reorder the paths.
+- **The icon is the only signal.** No accent color on the question, no background change on open —
+  the open item is distinguished by its visible answer.
+- **The answer slides open** via `::details-content` where supported (Chrome/Edge today); elsewhere
+  it simply appears. Both read identically — never gate content on the animation.
+- Questions are real text in `<summary>`, so a long one wraps without pushing the marker around.
+- Answers live in a `.faq__a` div and hold normal prose — paragraphs, links, inline `code`.
+- One FAQ per artifact, at most; a second question list is a sign the page needs restructuring.
+- Don't nest interactive elements inside `<summary>` — the whole row is already a toggle.
+
 ## Image
 
 Bare `img` is styled by `base.css`: contained (`max-width: 100%; height: auto`) and given a subtle
@@ -471,6 +508,7 @@ Motion is opt-in and restrained; **all rules and values live beside the motion t
 ```
 
 - **Decorative only.** Content must read fine if the animation never runs; never gate meaning on motion.
+- Besides entrances, the sanctioned micro-motions are the `.btn` press (`scale 0.97`) and the [FAQ](#faq) plus-to-minus marker — both state feedback, not decoration.
 - A page load is the *only* entrance that earns animation in a document artifact — don't animate
   list items on hover, and never animate anything keyboard-triggered.
 - Reserve `.reveal` for the few top-level chunks (hero, first sections), not every element.

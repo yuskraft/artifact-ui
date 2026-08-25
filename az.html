@@ -326,6 +326,36 @@ tbody tr:last-child td { border-block-end: none; }
 .callout--row > * + * { margin-block-start: 0; }
 .callout--row .callout__icon, .callout--row .callout__close { position: static; }
 .callout--row .callout__action { margin-inline-start: auto; }
+.faq {
+  display: flex; flex-direction: column; gap: var(--space-3);
+  interpolate-size: allow-keywords;
+}
+.faq__item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+  padding: var(--space-4) var(--space-5);
+}
+.faq__q {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  list-style: none; cursor: pointer;
+  color: var(--text); font-weight: 650;
+}
+.faq__q::-webkit-details-marker { display: none; }
+.faq__a { padding-block-start: var(--space-4); color: var(--text-2); }
+.faq__a > * + * { margin-block-start: var(--space-3); }
+.faq__icon {
+  flex: none; width: 1.25rem; height: 1.25rem; color: var(--text-muted);
+  transition: rotate var(--dur-slow) var(--ease), color var(--dur) var(--ease);
+}
+.faq__icon > * { transform-box: view-box; transform-origin: center; }
+.faq__icon-bar { transition: rotate var(--dur-slow) var(--ease); }
+.faq__item[open] > .faq__q > .faq__icon { rotate: 180deg; color: var(--text); }
+.faq__item[open] > .faq__q > .faq__icon > .faq__icon-bar { rotate: 90deg; }
+.faq__item::details-content {
+  block-size: 0; overflow: hidden;
+  transition: block-size var(--dur-slow) var(--ease), content-visibility var(--dur-slow) allow-discrete;
+}
+.faq__item[open]::details-content { block-size: auto; }
 blockquote {
   margin: 0;
   font-family: var(--font-serif); font-size: var(--text-2xl); font-weight: 400;
@@ -403,9 +433,10 @@ code, kbd, samp {
   }
   body { background: #fff; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none !important; }
-  .card, .list__row, figure, tr, blockquote, .callout, .avoid-break { break-inside: avoid; }
+  .card, .list__row, figure, tr, blockquote, .callout, .faq__item, .avoid-break { break-inside: avoid; }
   h1, h2, h3 { break-after: avoid; }
-  nav, .callout__close, .no-print, [data-no-print] { display: none !important; }
+  nav, .callout__close, .faq__icon, .no-print, [data-no-print] { display: none !important; }
+  .faq__item::details-content { block-size: auto; content-visibility: visible; }
   a { color: inherit; text-decoration: none; }
 }
 /* end artifact.css */
@@ -427,17 +458,6 @@ code, kbd, samp {
 .type-sample { display: flex; flex-direction: column; gap: var(--space-3); }
 .demo { display: flex; flex-direction: column; gap: var(--space-4); }
 .demo__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); gap: var(--space-4); }
-code {
-  font-family: var(--font-mono); font-size: var(--text-sm);
-  background: var(--surface-sunk);
-  padding: 0.1em 0.4em; border-radius: var(--radius-sm);
-}
-pre {
-  margin: 0; background: var(--surface-sunk);
-  border-radius: var(--radius-md); padding: var(--space-4);
-  overflow-x: auto;
-}
-pre code { background: none; padding: 0; }
 .ladder { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
 .ladder__step {
   background: var(--surface); border: 1px solid var(--border);
@@ -708,7 +728,7 @@ footer { color: var(--text-muted); font-size: var(--text-sm); }
         xarici sorğu — şəbəkə olmadan da render olunur.</p>
       </div>
     </div>
-    <pre><code>node scripts/build.mjs          # tokenlər + baza → dist/artifact.css
+    <pre class="code"><code>node scripts/build.mjs          # tokenlər + baza → dist/artifact.css
 node scripts/build.mjs --check  # CI qapısı: dist köhnədirsə uğursuz olur
 node scripts/contrast.mjs       # hər rəng cütü üçün WCAG AA qapısı</code></pre>
     <div class="callout">
