@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Corners are relative — artifact-ui showcase</title>
+<title>The gap is the relationship · artifact-ui showcase</title>
 <style>
 /* artifact.css — AUTO-GENERATED from tokens/tokens.css + styles/base.css.
    Do not edit by hand. Run: node scripts/build.mjs */
@@ -90,6 +90,8 @@
     --text:        oklch(0.93 0.008 var(--hue-neutral));
     --text-2:      oklch(0.73 0.01  var(--hue-neutral));
     --text-muted:  oklch(0.60 0.01  var(--hue-neutral));
+    --leading-body: 1.7;
+    --tracking-tight: -0.01em;
     --accent:       oklch(0.77 0.108 var(--hue-accent));
     --accent-hover: oklch(0.82 0.11 var(--hue-accent));
     --accent-quiet: oklch(0.28 0.06 var(--hue-accent));
@@ -152,6 +154,8 @@ img { max-width: 100%; height: auto; outline: 1px solid oklch(0 0 0 / 0.1); outl
 .container { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: var(--space-5); }
 .prose { max-width: var(--measure); }
 .prose > * + * { margin-block-start: var(--space-4); }
+.prose > * + h2 { margin-block-start: var(--space-7); }
+.prose > * + h3 { margin-block-start: var(--space-6); }
 .stack   { display: flex; flex-direction: column; gap: var(--space-4); }
 .cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
 .band { padding-block: var(--space-8); }
@@ -398,6 +402,19 @@ code, kbd, samp {
 .tok-attr { color: var(--code-attr); }
 .tok-tag  { color: var(--code-tag); }
 .tok-com  { color: var(--code-com); }
+.skeleton {
+  background: var(--surface-sunk);
+  border-radius: var(--radius-sm);
+  position: relative; overflow: hidden;
+}
+.skeleton::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, var(--surface), transparent);
+  translate: -100% 0;
+  animation: skeleton-sweep 1.6s linear infinite;
+}
+@keyframes skeleton-sweep { to { translate: 100% 0; } }
+@media (prefers-reduced-motion: reduce) { .skeleton::after { display: none; } }
 .reveal {
   opacity: 1; translate: 0 0; filter: none;
   transition: opacity var(--dur-slow) var(--ease),
@@ -441,84 +458,87 @@ code, kbd, samp {
 }
 /* end artifact.css */
 
-/* ── page-specific (tokens only) ── */
-/* Mood preset: editorial / essay / warm (warm red) */
+/* editorial preset — an essay arrives warm, not product-green */
 :root { --hue-accent: 25; --chroma-accent: 0.14; }
 
-.doc { padding-block: var(--space-8) var(--space-9); }
-.doc__body { font-size: var(--text-lg); margin-inline: auto; }
-.doc__body h2 { margin-block-start: var(--space-7); }
+/* signature moment: ONE serif pull quote mid-essay. Everything else is calm prose. */
+.page { padding-block: var(--space-9); }
+.article { margin-inline: auto; font-size: var(--text-lg); }
+.article > header { margin-block-end: var(--space-8); }
 </style>
 </head>
 <body>
+  <div class="container page">
+    <article class="article prose">
+        <header class="stack" style="gap: var(--space-4)">
+          <h1 class="display">The gap is the relationship</h1>
+          <p style="font-size: var(--text-lg); color: var(--text-2)">Why the strongest line on a
+          page is the one you don't draw.</p>
+        </header>
 
-<div class="container doc">
+        <p>Look at any page you trust — a well-set book, a good invoice, a train timetable that has
+        survived forty years of redesigns. Now count the lines on it. There are almost none. What
+        holds these documents together is not ink between the parts; it is the exact size of the
+        nothing between them.</p>
 
-  <article class="doc__body prose stagger">
+        <h2 id="gaps">Two kinds of distance</h2>
 
-    <!-- signature moment: the .display title. The body stays plain throughout. -->
-    <header class="stack reveal" style="gap: var(--space-3)">
-      <h1 class="display">Corners are relative</h1>
-    </header>
+        <p>Proximity is the oldest law of perception we have: things that sit close together are
+        read as one thing. The reader decides what belongs with what before reading a single word,
+        and the only evidence they have is distance.</p>
 
-    <h2 id="s1">The number is not enough</h2>
-    <p>
-      A border-radius is just a number, and a number cannot describe how a corner should feel. The
-      same 12&nbsp;pixels that soften a button will look almost square on a modal and conspicuously
-      round on a chip. Radius is not an absolute value; it is a ratio between the corner and the
-      thing it belongs to.
-    </p>
-    <p>
-      This is why a token set that ships one radius produces work that looks subtly wrong at both
-      ends of the scale. What you want is a small family — a value for chips and inputs, one for
-      buttons, one for cards, one for panels — and the discipline to pick by element size rather
-      than by taste on the day.
-    </p>
+        <p>That means a layout needs exactly two distances — a small one inside a group, and a
+        visibly larger one between groups. A caption sits tight under its figure; the next section
+        starts far below both. When those two distances are obviously different, the structure is
+        legible from across the room. When they drift toward each other, the page turns into an
+        even gray slurry, and no amount of decoration will rescue it.</p>
 
-    <blockquote>
-      <p>&ldquo;Pick one radius family and hold it.<br>
-      A sharp card beside a round button is the <em>tell</em>.&rdquo;</p>
-      <cite><b>Rasmus Andersson</b>, Notes on corner geometry</cite>
-    </blockquote>
+        <p>This is also why a heading wants more space above it than below. The heading belongs to
+        what follows, not to what it interrupts. Give it equal air on both sides and it floats,
+        loyal to nothing; tuck it against its own section and the hierarchy explains itself.</p>
 
-    <h2 id="s2">Nested corners</h2>
-    <p>
-      The rule that matters most is the one almost nobody applies: when a rounded thing sits inside
-      another rounded thing, the inner radius equals the outer radius minus the gap between them.
-      Get this wrong and the corners look like they are fighting, even though a reader could never
-      tell you why.
-    </p>
-    <pre class="code"><code><span class="tok-com">/* inner radius = outer radius − the gap between them */</span>
-<span class="tok-attr">.panel</span> {
-  <span class="tok-attr">border-radius</span>: <span class="tok-name">var</span>(<span class="tok-name">--radius-lg</span>);
-  <span class="tok-attr">padding</span>: <span class="tok-name">var</span>(<span class="tok-name">--space-3</span>);
-}
+        <blockquote>
+          <p>&ldquo;A border is an apology for a gap<br>that wasn't confident enough.&rdquo;</p>
+        </blockquote>
 
-<span class="tok-attr">.panel</span> <span class="tok-key">&gt;</span> <span class="tok-attr">.inner</span> {
-  <span class="tok-attr">border-radius</span>: <span class="tok-name">calc</span>(<span class="tok-name">var</span>(<span class="tok-name">--radius-lg</span>) <span class="tok-key">-</span> <span class="tok-name">var</span>(<span class="tok-name">--space-3</span>));
-}</code></pre>
-    <p>
-      The subtraction is only valid while the padding is smaller than the outer radius. Past that
-      point the result goes negative, and a negative radius is not a rounder corner — it is a broken
-      declaration. Fall back to a small fixed radius instead.
-    </p>
+        <h2 id="hairlines">What a hairline can't say</h2>
 
-    <h2 id="s3">Make it explicit</h2>
-    <p>
-      None of this survives as folklore. Written down beside the values it governs, the rule gets
-      applied; left in someone's head, it lasts exactly as long as that person is reviewing the
-      pull request. The comment beside the token is the cheapest design system you will ever ship.
-    </p>
+        <p>Rules — the typographer's word for drawn lines — feel like structure, which is exactly
+        the trap. A hairline between every row says only one thing: <em>these are different</em>.
+        It cannot say how different. The line between two related rows and the line between two
+        unrelated sections are the same line, so the reader learns to ignore them all.</p>
 
-    <div class="callout">
-      <p>
-        This page uses the editorial mood preset — a warm red accent rather than the default green.
-        Two numbers changed; every link, rule, and quote bar followed.
-      </p>
-    </div>
+        <p>Spacing carries degrees. A small gap whispers &ldquo;same thought&rdquo;; a large one
+        announces a new one. And unlike a border, a gap never adds noise — remove the rules from a
+        table of contents and it gets easier to scan, not harder, because the leader dots and lines
+        were competing with the words.</p>
 
-  </article>
-</div>
+        <h3>Where lines still earn their keep</h3>
 
+        <p>None of this bans the border. A true container — an input, a card holding a photograph, a
+        table built for dense comparison — earns its edge, because the edge is doing work distance
+        cannot: it declares an inside and an outside. The test is simple. If deleting the line and
+        doubling the gap loses nothing, the line was an apology.</p>
+
+        <h2 id="practice">Grouping in practice</h2>
+
+        <p>The craft, then, is mostly arithmetic. Pick a spacing scale and spend it deliberately:
+        the small step inside a group, two or three steps up between groups, more again between
+        chapters of the page. Keep groups small — past four items, a group is two groups, and the
+        gap should say so. And resist the urge to equalize; symmetry between unrelated things is a
+        lie told in whitespace.</p>
+
+        <h2 id="restraint">The discipline</h2>
+
+        <p>It takes nerve to let space do the talking, because space doesn't look like effort. A
+        page full of boxes and dividers photographs like work. A page held together by nothing
+        visible looks — to the person who made it — suspiciously plain. But the reader never sees
+        the effort either way. They see one page that explains itself and another that has to be
+        deciphered, and they choose without knowing they chose.</p>
+
+        <p>Draw the line only when the gap has genuinely failed. It fails less often than your
+        nerve does.</p>
+    </article>
+  </div>
 </body>
 </html>

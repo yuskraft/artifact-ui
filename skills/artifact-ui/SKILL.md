@@ -5,22 +5,22 @@ description: Make HTML artifacts and documents look intentionally designed inste
 
 # Artifact styling
 
-Default-looking output is the tell that no one designed it. This skill makes every artifact read as **composed** — built on purpose, from a system, with **restraint**. The whole game is predictability: reach for the same scale, hierarchy, and handling of type/space/color/corners every run, so artifacts come out coherent no matter the content.
+Default-looking output is the tell that no one designed it. This skill makes every artifact read as **composed** — built on purpose, from a system, with **restraint**. The whole game is predictability: the same scale, hierarchy, and handling of type/space/color/corners every run.
 
-Three leading words run through everything:
+Four leading words run through everything:
 
 - **Restraint** — the taste. Few type sizes, one accent, calm surfaces, generous space. When unsure, remove. Polish is what you _didn't_ add.
 - **Tokens** — the mechanism. Build _only_ from `var()`. Never hardcode a px, a hex, or a one-off radius. Coherence is a side effect of everyone drinking from the same well.
-- **The ladder** — the structure: **primitives → blocks → templates**. Small pieces compose into sections; sections compose into documents. Reach for the highest rung that fits.
-- **One moment** — the signature. Every artifact earns _exactly one_ expressive move: a `--wash-hero` behind the opener, one `.display`-sized number, one tinted `.band`, one `--chart-strong` bar, a `--glow-accent` in dark. Zero moments reads generic; two compete and cancel. This is a budget, not a licence — restraint everywhere else is what makes the one moment land.
+- **The ladder** — the structure: **primitives → blocks → templates**. Reach for the highest rung that fits.
+- **One moment** — the signature. Every artifact earns _exactly one_ expressive move: a `--wash-hero` behind the opener, one `.display`-sized number, one tinted `.band`, one `--chart-strong` bar, a `--glow-accent` in dark. Zero moments reads generic; two compete and cancel. This is a budget, not a licence.
 
-This is reference, not a workflow — one system to apply in full. Before returning any artifact, every rule that applies must have been considered; the [return checklist](#before-you-return) is the exhaustiveness bar.
+This is reference, not a workflow — one system to apply in full; the [return checklist](#before-you-return) is the exhaustiveness bar.
 
 ## How to build (every artifact)
 
-1. **Lay the foundation.** Read [`tokens/tokens.css`](tokens/tokens.css) — the values *and* the usage rules (each group's rules live in the comments beside it) — then inline [`dist/artifact.css`](dist/artifact.css) into the artifact's `<style>` — one paste that carries the palette, type, spacing, primitives, and print output. (`dist` is generated from `tokens/tokens.css` + [`styles/base.css`](styles/base.css); paste the compact `dist` build — it's smaller and copies cleanly.)
-2. **Compose up the ladder.** Build from [components](components/_index.md) → [blocks](blocks/_index.md). For a document type (resume, ərizə, one-pager, report, timeline) start from [templates](templates/_index.md). For a general artifact kind (article, dashboard, landing, answer) crib from [examples](examples/_index.md).
-3. **Ship one file, zero external requests.** The folder structure is _source_; the output is always ONE self-contained HTML file that renders with the network unplugged — Claude's artifact hosting enforces a strict CSP, so anything external silently breaks. No font/CSS/JS CDNs, no remote images (use inline SVG or data URIs), no fetch calls, no build step. Type comes from the system-first font tokens; a web-font `<link>` is an opt-in *only* for a page that will live outside the sandbox. Stay far under the 16 MiB artifact cap — a text-and-SVG artifact always is.
+1. **Lay the foundation.** Read [`tokens/tokens.css`](tokens/tokens.css) — the values *and* the usage rules (each group's rules live in the comments beside it) — then inline [`dist/artifact.css`](dist/artifact.css) into the artifact's `<style>` — one paste that carries the palette, type, spacing, primitives, and print output. (`dist` is the compact build of `tokens/tokens.css` + [`styles/base.css`](styles/base.css).)
+2. **Compose up the ladder.** Build from [components](components/_index.md) → [blocks](blocks/_index.md). For a document type start from [templates](templates/_index.md); for a general artifact kind crib from [examples](examples/_index.md).
+3. **Ship one file, zero external requests.** The output is ONE self-contained HTML file that renders with the network unplugged — Claude's artifact hosting enforces a strict CSP, so anything external silently breaks. No font/CSS/JS CDNs, no remote images (use inline SVG or data URIs), no fetch calls, no build step. Type comes from the system-first font tokens; a web-font `<link>` is an opt-in *only* for a page that will live outside the sandbox. Stay far under the 16 MiB artifact cap — a text-and-SVG artifact always is.
 
 ## Router — what to read for the request
 
@@ -46,9 +46,9 @@ The full per-dimension rules (type, spacing, color, corners, elevation, motion) 
 
 ## Layout & density
 
-- **Always contained — never full-width.** Content lives in a centered `.container` (or the narrower `--measure` for prose); the page keeps generous gutters. Full-bleed text spanning the viewport is a tell. Only a deliberate soft background may reach the edges.
+- **Always contained — never full-width.** Content lives in a centered `.container` (or the narrower `--measure` for prose); the page keeps generous gutters. Only a deliberate soft background may reach the edges.
 - **Left-aligned by default.** Centering everything is a tell — center only a hero, an empty state, or a single focal action. Body text, lists, and forms align left.
-- **A floating frame is available, but off by default.** The calm default is a centered column on the warm `--bg`. For a more app-like artifact you may wrap content in a rounded `--surface` frame on a soft tinted backdrop — deliberately, not reflexively.
+- **A floating frame is available, but off by default.** For a more app-like artifact you may wrap content in a rounded `--surface` frame on a soft tinted backdrop — deliberately, not reflexively.
 - **Match density to purpose.** Reading artifacts are airy; tool/dashboard artifacts are tighter and more information-dense — but still token-spaced. Don't make a dashboard breathe like an essay or vice-versa.
 - **Responsive without breakpoints where possible.** Fluid type + `grid-template-columns: repeat(auto-fit, minmax(...))` adapts most layouts; add a media query only when reflow genuinely needs one.
 
@@ -56,18 +56,19 @@ The full per-dimension rules (type, spacing, color, corners, elevation, motion) 
 
 Passing every rule below still allows something calm, correct, and forgettable. These are the moves that make an artifact worth looking at:
 
-- **Mood first.** Before building, pick the accent preset that matches the subject (the table sits beside `--hue-accent` in `tokens/tokens.css`) and decide light or dark. A financial review and a kids' study guide should not arrive in the same green.
+- **Mood first.** Before building, pick the accent preset that matches the subject (the table sits beside `--hue-accent` in `tokens/tokens.css`) and decide light or dark. A financial review and a kids' study guide should not arrive in the same green. The swap test: if the subject were different, would anything but the words change? If not, the mood hasn't committed.
 - **Give the eye somewhere to land.** Within a second of opening, one thing should be obviously the most important — usually the opener's title or its one headline number. The largest type and the accent belong to the *same* element; splitting them leaves the page with two weak centers instead of one strong one.
-- **Vary the shape.** Three consecutive sections built the same way read as generated, however well-spaced. Alternate the register: prose → a `.stats` row → a chart → prose. Airy and dense next to each other make both legible.
+- **Chunk to four.** A visual group past four items is two groups — split it, or demote the tail behind a `<details>`. One primary action per view; navigation holds at most five items.
+- **Vary the shape.** Three consecutive sections built the same way read as generated, however well-spaced. Alternate the register: prose → a `.stats` row → a chart → prose.
 - **When it reads flat, add in this order** — stop at the first one that fixes it: `--wash-hero` behind the opener → promote one number to `.display` → one tinted `.band` → replace a list of numbers with `.bars`. That is also the whole budget; the [one moment](#artifact-styling) rule still caps you at one.
-- **Then stop.** The add-ladder is bounded on purpose. Everything after the signature moment goes back to plain, contained, left-aligned defaults — the calm is what makes the moment visible.
+- **Then stop.** Everything after the signature moment goes back to plain, contained, left-aligned defaults — the calm is what makes the moment visible.
 
 ## Interaction patterns
 
 - **Focus is always visible.** Every interactive element keeps a `:focus-visible` ring; never `outline: none` without a replacement.
 - **Hover is a hint, not a jump.** Background/border shifts over `--dur`; avoid layout-shifting hovers.
-- **Motion is opt-in and rule-bound.** Press feedback ships on `.btn` (scale 0.97); a page-load entrance is opt-in via `.reveal`/`.stagger`, decorative only. The motion rules (easing, duration tiers, what may animate) live beside the motion tokens in `tokens/tokens.css`.
-- **States use tokens too.** Disabled → `opacity: 0.5; cursor: not-allowed`. Active nav → `--accent-quiet` fill. Loading → a token-colored shimmer, not a default-blue spinner.
+- **Motion is opt-in and rule-bound.** Press feedback ships on `.btn` (scale 0.97); a page-load entrance is opt-in via `.reveal`/`.stagger`, decorative only. The motion rules live beside the motion tokens in `tokens/tokens.css`.
+- **States use tokens too.** Disabled → `opacity: 0.5; cursor: not-allowed`. Active nav → `--accent-quiet` fill. Loading → `.skeleton` placeholders mirroring the content's shape, never a spinner. Empty → the [empty-state block](blocks/empty-state.md), which says which empty it is and names the recovery.
 - **Tap targets ≥ 44px** for anything touchable (padding, not font-size).
 
 ## Avoid — the default-artifact tells
@@ -75,21 +76,21 @@ Passing every rule below still allows something calm, correct, and forgettable. 
 Hunt these before returning:
 
 - **Cramped spacing** — content packed edge to edge with no breathing room.
-- **Untreated type** — browser-default sizing, no measure cap, full-width paragraphs, no weight hierarchy. (A serif where sans was wanted is the same tell.) The system stack is fine; leaving it *unset* is the tell.
+- **Untreated type** — browser-default sizing, no measure cap, no weight hierarchy; a serif where sans was wanted. The system stack is fine; leaving it *unset* is the tell.
 - **A dead external request** — a font/CSS/JS CDN link or remote image that the sandbox CSP silently blocks. Everything inlines.
 - **Boxy stat-card grids for simple metrics** — bordered boxes around plain label→value data. Use a [list](components/_index.md#list), or an unboxed [stat row](components/charts.md#stat-row) when the numbers deserve real presence.
-- **Cards as the default wrapper** — every paragraph, list item, or section reflexively boxed in a bordered card. A card is the *last* resort, not the first: running text stays plain prose, parallel items are a bullet list, label→value pairs a [list](components/_index.md#list), collapsible detail a native `<details>` accordion, collections a [record list](components/_index.md#record-list). A card is earned only by genuinely grouped or media-rich content — a page of nothing but cards is as much a tell as no structure at all.
+- **Cards as the default wrapper** — every paragraph or section reflexively boxed. A card is the *last* resort: running text stays prose, parallel items a bullet list, label→value pairs a [list](components/_index.md#list), collapsible detail a `<details>`, collections a [record list](components/_index.md#record-list). A card is earned only by grouped or media-rich content — a page of nothing but cards is as much a tell as no structure.
 - **Full-width content** — layout spanning the whole viewport instead of a centered container.
 - **Garish gradients** — rainbow or high-chroma multi-stop fills. (Soft warm low-chroma washes are fine.)
 - **Inconsistent radii** — a sharp card next to a round button; nested corners that aren't concentric.
-- **Meta strips around a title** — a small muted kicker above the heading ("Quarterly review · Q1 2026 · platform team") or a byline under it ("Published 1 July · 6 min read"). This is the single most recognisable default-artifact opener. A title stands alone; if the date, author, or scope genuinely matters, it belongs in the body sentence beneath at normal size, or in a structural field of a formal document — never in a demoted strip clamped to the heading. The same applies to a lone tag chip floated above a title.
+- **Meta strips around a title** — a small muted kicker above the heading ("Quarterly review · Q1 2026 · platform team") or a byline under it ("Published 1 July · 6 min read"). The single most recognisable default-artifact opener. A title stands alone; a date, author, or scope that genuinely matters goes in the body sentence beneath at normal size, or in a structural field of a formal document — never in a demoted strip clamped to the heading (nor as a lone chip floated above it).
 - **All-caps headings** — uppercase section labels/kickers. Headings are sentence-case; hierarchy comes from weight (650–700) and size, never capitalization.
-- **Rule-drawn separation** — hairline borders between rows, sections, or headings. Separate with spacing (padding/margins/gaps); borders belong only to true containers (cards, inputs, chips, records), functional lines (a signature line), and a [traditional table](components/_index.md#table) where dense comparison earns its rules.
-- **A table for record-shaped data** — rows of users/issues/deployments crammed into `<table>`. Collections of records default to the [record list](components/_index.md#record-list) (distinct items, chips for status, visible actions); a table is only for dense many-column comparison.
+- **Rule-drawn separation** — hairline borders between rows, sections, or headings. Separate with spacing (padding/margins/gaps); borders belong only to true containers (cards, inputs, chips, records), functional lines (a signature line), and a [traditional table](components/_index.md#table).
+- **A table for record-shaped data** — rows of users/issues/deployments crammed into `<table>`. Collections of records default to the [record list](components/_index.md#record-list); a table is only for dense many-column comparison.
 - **Everything centered** — center-aligned body text and forms.
 - **Pure `#000` / `#fff`** and harsh single-layer shadows. (Exception: paper documents — resume, ərizə, letter — sit on a white sheet via `data-paper` on the root.)
-- **Color-coded notice panels** — a thick colored left bar, or a green/red/yellow wash filling a note box. Use the [callout component](components/_index.md#callout): a raised card with a quiet neutral border all the way round, where `--ok`/`--warn` tint the **icon** and nothing else. Meaning lives in the icon and the opening words, so it survives grayscale print and a screen reader.
-- **Bar-quoted blockquotes** — a thick accent border down the side of a quotation. The [pull quote](components/_index.md#blockquote) separates itself by changing face and size; the bar is a rule doing whitespace's job. Spend it once or twice per artifact — an ordinary supporting quote stays a plain paragraph.
+- **Color-coded notice panels** — a thick colored left bar, or a green/red/yellow wash filling a note box. Use the [callout](components/_index.md#callout): a raised card, quiet neutral border all round, `--ok`/`--warn` tinting the **icon** and nothing else — meaning lives in the icon and the opening words, so it survives grayscale and a screen reader.
+- **Bar-quoted blockquotes** — a thick accent border down the side of a quotation. The [pull quote](components/_index.md#blockquote) separates itself by changing face and size; the bar is a rule doing whitespace's job. An ordinary supporting quote stays a plain paragraph.
 - **Rainbow code** — every token in a snippet colored, which highlights nothing. Highlighting is hand-written `.tok-*` spans on what a reader scans for; un-spanned code inherits `--text` and that is the [correct default](components/_index.md#code).
 - **Accent overuse** — color on every element, so nothing stands out.
 - **Careless motion** — `transition: all`, `ease-in` on UI, entrances from `scale(0)`, UI animation over 300ms, or autoplaying attention-grabbing loops. Motion follows the rules beside the motion tokens.
@@ -101,26 +102,29 @@ Hunt these before returning:
 The library is meant to grow. Keep growth clean:
 
 - **One-line to extend.** To add a block/template/example, drop one file in the right folder and add one row to that folder's `_index.md`; a new component is CSS in `base.css` + a section in `components/_index.md`. The core (this file, `tokens/`, `styles/`) stays untouched.
-- **Two-level disclosure.** This router points to a folder's `_index.md`; the index points to the specific file. That keeps context load flat as the library grows — never inline a whole library here.
-- **Don't over-fragment.** Small pieces live grouped in one file (all components share `components/_index.md`); a piece earns its own file only when its docs outgrow a screenful. Each file must earn its own pointer.
+- **Two-level disclosure.** This router points to a folder's `_index.md`; the index points to the specific file — context load stays flat as the library grows. Never inline a whole library here.
+- **Don't over-fragment.** Small pieces live grouped in one file (all components share `components/_index.md`); a piece earns its own file only when its docs outgrow a screenful.
 - **Single source of truth.** Values live only in `tokens/tokens.css`, with each group's usage rules in the comments beside it; every other rule lives in exactly one `.md`. Templates and examples paste `dist/artifact.css` — they never copy values.
+- **A deterministic gate mirrors the tells.** The repo's `scripts/lint.mjs` checks its pages for the mechanically catchable [Avoid](#avoid--the-default-artifact-tells) items; in the sandbox, the Avoid list itself is the gate.
 
 ## Before you return
 
-The artifact is done only when every line holds:
+The artifact is done only when every line holds — checked against the markup/CSS actually produced, not answered from memory; a bare "yes" is not verification. One fix batch, at most one re-check, then ship:
 
 - [ ] `dist/artifact.css` is inlined, and **no value downstream is hardcoded** — all type/space/color/radius/shadow come from `var()`.
-- [ ] **Zero external requests** — no CDN links, no remote images (inline SVG / data URIs only), no fetch. Type is applied via `--font-display`/`--font-sans`; the optional web-font `<link>` appears only when the page is explicitly for use outside Claude's sandbox.
+- [ ] **Zero external requests** — no CDN links, no remote images (inline SVG / data URIs only), no fetch. Type comes from `--font-display`/`--font-sans`; a web-font `<link>` only on a page explicitly for use outside Claude's sandbox.
 - [ ] At most three type sizes; hierarchy carried by weight + color, not size sprawl.
 - [ ] All content sits in a centered container (prose in a `--measure` column); **nothing runs full-width**; left-aligned.
 - [ ] Simple data uses a **list column**, not boxed stat-cards; cards are reserved for grouped/media-rich content — prose, bullet lists, and `<details>` were tried before any card.
 - [ ] Spacing is generous and proportional; grouping is legible from the gaps alone.
-- [ ] Palette is warm: one accent derived from `--hue-accent` used sparingly; pastel tints (if any) stay quiet.
-- [ ] **One signature moment exists — and only one.** The accent preset was chosen for the subject, not left on the default by accident.
-- [ ] Any chart follows the chart rules: one hue by default with a single promoted mark, values labelled on the marks, no gridlines, drawn in CSS/inline SVG rather than JS.
+- [ ] One accent used sparingly, tints quiet, and **one signature moment exists — only one** — with the preset chosen for the subject, not left on the default by accident.
+- [ ] Text on any colored surface (tint, wash, solid fill) holds the contrast floors — body ≥ 4.5:1, large text and icons ≥ 3:1 — verified for any pairing the tokens don't ship.
+- [ ] Any chart follows the chart rules: one hue, one promoted mark, values labelled on the marks, no gridlines, CSS/inline SVG only.
 - [ ] Radii match element size and nest concentrically (`outer − gap`).
-- [ ] Motion (if any) animates only transform/opacity, uses the easing/duration tokens, and stays under 300ms; nothing animates that the reader sees repeatedly.
-- [ ] Artifacts default to **light** (dark never activates on its own); if dark was opted in via `data-theme="dark"`, its rendering looks intentional (checked the dark block, not just inverted).
+- [ ] Motion (if any) animates only transform/opacity from the easing/duration tokens, stays under 300ms, and never on something seen repeatedly.
+- [ ] Interactive artifacts show their states: loading is a `.skeleton` mirror of the layout, empty regions name their recovery, errors say what failed and how to fix it.
+- [ ] Semantics hold: one `<h1>`, no skipped heading levels, every `<img>` has `alt` (empty for decorative), and the layout survives 200% zoom.
+- [ ] Artifacts default to **light**; if dark was opted in (`data-theme="dark"`), its rendering was checked, not assumed inverted.
 - [ ] For a document type: routed to the right template, filled its contract, **no `{{TOKEN}}` or placeholder left**, gaps marked `[DATA NEEDED]`; identity pulled from the brand profile if present.
 - [ ] Print-ready docs (resume, ərizə, report) checked in print/PDF: A4, white-paper neutralization, no bad page breaks.
 - [ ] None of the [tells](#avoid--the-default-artifact-tells) are present.

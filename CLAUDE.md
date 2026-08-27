@@ -14,6 +14,10 @@ and no package.json; the only executables are the zero-dependency scripts.
   copy** is stale. CI runs this.
 - `node scripts/serve.mjs` — static dev server on :8643 for viewing the landing
   pages and `showcase/`.
+- `node scripts/lint.mjs [files…]` — deterministic slop gate: checks the landing
+  pages, `showcase/`, and templates (or the given files) against SKILL.md's
+  "Avoid" list (hardcoded values, external resources, `transition: all`, missing
+  `alt`, …). CI runs it; keep its rules in sync when editing the Avoid list.
 
 ## Hard rules
 

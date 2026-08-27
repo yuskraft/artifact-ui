@@ -29,8 +29,9 @@
 }
 
 .erize__body { font-size: var(--text-base); }
-.erize__body p { text-indent: var(--space-6); }   /* formal paragraph indent */
-.erize__body > p + p { margin-block-start: var(--space-3); }
+/* The formal first-line indent IS the paragraph boundary — no spacing on top
+   of it (spacing OR indent, never both; see the type rules in tokens.css). */
+.erize__body p { text-indent: var(--space-6); margin: 0; }
 
 .erize__sign { display: flex; justify-content: space-between; align-items: flex-end; margin-block-start: var(--space-8); }
 .erize__date { color: var(--text-2); font-variant-numeric: tabular-nums; }

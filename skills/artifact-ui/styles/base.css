@@ -50,6 +50,8 @@ img { max-width: 100%; height: auto; outline: 1px solid oklch(0 0 0 / 0.1); outl
 .container { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: var(--space-5); }
 .prose { max-width: var(--measure); }
 .prose > * + * { margin-block-start: var(--space-4); }   /* flow rhythm */
+.prose > * + h2 { margin-block-start: var(--space-7); }  /* a heading binds to what follows: */
+.prose > * + h3 { margin-block-start: var(--space-6); }  /* more space above than below it */
 .stack   { display: flex; flex-direction: column; gap: var(--space-4); }
 .cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
 
@@ -403,6 +405,27 @@ code, kbd, samp {
 .tok-attr { color: var(--code-attr); }  /* selectors, properties, at-rules, attribute names */
 .tok-tag  { color: var(--code-tag); }   /* markup tag names */
 .tok-com  { color: var(--code-com); }   /* comments */
+
+/* ── skeleton ── the loading state: token-colored placeholders that mirror the
+   SHAPE of the content they stand in for — skeletons, never a centered spinner.
+   Compose .skeleton pieces (sized inline) into the outline of the real layout:
+   a heading bar, two text bars, a chart block. The sweep is constant motion
+   (linear, per the motion rules) and decorative: under reduced motion it is
+   disabled below and the plain --surface-sunk shapes still read as loading.
+   Docs: components/_index.md#skeleton */
+.skeleton {
+  background: var(--surface-sunk);
+  border-radius: var(--radius-sm);
+  position: relative; overflow: hidden;
+}
+.skeleton::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, var(--surface), transparent);
+  translate: -100% 0;
+  animation: skeleton-sweep 1.6s linear infinite;
+}
+@keyframes skeleton-sweep { to { translate: 100% 0; } }
+@media (prefers-reduced-motion: reduce) { .skeleton::after { display: none; } }
 
 /* ── reveal / stagger ── OPT-IN one-shot entrance (a page load is a rare,
    first-view event — the only tier where entrance animation is earned).

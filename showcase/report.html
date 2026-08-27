@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quarterly reliability review — artifact-ui showcase</title>
+<title>Atlas Payments API — Q3 security review · artifact-ui showcase</title>
 <style>
 /* artifact.css — AUTO-GENERATED from tokens/tokens.css + styles/base.css.
    Do not edit by hand. Run: node scripts/build.mjs */
@@ -90,6 +90,8 @@
     --text:        oklch(0.93 0.008 var(--hue-neutral));
     --text-2:      oklch(0.73 0.01  var(--hue-neutral));
     --text-muted:  oklch(0.60 0.01  var(--hue-neutral));
+    --leading-body: 1.7;
+    --tracking-tight: -0.01em;
     --accent:       oklch(0.77 0.108 var(--hue-accent));
     --accent-hover: oklch(0.82 0.11 var(--hue-accent));
     --accent-quiet: oklch(0.28 0.06 var(--hue-accent));
@@ -152,6 +154,8 @@ img { max-width: 100%; height: auto; outline: 1px solid oklch(0 0 0 / 0.1); outl
 .container { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: var(--space-5); }
 .prose { max-width: var(--measure); }
 .prose > * + * { margin-block-start: var(--space-4); }
+.prose > * + h2 { margin-block-start: var(--space-7); }
+.prose > * + h3 { margin-block-start: var(--space-6); }
 .stack   { display: flex; flex-direction: column; gap: var(--space-4); }
 .cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
 .band { padding-block: var(--space-8); }
@@ -398,6 +402,19 @@ code, kbd, samp {
 .tok-attr { color: var(--code-attr); }
 .tok-tag  { color: var(--code-tag); }
 .tok-com  { color: var(--code-com); }
+.skeleton {
+  background: var(--surface-sunk);
+  border-radius: var(--radius-sm);
+  position: relative; overflow: hidden;
+}
+.skeleton::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, var(--surface), transparent);
+  translate: -100% 0;
+  animation: skeleton-sweep 1.6s linear infinite;
+}
+@keyframes skeleton-sweep { to { translate: 100% 0; } }
+@media (prefers-reduced-motion: reduce) { .skeleton::after { display: none; } }
 .reveal {
   opacity: 1; translate: 0 0; filter: none;
   transition: opacity var(--dur-slow) var(--ease),
@@ -441,118 +458,157 @@ code, kbd, samp {
 }
 /* end artifact.css */
 
-/* ── page-specific (tokens only) ── */
-/* Mood preset: product / default (green) */
+/* serious preset — financial/legal subject matter picks blue, not taste */
+:root { --hue-accent: 250; --chroma-accent: 0.13; }
 
-.page { padding-block: var(--space-8) var(--space-9); }
-.doc { max-width: 52rem; }
-.finding { padding-block: var(--space-4); }
-.finding__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-3); }
+/* signature moment: ONE number promoted to display size — the verdict itself.
+   The title stays a normal heading; nothing else competes. */
+.report { max-width: 48rem; margin-inline: auto; padding: var(--space-8) var(--space-6); }
+.report > section { margin-block-start: var(--space-8); }
+.report h2 { font-size: var(--text-base); font-weight: 700; margin-block-end: var(--space-4); }
+.report__lead { font-size: var(--text-lg); max-width: var(--measure); }
+.verdict .stat--strong .stat__value { font-size: var(--text-4xl); }
+@media print { .report { padding: 0; } }
 </style>
 </head>
 <body>
-
-<div class="container page doc stack stagger" style="gap: var(--space-8)">
-
-  <!-- signature moment: the .display title + one promoted stat. No wash, no band. -->
-  <header class="stack reveal" style="gap: var(--space-5)">
-    <div class="stack" style="gap: var(--space-2)">
-      <h1 class="display">Reliability held</h1>
-    </div>
-    <p style="max-width: var(--measure); color: var(--text-2); font-size: var(--text-lg)">
-      Three incidents, all resolved inside the error budget. The database migration
-      landed without downtime. Two findings need attention before Q2.
-    </p>
-    <div class="stats">
-      <div class="stat stat--strong">
-        <span class="stat__value">99.98%</span>
-        <span class="stat__label">Availability</span>
-        <span class="stat__delta stat__delta--up">+0.04</span>
+  <main class="report">
+    <header class="stack" style="gap: var(--space-2)">
+      <div class="cluster" style="justify-content: space-between">
+        <h1 style="font-size: var(--text-2xl)">Atlas Payments API — Q3 security review</h1>
+        <span class="chip" style="background: var(--tint-sage); border-color: transparent">approved with follow-ups</span>
       </div>
-      <div class="stat">
-        <span class="stat__value">3</span>
-        <span class="stat__label">Incidents</span>
-      </div>
-      <div class="stat">
-        <span class="stat__value">21%</span>
-        <span class="stat__label">Error budget used</span>
-      </div>
-    </div>
-  </header>
+      <p class="muted">Scope: authorization, webhook delivery, key rotation, PCI data paths · reviewed 12–19 September 2026</p>
+    </header>
 
-  <section class="stack reveal" style="gap: var(--space-4)">
-    <h2>Where the budget went</h2>
-    <div class="bars">
-      <div class="bar bar--strong">
-        <span class="bar__label">Migration</span>
-        <span class="bar__track"><span class="bar__fill" style="--size: 100%"></span></span>
-        <span class="bar__value">11%</span>
+    <section>
+      <h2>Summary</h2>
+      <p class="report__lead">The API's payment paths hold: no critical findings, and the two
+      high-severity issues are in tooling around the API rather than in request handling. Both have
+      owners and land before the October freeze.</p>
+    </section>
+
+    <section class="verdict avoid-break">
+      <div class="stats">
+        <div class="stat stat--strong">
+          <span class="stat__value">0</span>
+          <span class="stat__label">critical findings</span>
+        </div>
+        <div class="stat">
+          <span class="stat__value">2</span>
+          <span class="stat__label">high</span>
+        </div>
+        <div class="stat">
+          <span class="stat__value">7</span>
+          <span class="stat__label">medium &amp; low</span>
+        </div>
+        <div class="stat">
+          <span class="stat__value">41</span>
+          <span class="stat__label">endpoints reviewed</span>
+        </div>
       </div>
-      <div class="bar">
-        <span class="bar__label">Upstream API</span>
-        <span class="bar__track"><span class="bar__fill" style="--size: 55%"></span></span>
-        <span class="bar__value">6%</span>
+    </section>
+
+    <section>
+      <h2>Findings</h2>
+      <table class="avoid-break">
+        <thead>
+          <tr><th>Finding</th><th>Where</th><th>Severity</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Webhook signing key accepted after rotation window</td>
+            <td><code>webhooks/verify.go:88</code></td>
+            <td><span class="chip" style="background: var(--tint-rose); border-color: transparent">high</span></td>
+          </tr>
+          <tr>
+            <td>Admin CLI logs full card tokens at debug level</td>
+            <td><code>cmd/atlasctl/pay.go:141</code></td>
+            <td><span class="chip" style="background: var(--tint-rose); border-color: transparent">high</span></td>
+          </tr>
+          <tr>
+            <td>Idempotency keys expire before the retry ceiling</td>
+            <td><code>api/idempotency.go:52</code></td>
+            <td><span class="chip" style="background: var(--tint-butter); border-color: transparent">medium</span></td>
+          </tr>
+          <tr>
+            <td>Rate-limit headers absent on 402 responses</td>
+            <td><code>api/middleware.go:203</code></td>
+            <td><span class="chip">low</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Stale webhook keys are honored for 72 hours</h2>
+      <div class="stack" style="gap: var(--space-3)">
+        <p style="max-width: var(--measure)">Rotating a webhook signing key is supposed to invalidate
+        the old one after the 15-minute grace window. Verification still accepts the previous key for
+        as long as it stays in the cache — measured at 72 hours in production. A leaked key survives
+        its own rotation for three days.</p>
+        <div class="callout callout--warn avoid-break">
+          <svg class="callout__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 4 2.5 20h19L12 4Z"/><path d="M12 10v4"/><path d="M12 17.5v.01"/>
+          </svg>
+          <p class="callout__title">Risk</p>
+          <p>An attacker holding a compromised key can forge deliveries after the merchant believes
+          rotation has locked them out.</p>
+          <p><strong>Fix:</strong> evict the old key from the verification cache at the end of the
+          grace window, not at cache expiry. Owner: platform team, ships in 2.31.</p>
+        </div>
       </div>
-      <div class="bar">
-        <span class="bar__label">Deploy rollback</span>
-        <span class="bar__track"><span class="bar__fill" style="--size: 36%"></span></span>
-        <span class="bar__value">4%</span>
+    </section>
+
+    <section>
+      <h2>Findings by area</h2>
+      <div class="bars avoid-break">
+        <div class="bar bar--strong">
+          <span class="bar__label">Tooling &amp; CLI</span>
+          <span class="bar__track"><span class="bar__fill" style="--size: 100%"></span></span>
+          <span class="bar__value">4</span>
+        </div>
+        <div class="bar">
+          <span class="bar__label">Webhooks</span>
+          <span class="bar__track"><span class="bar__fill" style="--size: 75%"></span></span>
+          <span class="bar__value">3</span>
+        </div>
+        <div class="bar">
+          <span class="bar__label">Request handling</span>
+          <span class="bar__track"><span class="bar__fill" style="--size: 50%"></span></span>
+          <span class="bar__value">2</span>
+        </div>
+        <div class="bar">
+          <span class="bar__label">Key management</span>
+          <span class="bar__track"><span class="bar__fill" style="--size: 0%"></span></span>
+          <span class="bar__value">0</span>
+        </div>
       </div>
-    </div>
-    <p class="muted">Percentages are of the quarterly error budget, not of total downtime.</p>
-  </section>
+      <p class="muted" style="margin-block-start: var(--space-4)">The pattern from Q2 repeats: the
+      API core is clean and the findings cluster in the tooling around it.</p>
+    </section>
 
-  <!-- findings: separated by spacing, not rules; chips carry severity -->
-  <section class="stack reveal" style="gap: var(--space-3)">
-    <h2>Findings</h2>
-
-    <div class="finding avoid-break stack" style="gap: var(--space-2)">
-      <div class="finding__head">
-        <h3>Retry storm on upstream timeout</h3>
-        <span class="chip" style="background: var(--tint-rose)">High</span>
+    <section>
+      <h2>What was checked</h2>
+      <div class="list avoid-break">
+        <div class="list__row"><span class="list__label">Authorization &amp; scopes</span><span class="list__value">clean</span></div>
+        <div class="list__row"><span class="list__label">Webhook delivery &amp; signing</span><span class="list__value">3 findings</span></div>
+        <div class="list__row"><span class="list__label">Key rotation</span><span class="list__value">clean</span></div>
+        <div class="list__row"><span class="list__label">PCI data paths</span><span class="list__value">1 finding (CLI)</span></div>
+        <div class="list__row"><span class="list__label">Rate limiting</span><span class="list__value">1 finding</span></div>
       </div>
-      <p style="max-width: var(--measure)">
-        The client retries three times with no jitter, so a single upstream blip
-        arrives back as a synchronised burst. Add exponential backoff with jitter
-        before the next traffic peak.
-      </p>
-    </div>
+    </section>
 
-    <div class="finding avoid-break stack" style="gap: var(--space-2)">
-      <div class="finding__head">
-        <h3>Migration lock held longer than planned</h3>
-        <span class="chip" style="background: var(--tint-butter)">Medium</span>
+    <section>
+      <div class="callout callout--row avoid-break">
+        <svg class="callout__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span>Both Q2 follow-ups verified closed during this review.</span>
       </div>
-      <p style="max-width: var(--measure)">
-        The backfill held a table lock for 40 seconds against an estimated 5.
-        Reads were unaffected; writes queued. Chunk the backfill next time.
-      </p>
-    </div>
-
-    <div class="finding avoid-break stack" style="gap: var(--space-2)">
-      <div class="finding__head">
-        <h3>Alert routing gap on weekends</h3>
-        <span class="chip" style="background: var(--tint-sky)">Low</span>
-      </div>
-      <p style="max-width: var(--measure)">
-        Two alerts reached a rotation with no weekend coverage. Both were
-        low-severity and caught by the morning sweep, but the routing is wrong.
-      </p>
-    </div>
-  </section>
-
-  <div class="callout callout--ok reveal avoid-break">
-    <svg class="callout__icon" viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="10" fill="currentColor"/>
-      <path d="m7.5 12.5 3 3 6-6.5" fill="none" stroke="var(--surface)" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <p class="callout__title">Recommendation</p>
-    <p>Ship the backoff fix and the routing correction in the first sprint of Q2. Neither is large,
-      and both remove a whole class of incident.</p>
-  </div>
-
-</div>
-
+    </section>
+  </main>
 </body>
 </html>

@@ -6,7 +6,7 @@ layout-specific CSS. The design rules apply to all of them.
 
 | Example | For |
 |---|---|
-| [Article / document](article.md) | Reading-first long text, optional TOC rail |
+| [Article / document](article.md) | Reading-first long text, one centered column |
 | [Dashboard / app](dashboard.md) | Sidebar nav + contained content, metrics as a list column |
 | [Landing / hero](landing.md) | Screen-first showcase, one focal hero + CTA |
 | [Chat / answer UI](answer.md) | Assistant answer: trace, body, actions, sources |
@@ -17,7 +17,9 @@ For structured **documents** (resume, ərizə, one-pager, report, timeline) use
 ## Going dark
 
 Examples render **light by default** — dark is an explicit opt-in (`data-theme="dark"` on the
-root), never automatic. But opt-in is not the same as discouraged: dark is the right answer for
+root), never automatic. To decide, write one sentence of the physical scene — *who reads this,
+where, under what light* — and let it force the answer; never pick dark because the category sounds
+dark. Opt-in is not the same as discouraged: dark is the right answer for
 developer and technical dashboards, log and terminal views, chart- or media-heavy showcases where a
 dark ground makes the content glow, and night/space/audio subject matter. Reading documents —
 reports, letters, resumes, essays — stay light.

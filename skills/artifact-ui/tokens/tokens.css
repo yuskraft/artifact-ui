@@ -34,6 +34,12 @@
    * - Text hierarchy is three steps: --text / --text-2 / --text-muted. Demote
    *   meta to muted instead of shrinking it to nothing.
    * - Never pure black or white; the tokens already avoid #000/#fff.
+   * - Text on a COLORED surface (a --tint-*, --accent-quiet, a wash, a solid
+   *   fill) holds the floors for ANY pairing you invent: body and placeholder
+   *   text ≥ 4.5:1, large text ≥ 3:1, icons/controls/focus rings ≥ 3:1. The
+   *   shipped pairings clear AA; a new one is yours to verify. On a saturated
+   *   fill, derive the text from that hue (--on-accent does this) — never drop
+   *   to gray on color, which reads washed out and fails first.
    * - Gradients: use --wash-hero / --wash-duo below and nothing else. A garish
    *   multi-stop gradient is a tell. Never a rainbow.
    */
@@ -163,6 +169,10 @@
    *   500–550; headings 600–700 (base styles use 650).
    * - Line-height is inverse to size: body --leading-body, headings
    *   --leading-tight; large headings also take --tracking-tight.
+   * - Tracking: -0.02 to -0.03em is the useful range for large display type;
+   *   never tighter than -0.04em at any size, and body text is never tracked.
+   * - Paragraph separation: block spacing (the .prose flow) OR a first-line
+   *   indent, never both — two marks on one boundary say it twice.
    * - Cap the measure: running prose lives in max-width: var(--measure).
    *   Full-width paragraphs are a default tell.
    * - Numbers in tables and stats: font-variant-numeric: tabular-nums.
@@ -199,6 +209,9 @@
    * - Group with proximity: the size of a gap IS the relationship — make
    *   within-group vs between-group gaps obviously different (--space-2 vs
    *   --space-6). Cramped is the loudest default tell; breathe.
+   * - Headings bind to what FOLLOWS: more space above a heading than below it
+   *   (.prose already does this). Equal space on both sides sets the heading
+   *   afloat between its sections instead of owning the one it starts.
    */
   --space-1: 0.25rem;  --space-2: 0.5rem;   --space-3: 0.75rem;
   --space-4: 1rem;     --space-5: 1.5rem;   --space-6: 2rem;
@@ -242,8 +255,9 @@
    * - Animate ONLY transform/opacity (GPU-composited; filter sparingly). Never
    *   `transition: all` — name the properties.
    * - Easing: enters/exits/hovers/fades → --ease; something MOVING to a new
-   *   place on screen → --ease-inout; constant motion (spinners) → linear.
-   *   NEVER ease-in on UI — it delays the moment the user is watching.
+   *   place on screen → --ease-inout; constant motion (spinners, shimmer) →
+   *   linear. NEVER ease-in on UI — it delays the moment the user is watching.
+   *   No bounce or elastic curves — playful easing is a costume, not feedback.
    * - Duration: press feedback --dur-fast; hover/small popovers --dur; panels
    *   and entrances --dur-slow. UI motion stays under 300ms.
    * - Physicality: entrances scale from ≥0.95 + fade, never scale(0); press is
@@ -283,6 +297,11 @@
     --text:        oklch(0.93 0.008 var(--hue-neutral));     /* never #fff */
     --text-2:      oklch(0.73 0.01  var(--hue-neutral));
     --text-muted:  oklch(0.60 0.01  var(--hue-neutral));
+
+    /* Light-on-dark reads thinner and tighter than the same type on light —
+       compensate with a touch more line-height and less negative tracking. */
+    --leading-body: 1.7;
+    --tracking-tight: -0.01em;
 
     /* Dark holds more chroma at high lightness than light mode does, so these
        are fixed values rather than --chroma-accent: every preset hue fits. */

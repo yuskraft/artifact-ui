@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ledger — artifact-ui showcase</title>
+<title>Relay — status pages people actually read · artifact-ui showcase</title>
 <style>
 /* artifact.css — AUTO-GENERATED from tokens/tokens.css + styles/base.css.
    Do not edit by hand. Run: node scripts/build.mjs */
@@ -90,6 +90,8 @@
     --text:        oklch(0.93 0.008 var(--hue-neutral));
     --text-2:      oklch(0.73 0.01  var(--hue-neutral));
     --text-muted:  oklch(0.60 0.01  var(--hue-neutral));
+    --leading-body: 1.7;
+    --tracking-tight: -0.01em;
     --accent:       oklch(0.77 0.108 var(--hue-accent));
     --accent-hover: oklch(0.82 0.11 var(--hue-accent));
     --accent-quiet: oklch(0.28 0.06 var(--hue-accent));
@@ -152,6 +154,8 @@ img { max-width: 100%; height: auto; outline: 1px solid oklch(0 0 0 / 0.1); outl
 .container { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: var(--space-5); }
 .prose { max-width: var(--measure); }
 .prose > * + * { margin-block-start: var(--space-4); }
+.prose > * + h2 { margin-block-start: var(--space-7); }
+.prose > * + h3 { margin-block-start: var(--space-6); }
 .stack   { display: flex; flex-direction: column; gap: var(--space-4); }
 .cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
 .band { padding-block: var(--space-8); }
@@ -398,6 +402,19 @@ code, kbd, samp {
 .tok-attr { color: var(--code-attr); }
 .tok-tag  { color: var(--code-tag); }
 .tok-com  { color: var(--code-com); }
+.skeleton {
+  background: var(--surface-sunk);
+  border-radius: var(--radius-sm);
+  position: relative; overflow: hidden;
+}
+.skeleton::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, var(--surface), transparent);
+  translate: -100% 0;
+  animation: skeleton-sweep 1.6s linear infinite;
+}
+@keyframes skeleton-sweep { to { translate: 100% 0; } }
+@media (prefers-reduced-motion: reduce) { .skeleton::after { display: none; } }
 .reveal {
   opacity: 1; translate: 0 0; filter: none;
   transition: opacity var(--dur-slow) var(--ease),
@@ -441,104 +458,154 @@ code, kbd, samp {
 }
 /* end artifact.css */
 
-/* ── page-specific (tokens only) ── */
-/* Mood preset: financial / legal / serious (blue) */
-:root { --hue-accent: 250; --chroma-accent: 0.13; }
+/* product preset — the brand green, on purpose rather than by accident */
+:root { --hue-accent: 129; --chroma-accent: 0.13; }
 
+/* signature moment: --wash-hero behind the opener. The closing band is a quiet
+   change of register, not a second moment. */
 .hero { text-align: center; padding-block: var(--space-9) var(--space-10); background: var(--wash-hero); }
-.hero .display { max-width: 17ch; margin-inline: auto; }
-.hero__sub { font-size: var(--text-lg); color: var(--text-2); max-width: 46ch; margin: var(--space-5) auto 0; }
-.hero .cluster { justify-content: center; margin-block-start: var(--space-6); }
-.feature { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--space-6); }
+.hero__sub { font-size: var(--text-lg); color: var(--text-2); max-width: 44ch; margin-inline: auto; }
+
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--space-7) var(--space-6); }
+.feature { display: flex; flex-direction: column; gap: var(--space-2); }
+.feature svg { color: var(--accent); }
+.feature h3 { font-size: var(--text-base); }
+.feature p { color: var(--text-2); }
+
+.steps { counter-reset: step; display: flex; flex-direction: column; gap: var(--space-5); max-width: var(--measure); }
+.step { display: flex; gap: var(--space-4); align-items: baseline; }
+.step::before {
+  counter-increment: step; content: counter(step);
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: var(--space-6); height: var(--space-6);
+  border-radius: var(--radius-full); background: var(--accent-quiet); color: var(--accent);
+  font-weight: 650; font-size: var(--text-sm);
+}
+.step p { color: var(--text-2); }
+
+main > section { padding-block: var(--space-9) 0; }
+main > section:last-of-type { padding-block-end: var(--space-9); }
 </style>
 </head>
 <body>
-
-<!-- signature moment: --wash-hero behind a .display title. Nothing else competes. -->
-<header class="hero stagger">
-  <div class="container">
-    <h1 class="display reveal">Every number, where it belongs</h1>
-    <p class="hero__sub reveal">
-      Ledger reconciles your accounts the moment money moves — no imports,
-      no spreadsheet at the end of the month.
-    </p>
-    <div class="cluster reveal">
-      <a class="btn btn--accent" href="#start">Start free</a>
-      <a class="btn" href="#how">See how it works</a>
-    </div>
-  </div>
-</header>
-
-<!-- back to left-aligned, contained columns -->
-<main class="container stack" style="gap: var(--space-9); padding-block: var(--space-9)">
-
-  <section class="stack" style="gap: var(--space-5)" id="how">
-    <h2>Built for closing the books</h2>
-    <div class="feature">
-      <div class="stack" style="gap: var(--space-2)">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
-             style="color: var(--accent)">
-          <path d="M20 6 9 17l-5-5"></path>
-        </svg>
-        <h3>Continuous reconciliation</h3>
-        <p style="color: var(--text-2)">Transactions match against invoices as they clear, not in a monthly batch.</p>
+  <main>
+    <header class="hero">
+      <div class="container stack" style="gap: var(--space-5); align-items: center">
+        <h1 class="display reveal" style="max-width: 16ch">Status pages people actually read</h1>
+        <p class="hero__sub reveal">Relay turns your incident channel into a public status page —
+        written in sentences, updated as it happens, honest about what broke.</p>
+        <div class="cluster reveal" style="justify-content: center">
+          <a class="btn btn--accent" href="#start">Start free</a>
+          <a class="btn" href="#demo">See a live page</a>
+        </div>
       </div>
-      <div class="stack" style="gap: var(--space-2)">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
-             style="color: var(--accent)">
-          <path d="M12 2v20M2 12h20"></path>
-        </svg>
-        <h3>Every ledger, one view</h3>
-        <p style="color: var(--text-2)">Bank, card, and payout accounts consolidate without a single export.</p>
+    </header>
+
+    <section>
+      <div class="container stack" style="gap: var(--space-7)">
+        <h2>Built for the worst hour of your week</h2>
+        <div class="features">
+          <div class="feature">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M13 3 4 14h6l-1 7 9-11h-6l1-7Z"/>
+            </svg>
+            <h3>Post from the incident channel</h3>
+            <p>Mark a message in Slack and it becomes the public update — no second tool to
+            remember while production is down.</p>
+          </div>
+          <div class="feature">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
+            </svg>
+            <h3>A timeline, not a wall of green</h3>
+            <p>Readers see what happened and when, newest first — not a grid of checkmarks that
+            says nothing until it lies.</p>
+          </div>
+          <div class="feature">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 19V5a2 2 0 0 1 2-2h13v14H6a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h13"/>
+            </svg>
+            <h3>Postmortems where they belong</h3>
+            <p>Every incident closes with its write-up attached to the same page your users
+            watched it on.</p>
+          </div>
+        </div>
       </div>
-      <div class="stack" style="gap: var(--space-2)">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
-             style="color: var(--accent)">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-        </svg>
-        <h3>Audit-ready by default</h3>
-        <p style="color: var(--text-2)">Every change keeps an immutable trail your accountant can follow.</p>
+    </section>
+
+    <section>
+      <div class="container stack" style="gap: var(--space-6)">
+        <h2>Live in an afternoon</h2>
+        <div class="steps">
+          <div class="step"><p><strong style="color: var(--text)">Connect your channel.</strong>
+            Relay listens to the incident room you already have.</p></div>
+          <div class="step"><p><strong style="color: var(--text)">Pick your components.</strong>
+            API, dashboard, webhooks — whatever your users would name.</p></div>
+          <div class="step"><p><strong style="color: var(--text)">Point status.yourdomain at us.</strong>
+            The page is yours, on your domain, from the first update.</p></div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="stack" style="gap: var(--space-4)">
-    <h2>Questions people ask first</h2>
-    <details>
-      <summary>Does it connect to my bank?</summary>
-      <p style="max-width: var(--measure); color: var(--text-2); margin-block-start: var(--space-2)">
-        Ledger reads from 14,000 institutions through a read-only connection. It can never move money.
-      </p>
-    </details>
-    <details>
-      <summary>What happens to my data if I leave?</summary>
-      <p style="max-width: var(--measure); color: var(--text-2); margin-block-start: var(--space-2)">
-        Full export in CSV and JSON, on demand, including the audit trail. Deletion completes within 30 days.
-      </p>
-    </details>
-  </section>
+    <section>
+      <div class="container stack" style="gap: var(--space-5)">
+        <h2>Questions teams ask first</h2>
+        <div class="faq" style="max-width: var(--measure)">
+          <details class="faq__item">
+            <summary class="faq__q">What happens if Relay itself goes down?
+              <svg class="faq__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M5 12h14"/><path class="faq__icon-bar" d="M12 5v14"/>
+              </svg>
+            </summary>
+            <div class="faq__a">
+              <p>Your page is served as static files from two independent providers, so it stays up
+              when we don't. Posting falls back to email.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Can we edit an update after posting it?
+              <svg class="faq__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M5 12h14"/><path class="faq__icon-bar" d="M12 5v14"/>
+              </svg>
+            </summary>
+            <div class="faq__a">
+              <p>Yes, and the edit history stays visible. Readers trust a page more when it shows
+              its corrections.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Do subscribers get spammed on every update?
+              <svg class="faq__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M5 12h14"/><path class="faq__icon-bar" d="M12 5v14"/>
+              </svg>
+            </summary>
+            <div class="faq__a">
+              <p>Subscribers choose per component and per severity. Most hear from you twice per
+              incident: when it starts, and when it's truly over.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
 
-</main>
-
-<!-- the one band: a change of register before the close -->
-<div class="band" style="background: var(--tint-sky)">
-  <div class="container stack" style="gap: var(--space-4)">
-    <h2>Close your first month in an afternoon</h2>
-    <p style="max-width: var(--measure); color: var(--text-2)">
-      Connect an account, import last quarter, and see what reconciles itself.
-    </p>
-    <div class="cluster">
-      <a class="btn btn--accent" href="#start">Start free</a>
-    </div>
-  </div>
-</div>
-
-<footer class="container" style="padding-block: var(--space-7)">
-  <p class="muted">Ledger — a fictional product, built to show the system.</p>
-</footer>
-
+    <section style="padding-block-end: 0">
+      <div class="band" style="background: var(--tint-sage)">
+        <div class="container stack" style="gap: var(--space-4)">
+          <h2 style="max-width: 24ch">Your next incident deserves a better page</h2>
+          <p style="color: var(--text-2); max-width: var(--measure)">Free while you have fewer than
+          three components. No credit card, no sales call.</p>
+          <div class="cluster">
+            <a class="btn btn--accent" href="#start">Start free</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </body>
 </html>

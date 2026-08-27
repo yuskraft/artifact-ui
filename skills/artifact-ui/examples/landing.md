@@ -1,12 +1,12 @@
 # Landing / hero
 
 The one page type built around its opening. A centered hero is allowed here — one headline, one sub,
-one accent CTA, over `--wash-hero`. Full hero guidance is in [blocks/hero.md](../blocks/hero.md);
+one accent CTA. Full hero guidance is in [blocks/hero.md](../blocks/hero.md);
 this shows a landing composed end to end. Assumes `dist/artifact.css` is in the document.
 
 ```html
 <style>
-  .hero { text-align: center; padding-block: var(--space-9) var(--space-10); background: var(--wash-hero); }
+  .hero { text-align: center; padding-block: var(--space-9) var(--space-10); }
   .hero .display { max-width: 18ch; margin-inline: auto; }
   .hero p { font-size: var(--text-lg); color: var(--text-2); max-width: 46ch; margin: var(--space-5) auto 0; }
   .hero .cluster { justify-content: center; margin-block-start: var(--space-6); }
@@ -46,6 +46,6 @@ this shows a landing composed end to end. Assumes `dist/artifact.css` is in the 
 </div>
 ```
 
-The hero spends the signature moment on `--wash-hero` + `.display`; the `.band` near the close is a
+The hero spends the signature moment on `.display` + the one accent CTA; the `.band` near the close is a
 register change, not a second hero. Centering applies to the hero's own short lines and nowhere
 else — body sections stay left-aligned and contained.

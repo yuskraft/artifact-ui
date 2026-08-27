@@ -1,8 +1,10 @@
 # Dashboard / app
 
 Information-dense, tighter than prose. Sidebar nav + a contained content column. Density means
-smaller `--space-*`, not zero space. Accent marks the active nav item only. Assumes
-`dist/artifact.css` is in the document.
+smaller `--space-*`, not zero space. Accent marks the active nav item only. Navigation holds **at
+most five top-level items** — a sixth means two of them belong together. On narrow screens the
+sidebar doesn't vanish: it becomes a horizontal cluster across the top (the CSS below does both).
+Assumes `dist/artifact.css` is in the document.
 
 Metrics never go in a grid of boxes. The floor is a **list column**; when the headline numbers carry
 the page, promote them to an unboxed [stat row](../components/charts.md#stat-row) and give the
@@ -13,8 +15,9 @@ dashboard's signature moment.
 <style>
   .app { display: grid; grid-template-columns: 1fr; min-height: 100vh; }
   @media (min-width: 56rem) { .app { grid-template-columns: 16rem 1fr; } }
-  .nav { padding: var(--space-5); border-inline-end: 1px solid var(--border); display: none; }
-  @media (min-width: 56rem) { .nav { display: block; } }
+  /* Narrow: a horizontal cluster across the top. Wide: the sidebar. Same markup. */
+  .nav { display: flex; gap: var(--space-1); padding: var(--space-4) var(--space-5); border-block-end: 1px solid var(--border); overflow-x: auto; }
+  @media (min-width: 56rem) { .nav { flex-direction: column; padding: var(--space-5); border-block-end: none; border-inline-end: 1px solid var(--border); overflow-x: visible; } }
   .nav a { display: flex; gap: var(--space-3); align-items: center; padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); color: var(--text-2); text-decoration: none; }
   .nav a[aria-current="true"] { background: var(--accent-quiet); color: var(--accent); font-weight: 550; }
   .main { padding: var(--space-7); }
@@ -22,7 +25,7 @@ dashboard's signature moment.
 </style>
 
 <div class="app">
-  <aside class="nav stack" style="gap: var(--space-1)">
+  <aside class="nav">
     <a href="#" aria-current="true">Dashboard</a>
     <a href="#">Sessions</a>
     <a href="#">Community</a>

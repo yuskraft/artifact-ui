@@ -11,6 +11,7 @@ markup you drop in and fill; it reuses `base.css` classes and adds only small bl
 | [Contact row](contact-row.md) | Name/role/contact line for personal docs | resume, ərizə |
 | [Experience entry](experience-entry.md) | Role · org · dates · bullets | resume |
 | [Signature](signature.md) | Sign-off + signature line + dateline | ərizə, letters |
+| [Empty state](empty-state.md) | A region with nothing to show — first use, no results, filtered, failed | dashboard, answer |
 
 **To add a block:** create `name.md` here, add one row above. Keep block-specific CSS minimal and
 token-built; push anything reusable down into a component + `base.css` instead.

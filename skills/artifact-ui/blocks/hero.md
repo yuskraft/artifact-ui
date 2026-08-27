@@ -12,7 +12,7 @@ single element.
 Centering is earned here and almost nowhere else. One accent button; a second action stays neutral.
 
 ```html
-<header class="hero stagger" style="background: var(--wash-hero)">
+<header class="hero stagger">
   <div class="container stack" style="align-items: center; text-align: center; gap: var(--space-5)">
     <span class="chip reveal">Version 2.0</span>
     <h1 class="display reveal">Design that ships with the answer</h1>
@@ -66,7 +66,8 @@ three lines is worse than a normal one. `.display` is for titles of roughly six 
   button. Using all three at once is the thing this system exists to prevent.
 - **Below the hero, return to normal.** Left-aligned, contained, body-sized type. The contrast
   between the opener and the calm beneath it is what makes the opener read as deliberate.
-- **`--wash-hero` is the only background here.** It re-themes with the mood preset automatically.
+- **No background by default.** If one is explicitly asked for, `--wash-hero` is the only one
+  allowed here — it re-themes with the mood preset automatically.
 - **Motion is optional garnish.** `.stagger` on the header, `.reveal` on its direct children, and
   nothing else on the page — entrances are a page-load event, not a per-section effect. The content
   must read identically if the animation never runs.

@@ -23,6 +23,7 @@ lives in [`../styles/base.css`](../styles/base.css). Compose them into
 | [Inline SVG & icons](#inline-svg--icons) | `svg` | Icons and decorative geometry, drawn not fetched. |
 | [Display](#display) | `.display` | The one oversized type step — an opener's title or a hero number. |
 | [Band](#band) | `.band` | The sanctioned full-bleed moment; background reaches the edges, content does not. |
+| [Skeleton](#skeleton) | `.skeleton` | Loading placeholders that mirror the content's shape — never a spinner. |
 | [Stat](charts.md#stat-row) | `.stats`, `.stat` | Headline metrics carried by type, not boxes. |
 | [Charts](charts.md) | `.bars`, `.bar`, `.spark` | Bars, meters, sparklines, donuts — CSS and inline SVG only. |
 | [Motion](#motion) | `.reveal`, `.stagger` | Opt-in one-shot entrance; press feedback ships on `.btn`. |
@@ -42,10 +43,11 @@ destructive confirm).
 ```
 
 - **One accent button per view.** The `--accent` fill marks the single most important action; everything else is a neutral `.btn`. Two accent buttons side by side is accent overuse.
+- **The action budget is one primary + one or two secondary.** A fourth visible action demotes into a plain link or a link list — a wall of buttons is a decision the reader has to make before reading.
 - **Focus stays visible** — never remove the focus ring without replacing it.
 - **`--danger` is for irreversible actions only** — deleting, revoking, wiping. It belongs in a [callout](#callout)'s `__actions` next to a plain `.btn` escape hatch, never as a page's general primary button. Red on a reversible action trains people to ignore red.
 - **Tap target ≥ 44px** for touch (add padding, not font-size).
-- Keep labels short and verb-first ("Start", "Send", "Download").
+- Labels name **what will happen**, short and verb-first ("Start", "Send", "Download") — never the gesture or a bare "Submit" / "OK" / "Yes".
 
 ## Chip
 
@@ -166,6 +168,7 @@ no boxes. Use a [list](#list) when the data is just label→value pairs.
 ```
 
 - **Numbers get `.num`** (right-aligned, tabular) on both `th` and `td`; text stays start-aligned. Dates: `white-space: nowrap`.
+- **A table never horizontal-scrolls a phone.** If the columns would overflow a narrow screen, the data was record-shaped after all — reshape it as a [record list](#record-list) (which wraps instead of scrolling), or cut the columns that don't earn their width.
 - **Stripe only when rows are hard to track** across many columns: add `.table--striped` to the table. Default is rule-only — quieter.
 - Status/category cells take a [chip](#chip), not a colored cell background.
 - Print splits are already handled (`tr { break-inside: avoid }` in the print block).
@@ -186,7 +189,7 @@ override).
 
 - Inputs sit on `--surface-sunk` (a well), with a hairline border and `--radius-md`.
 - **Focus is visible** — a 2px `--accent` ring; never `outline: none` alone.
-- Every input gets a `.field__label`; never a bare placeholder as the only label.
+- Every input gets a `.field__label`; never a bare placeholder as the only label. A placeholder is an **example of the answer** ("you@example.com"), not the question — it vanishes at the first keystroke, and whatever it alone carried vanishes with it.
 - Keep forms left-aligned in a contained column; don't center form fields.
 
 ## Selectbox
@@ -239,6 +242,7 @@ Multi-field layout and validation states. CSS: `.form-row`, `.field--error`, `.f
 
 - **`.form-row` reflows without breakpoints** — fields sit side by side when there's ≥14rem each, and stack on narrow screens.
 - **Validation is a state, not a decoration:** `.field--error` / `.field--ok` recolor the border and message with `--danger` / `--ok` (both AA-checked). Always pair the color with a `.field__msg` that says what to fix — color alone isn't accessible.
+- **An error message names the problem and the recovery** ("Enter a valid email address"), in words a reader can act on — never an internal code, and never a joke: warmth is welcome, humor at a failure is not.
 - Add `aria-invalid="true"` on an errored input.
 - One `.btn--accent` submits; secondary actions are neutral buttons or links.
 
@@ -320,6 +324,10 @@ so everything centers on one baseline; `__action` pins the inline action to the 
   scanning the page should get the point from the first three words.
 - **Only a notice that asks something gets buttons.** A confirmation that merely reports ("Image
   generated in 4 secs") takes a link at most. Two buttons on a passive notice is noise.
+- **Prefer undo over asking.** A reversible action just happens, then reports with a `--row` notice
+  and an Undo link (the archive example above). A blocking confirm is earned only by truly
+  irreversible actions — and then it names the object and the consequence, as the delete example
+  does, never a generic "Are you sure?".
 - **The dismiss is real UI.** `<button type="button">` with an `aria-label`, never a bare `×`
   glyph in a `<span>`. It is hidden automatically in print.
 - Icons are inline SVG at 24px, `currentColor`, `aria-hidden="true"` — the text already says it.
@@ -422,6 +430,9 @@ find-in-page, and unfolds automatically in print. Each item wears the same shell
 Bare `img` is styled by `base.css`: contained (`max-width: 100%; height: auto`) and given a subtle
 1px depth outline so photos and screenshots sit cleanly on any surface.
 
+- **Every `<img>` carries `alt`.** Say what the image shows in a phrase; a purely decorative image
+  takes `alt=""` — empty, never omitted — so a screen reader skips it instead of announcing the
+  filename.
 - The outline is a **pure black/white alpha wash** (flips for dark mode) — never a tinted neutral,
   which picks up the surface color and reads as dirt on the image edge.
 - Opt out per-image for transparent logos/icons: `style="outline: none"`. (Inline SVG is
@@ -489,6 +500,32 @@ stays in its `.container`, so the "never full-width" law holds.
   quote); a page of alternating bands is stripes, not rhythm.
 - Text inside a band keeps normal alignment. A band is a background change, not a license to center.
 
+## Skeleton
+
+The loading state. `.skeleton` is a token-colored placeholder — compose several into the **shape of
+the content being waited for**, sized inline from tokens; a linear shimmer sweeps each one until the
+real content replaces it.
+
+```html
+<div class="stack" style="gap: var(--space-3)" aria-busy="true">
+  <span class="skeleton" style="width: 40%; height: var(--space-5)"></span>
+  <span class="skeleton" style="width: 100%; height: var(--space-4)"></span>
+  <span class="skeleton" style="width: 83%; height: var(--space-4)"></span>
+  <span class="skeleton" style="width: 100%; height: var(--space-10)"></span>
+</div>
+```
+
+- **Skeletons, not spinners.** A centered default-blue spinner is a [tell](../SKILL.md#avoid--the-default-artifact-tells); a skeleton that mirrors the incoming layout tells the reader what is coming and where.
+- Widths vary like real content would (40% heading, full and partial text lines, a block for a
+  chart) — identical bars read as stripes, not as a page loading.
+- Mark the loading region `aria-busy="true"` and remove it together with the skeletons when the
+  content lands.
+- The shimmer is decorative: under reduced motion it disables itself and the static
+  `--surface-sunk` shapes still read as loading.
+- One screenful of skeletons at most — nothing below the fold needs to shimmer.
+- Loading copy, if any, **never invents progress** — no made-up percentages or step counts;
+  "Loading…" or nothing.
+
 ## Motion
 
 Motion is opt-in and restrained; **all rules and values live beside the motion tokens in
@@ -508,6 +545,9 @@ Motion is opt-in and restrained; **all rules and values live beside the motion t
 ```
 
 - **Decorative only.** Content must read fine if the animation never runs; never gate meaning on motion.
+- **Hover is an enhancement, never the only path.** Touch screens don't hover — anything revealed
+  on hover needs a visible route as well. Gate a hover-only flourish behind `@media (hover: hover)`
+  so coarse pointers never depend on it.
 - Besides entrances, the sanctioned micro-motions are the `.btn` press (`scale 0.97`) and the [FAQ](#faq) plus-to-minus marker — both state feedback, not decoration.
 - A page load is the *only* entrance that earns animation in a document artifact — don't animate
   list items on hover, and never animate anything keyboard-triggered.
